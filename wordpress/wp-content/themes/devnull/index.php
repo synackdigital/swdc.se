@@ -6,8 +6,6 @@
 
 get_header(); ?>
 
-  <body <?php body_class(); ?>>
-
     <div id="main">
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         <header class="entry-header">
