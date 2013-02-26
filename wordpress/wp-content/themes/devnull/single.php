@@ -17,11 +17,4 @@ get_header(); ?>
       </article>
     </div>
 
-
-    <script src="js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="js/vendor/jquery.flexslider-min.js"></script>
-    <script src="js/helper.js"></script>
-    <script src="js/main.js"></script>
-
-  </body>
-</html>
+<?php get_footer(); ?>
