@@ -8,7 +8,7 @@
 <!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js" <?php language_attributes(); ?>> <!--<![endif]-->
     <head>
         <meta charset="<?php bloginfo( 'charset' ); ?>">
-        <title><?php wp_title( '|', true, 'right' ); ?></title>
+        <title><?php wp_title( '&lsaquo;', true, 'right' ); ?></title>
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
         <meta name="viewport" content="width=device-width, initial-scale=1">
