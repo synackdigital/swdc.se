@@ -743,10 +743,20 @@ strong {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
   padding: .25em;
   white-space: nowrap;
+}
+strong:before,
+strong:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+strong:after {
+  clear: both;
 }
 strong h1,
 strong h2,
@@ -776,10 +786,20 @@ em {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
   border: none;
   padding: .25em;
+}
+em:before,
+em:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+em:after {
+  clear: both;
 }
 em h1,
 em h2,
@@ -814,8 +834,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box:before,
+.box:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box:after {
+  clear: both;
 }
 .box h1,
 .box h2,
@@ -845,8 +875,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.yellow:before,
+.box.yellow:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.yellow:after {
+  clear: both;
 }
 .box.yellow h1,
 .box.yellow h2,
@@ -876,8 +916,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.orange:before,
+.box.orange:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.orange:after {
+  clear: both;
 }
 .box.orange h1,
 .box.orange h2,
@@ -907,8 +957,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.red:before,
+.box.red:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.red:after {
+  clear: both;
 }
 .box.red h1,
 .box.red h2,
@@ -938,8 +998,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.magenta:before,
+.box.magenta:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.magenta:after {
+  clear: both;
 }
 .box.magenta h1,
 .box.magenta h2,
@@ -969,8 +1039,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.violet:before,
+.box.violet:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.violet:after {
+  clear: both;
 }
 .box.violet h1,
 .box.violet h2,
@@ -1000,8 +1080,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.blue:before,
+.box.blue:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.blue:after {
+  clear: both;
 }
 .box.blue h1,
 .box.blue h2,
@@ -1031,8 +1121,18 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
+  *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
+}
+.box.cyan:before,
+.box.cyan:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.box.cyan:after {
+  clear: both;
 }
 .box.cyan h1,
 .box.cyan h2,
@@ -1049,25 +1149,369 @@ blockquote {
 .box.cyan a:hover {
   color: #744fe0;
 }
-.event {
-  *zoom: 1;
+.eo-events {
+  padding-left: 0;
+  list-style: none;
 }
-.event:before,
-.event:after {
+.eo-event {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(206, 237, 74, 0.1);
+  color: #ceed4a;
+  border: 1px solid #ceed4a;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event:before,
+.eo-event:after {
   display: table;
   content: "";
   line-height: 0;
 }
-.event:after {
+.eo-event:after {
   clear: both;
 }
-.event img.sponsor {
+.eo-event h1,
+.eo-event h2,
+.eo-event h3,
+.eo-event h4 {
+  color: inherit;
+}
+.eo-event a {
+  color: #54ed4a;
+}
+.eo-event a:visited {
+  color: #54ed4a;
+}
+.eo-event a:hover {
+  color: #4aed9f;
+}
+.eo-event:before,
+.eo-event:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event:after {
+  clear: both;
+}
+.eo-event h1,
+.eo-event h2,
+.eo-event h3,
+.eo-event h4 {
+  color: inherit;
+}
+.eo-event a {
+  color: #54ed4a;
+}
+.eo-event a:visited {
+  color: #54ed4a;
+}
+.eo-event a:hover {
+  color: #4aed9f;
+}
+.eo-event.yellow {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(255, 218, 69, 0.1);
+  color: #ffda45;
+  border: 1px solid #ffda45;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.yellow:before,
+.eo-event.yellow:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.yellow:after {
+  clear: both;
+}
+.eo-event.yellow h1,
+.eo-event.yellow h2,
+.eo-event.yellow h3,
+.eo-event.yellow h4 {
+  color: inherit;
+}
+.eo-event.yellow a {
+  color: #98ff45;
+}
+.eo-event.yellow a:visited {
+  color: #98ff45;
+}
+.eo-event.yellow a:hover {
+  color: #45ff5e;
+}
+.eo-event.orange {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(255, 122, 65, 0.1);
+  color: #ff7a41;
+  border: 1px solid #ff7a41;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.orange:before,
+.eo-event.orange:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.orange:after {
+  clear: both;
+}
+.eo-event.orange h1,
+.eo-event.orange h2,
+.eo-event.orange h3,
+.eo-event.orange h4 {
+  color: inherit;
+}
+.eo-event.orange a {
+  color: #f5ff41;
+}
+.eo-event.orange a:visited {
+  color: #f5ff41;
+}
+.eo-event.orange a:hover {
+  color: #87ff41;
+}
+.eo-event.red {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(255, 70, 67, 0.1);
+  color: #ff4643;
+  border: 1px solid #ff4643;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.red:before,
+.eo-event.red:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.red:after {
+  clear: both;
+}
+.eo-event.red h1,
+.eo-event.red h2,
+.eo-event.red h3,
+.eo-event.red h4 {
+  color: inherit;
+}
+.eo-event.red a {
+  color: #ffd343;
+}
+.eo-event.red a:visited {
+  color: #ffd343;
+}
+.eo-event.red a:hover {
+  color: #bdff43;
+}
+.eo-event.magenta {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(255, 119, 185, 0.1);
+  color: #ff77b9;
+  border: 1px solid #ff77b9;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.magenta:before,
+.eo-event.magenta:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.magenta:after {
+  clear: both;
+}
+.eo-event.magenta h1,
+.eo-event.magenta h2,
+.eo-event.magenta h3,
+.eo-event.magenta h4 {
+  color: inherit;
+}
+.eo-event.magenta a {
+  color: #ff9b77;
+}
+.eo-event.magenta a:visited {
+  color: #ff9b77;
+}
+.eo-event.magenta a:hover {
+  color: #ffea77;
+}
+.eo-event.violet {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(129, 135, 234, 0.1);
+  color: #8187ea;
+  border: 1px solid #8187ea;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.violet:before,
+.eo-event.violet:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.violet:after {
+  clear: both;
+}
+.eo-event.violet h1,
+.eo-event.violet h2,
+.eo-event.violet h3,
+.eo-event.violet h4 {
+  color: inherit;
+}
+.eo-event.violet a {
+  color: #ca81ea;
+}
+.eo-event.violet a:visited {
+  color: #ca81ea;
+}
+.eo-event.violet a:hover {
+  color: #ea81cd;
+}
+.eo-event.blue {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(73, 175, 246, 0.1);
+  color: #49aff6;
+  border: 1px solid #49aff6;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.blue:before,
+.eo-event.blue:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.blue:after {
+  clear: both;
+}
+.eo-event.blue h1,
+.eo-event.blue h2,
+.eo-event.blue h3,
+.eo-event.blue h4 {
+  color: inherit;
+}
+.eo-event.blue a {
+  color: #6549f6;
+}
+.eo-event.blue a:visited {
+  color: #6549f6;
+}
+.eo-event.blue a:hover {
+  color: #ca49f6;
+}
+.eo-event.cyan {
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  -moz-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
+  background-color: rgba(79, 224, 213, 0.1);
+  color: #4fe0d5;
+  border: 1px solid #4fe0d5;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  *zoom: 1;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.eo-event.cyan:before,
+.eo-event.cyan:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.eo-event.cyan:after {
+  clear: both;
+}
+.eo-event.cyan h1,
+.eo-event.cyan h2,
+.eo-event.cyan h3,
+.eo-event.cyan h4 {
+  color: inherit;
+}
+.eo-event.cyan a {
+  color: #4f7ee0;
+}
+.eo-event.cyan a:visited {
+  color: #4f7ee0;
+}
+.eo-event.cyan a:hover {
+  color: #744fe0;
+}
+.eo-event img.sponsor {
   float: right;
   max-width: 120px;
   height: auto;
 }
-.event span.poi,
-.event span.datetime {
+.eo-event span.poi,
+.eo-event span.datetime {
   display: block;
 }
 .invisilist {

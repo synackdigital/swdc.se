@@ -149,9 +149,14 @@ blockquote {
   &.cyan { .box(@cyan) }
 }
 
-// Event container
-.event {
-    .clearfix();
+// Event organizer - event list
+.eo-events {
+    .unstyled-list();
+}
+
+// Event organizer - single event
+.eo-event {
+    .box();
     img.sponsor {
         float: right;
         max-width: 120px;

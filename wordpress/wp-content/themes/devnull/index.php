@@ -25,7 +25,15 @@ get_header(); ?>
       </article>
       <?php
       // End the Loop
-      endwhile; endif; ?>
+      endwhile; endif;
+
+      // Display upcoming and current events
+      if(is_front_page()):
+        echo do_shortcode('[eo_events event_start_after="today"]');
+      endif;
+
+
+      ?>
     </div>
 
 <?php get_footer(); ?>
