@@ -40,7 +40,7 @@ $classes = $eo_event_loop_args['class'];
           if (has_post_thumbnail())
             the_post_thumbnail();
         ?>
-        <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" ><?php the_title(); ?></a> <?php echo __('on','eventorganiser') . ' '.eo_get_the_start($format); ?>
+        <a class="eo-event-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" ><?php the_title(); ?></a> <?php echo __('on','eventorganiser') . ' '.eo_get_the_start($format); ?>
       </li>
 
     <?php endwhile; ?>

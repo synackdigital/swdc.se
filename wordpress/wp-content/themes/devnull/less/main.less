@@ -230,15 +230,20 @@ a.home-link {
 .eo-event {
     .box();
 
+    // The title
+    .eo-event-title {
+        display: block;
+        margin-top: @rhythmUnit;
+        margin-bottom: @rhythmUnit;
+
+        font-size: @fontSizeLarge;
+    }
+
     // Post thumbnail
     .wp-post-image {
         float: right;
         max-width: 120px;
         height: auto;
-    }
-    span.poi,
-    span.datetime {
-        display: block;
     }
 }
 

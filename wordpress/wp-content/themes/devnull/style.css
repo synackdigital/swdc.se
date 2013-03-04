@@ -1447,14 +1447,16 @@ a.home-link:focus a:hover {
 .eo-event.cyan a:hover {
   color: #744fe0;
 }
+.eo-event .eo-event-title {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 19px;
+}
 .eo-event .wp-post-image {
   float: right;
   max-width: 120px;
   height: auto;
-}
-.eo-event span.poi,
-.eo-event span.datetime {
-  display: block;
 }
 .invisilist {
   padding-left: 0;
