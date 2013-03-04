@@ -8,6 +8,10 @@ get_header(); ?>
 
     <div id="main">
       <?php
+      // Echo a link to home
+      if(!is_front_page())
+        echo '<a class="home-link" href="'.home_url().'" title="Return to home">Home</a>';
+
       // Start the Loop
       if(have_posts()): while(have_posts()): the_post(); ?>
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

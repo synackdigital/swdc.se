@@ -173,6 +173,18 @@ blockquote {
     padding-left: 20px;
 }
 
+// Home link
+a.home-link {
+    .box(@violet);
+    display: inline-block;
+    font-size: 80%;
+
+    &:hover,
+    &:focus {
+        .box-color(@magenta);
+    }
+}
+
 // Box variations
 .box {
   .box();
