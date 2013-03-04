@@ -270,7 +270,7 @@ html[xmlns] .slides {
   color: #fbfffa;
 }
 .green {
-  background: #ceed4a;
+  background: #92ee3a;
   color: #fbfffa;
 }
 .swatch {
@@ -655,7 +655,7 @@ a {
   text-decoration: none;
 }
 a:visited {
-  color: #ceed4a;
+  color: #92ee3a;
 }
 a:hover {
   color: #ff77b9;
@@ -718,7 +718,7 @@ aside h1,
 aside h2,
 aside h3,
 aside h4 {
-  color: #ceed4a;
+  color: #92ee3a;
   font-size: 16px;
 }
 html.rgba.cssanimations .cursor {
@@ -918,21 +918,21 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
-  background-color: rgba(206, 237, 74, 0.1);
-  color: #ceed4a;
-  border-color: #ceed4a;
+  background-color: rgba(146, 238, 58, 0.1);
+  color: #92ee3a;
+  border-color: #92ee3a;
   *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
 }
 .box a {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .box a:visited {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .box a:hover {
-  color: #4aed9f;
+  color: #3aeed2;
 }
 .box:before,
 .box:after {
@@ -1150,18 +1150,18 @@ blockquote {
   color: #744fe0;
 }
 .eo-events .eo-event:nth-child(8n+8) {
-  background-color: rgba(206, 237, 74, 0.1);
-  color: #ceed4a;
-  border-color: #ceed4a;
+  background-color: rgba(146, 238, 58, 0.1);
+  color: #92ee3a;
+  border-color: #92ee3a;
 }
 .eo-events .eo-event:nth-child(8n+8) a {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .eo-events .eo-event:nth-child(8n+8) a:visited {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .eo-events .eo-event:nth-child(8n+8) a:hover {
-  color: #4aed9f;
+  color: #3aeed2;
 }
 .past-events .eo-events .eo-event:nth-child(8n+5) {
   background-color: rgba(255, 218, 69, 0.1);
@@ -1262,18 +1262,18 @@ blockquote {
   color: #744fe0;
 }
 .past-events .eo-events .eo-event:nth-child(8n+4) {
-  background-color: rgba(206, 237, 74, 0.1);
-  color: #ceed4a;
-  border-color: #ceed4a;
+  background-color: rgba(146, 238, 58, 0.1);
+  color: #92ee3a;
+  border-color: #92ee3a;
 }
 .past-events .eo-events .eo-event:nth-child(8n+4) a {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .past-events .eo-events .eo-event:nth-child(8n+4) a:visited {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .past-events .eo-events .eo-event:nth-child(8n+4) a:hover {
-  color: #4aed9f;
+  color: #3aeed2;
 }
 .eo-event {
   -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,.1), 0 0 7px rgba(255,255,255,.1);
@@ -1286,21 +1286,21 @@ blockquote {
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
-  background-color: rgba(206, 237, 74, 0.1);
-  color: #ceed4a;
-  border-color: #ceed4a;
+  background-color: rgba(146, 238, 58, 0.1);
+  color: #92ee3a;
+  border-color: #92ee3a;
   *zoom: 1;
   padding: 10px;
   margin-bottom: 10px;
 }
 .eo-event a {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .eo-event a:visited {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .eo-event a:hover {
-  color: #4aed9f;
+  color: #3aeed2;
 }
 .eo-event:before,
 .eo-event:after {
@@ -1318,13 +1318,13 @@ blockquote {
   color: inherit;
 }
 .eo-event a {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .eo-event a:visited {
-  color: #54ed4a;
+  color: #3aee69;
 }
 .eo-event a:hover {
-  color: #4aed9f;
+  color: #3aeed2;
 }
 .eo-event:before,
 .eo-event:after {
