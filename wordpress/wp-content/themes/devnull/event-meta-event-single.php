@@ -42,7 +42,7 @@
 
     <?php if( eo_get_venue() ): ?>
     <dt><?php _e('Venue','eventorganiser'); ?></dt>
-    <dd><a href="<?php eo_venue_link(); ?>"><?php eo_venue_name(); ?></a></dd>
+    <dd><?php eo_venue_name(); ?></dd>
     <?php endif; ?>
 
   </dl>

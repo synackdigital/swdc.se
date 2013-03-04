@@ -42,7 +42,7 @@ $classes = $eo_event_loop_args['class'];
         ?>
         <a class="eo-event-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" ><?php the_title(); ?></a>
         <?php echo __('on','eventorganiser') . ' '.eo_get_the_start($format); ?>
-        <?php echo __('at','eventorganiser') . ' <a href="'.eo_get_venue_link().'" title="'.eo_get_venue_name().'">'.eo_get_venue_name().'</a>'; ?>
+        <?php echo __('at','eventorganiser') . ' '.eo_get_venue_name(); ?>
       </li>
 
     <?php endwhile; ?>
