@@ -1447,7 +1447,7 @@ a.home-link:focus a:hover {
 .eo-event.cyan a:hover {
   color: #744fe0;
 }
-.eo-event img.sponsor {
+.eo-event .wp-post-image {
   float: right;
   max-width: 120px;
   height: auto;
