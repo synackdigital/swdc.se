@@ -174,13 +174,13 @@ blockquote {
 // Box variations
 .box {
   .box();
-  &.yellow { .box(@yellow) }
-  &.orange { .box(@orange) }
-  &.red { .box(@red) }
-  &.magenta { .box(@magenta) }
-  &.violet { .box(@violet) }
-  &.blue { .box(@blue) }
-  &.cyan { .box(@cyan) }
+  &.yellow { .box-color(@yellow) }
+  &.orange { .box-color(@orange) }
+  &.red { .box-color(@red) }
+  &.magenta { .box-color(@magenta) }
+  &.violet { .box-color(@violet) }
+  &.blue { .box-color(@blue) }
+  &.cyan { .box-color(@cyan) }
 }
 
 // Event organizer - event list
@@ -189,26 +189,26 @@ blockquote {
 
     // Rainbow scale
     .eo-event {
-        &:nth-child(8n+1) { .box(@yellow); }
-        &:nth-child(8n+2) { .box(@orange); }
-        &:nth-child(8n+3) { .box(@red); }
-        &:nth-child(8n+4) { .box(@magenta); }
-        &:nth-child(8n+5) { .box(@violet); }
-        &:nth-child(8n+6) { .box(@blue); }
-        &:nth-child(8n+7) { .box(@cyan); }
-        &:nth-child(8n+8) { .box(@green); }
+        &:nth-child(8n+1) { .box-color(@yellow); }
+        &:nth-child(8n+2) { .box-color(@orange); }
+        &:nth-child(8n+3) { .box-color(@red); }
+        &:nth-child(8n+4) { .box-color(@magenta); }
+        &:nth-child(8n+5) { .box-color(@violet); }
+        &:nth-child(8n+6) { .box-color(@blue); }
+        &:nth-child(8n+7) { .box-color(@cyan); }
+        &:nth-child(8n+8) { .box-color(@green); }
     }
 
     // Inverted rainbow scale for lists of upcoming events
     .future-events & .eo-event {
-        &:nth-child(8n+8) { .box(@yellow); }
-        &:nth-child(8n+7) { .box(@orange); }
-        &:nth-child(8n+6) { .box(@red); }
-        &:nth-child(8n+5) { .box(@magenta); }
-        &:nth-child(8n+4) { .box(@violet); }
-        &:nth-child(8n+3) { .box(@blue); }
-        &:nth-child(8n+2) { .box(@cyan); }
-        &:nth-child(8n+1) { .box(@green); }
+        &:nth-child(8n+8) { .box-color(@yellow); }
+        &:nth-child(8n+7) { .box-color(@orange); }
+        &:nth-child(8n+6) { .box-color(@red); }
+        &:nth-child(8n+5) { .box-color(@magenta); }
+        &:nth-child(8n+4) { .box-color(@violet); }
+        &:nth-child(8n+3) { .box-color(@blue); }
+        &:nth-child(8n+2) { .box-color(@cyan); }
+        &:nth-child(8n+1) { .box-color(@green); }
     }
 }
 
