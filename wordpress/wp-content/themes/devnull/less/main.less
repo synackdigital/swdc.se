@@ -98,6 +98,47 @@ h2 { font-size: @fontSizeLarge; }
 h3, h4 { font-size: @fontSizeMedium; }
 aside h1, aside h2, aside h3, aside h4 { font-size: @fontSizeMedium; }
 
+// Animated cursor
+html.rgba.cssanimations .cursor {
+    background-color: fade(@cyan, 50%);
+
+    display: inline-block;
+    margin-left: 1px;
+
+    -webkit-animation: blink 2s linear 0s infinite;
+    -moz-animation: blink 2s linear 0s infinite;
+    -ms-animation: blink 2s linear 0s infinite;
+    -o-animation: blink 2s linear 0s infinite;
+}
+@-webkit-keyframes blink {
+  0%   { background: fade(@cyan, 50%) }
+  47%  { background: fade(@cyan, 40%) }
+  50%  { background: fade(@cyan, 0%) }
+  97%  { background: fade(@cyan, 0%) }
+  100% { background: fade(@cyan, 40%) }
+}
+@-moz-keyframes blink {
+  0%   { background: fade(@cyan, 50%) }
+  47%  { background: fade(@cyan, 40%) }
+  50%  { background: fade(@cyan, 0%) }
+  97%  { background: fade(@cyan, 0%) }
+  100% { background: fade(@cyan, 40%) }
+}
+@-ms-keyframes blink {
+  0%   { background: fade(@cyan, 50%) }
+  47%  { background: fade(@cyan, 40%) }
+  50%  { background: fade(@cyan, 0%) }
+  97%  { background: fade(@cyan, 0%) }
+  100% { background: fade(@cyan, 40%) }
+}
+@-o-keyframes blink {
+  0%   { background: fade(@cyan, 50%) }
+  47%  { background: fade(@cyan, 40%) }
+  50%  { background: fade(@cyan, 0%) }
+  97%  { background: fade(@cyan, 0%) }
+  100% { background: fade(@cyan, 40%) }
+}
+
 // Images are scaled and centered
 figure {
     max-width: 100%;
@@ -145,6 +186,30 @@ blockquote {
 // Event organizer - event list
 .eo-events {
     .unstyled-list();
+
+    // Rainbow scale
+    .eo-event {
+        &:nth-child(8n+1) { .box(@yellow); }
+        &:nth-child(8n+2) { .box(@orange); }
+        &:nth-child(8n+3) { .box(@red); }
+        &:nth-child(8n+4) { .box(@magenta); }
+        &:nth-child(8n+5) { .box(@violet); }
+        &:nth-child(8n+6) { .box(@blue); }
+        &:nth-child(8n+7) { .box(@cyan); }
+        &:nth-child(8n+8) { .box(@green); }
+    }
+
+    // Inverted rainbow scale for lists of upcoming events
+    .future-events & .eo-event {
+        &:nth-child(8n+8) { .box(@yellow); }
+        &:nth-child(8n+7) { .box(@orange); }
+        &:nth-child(8n+6) { .box(@red); }
+        &:nth-child(8n+5) { .box(@magenta); }
+        &:nth-child(8n+4) { .box(@violet); }
+        &:nth-child(8n+3) { .box(@blue); }
+        &:nth-child(8n+2) { .box(@cyan); }
+        &:nth-child(8n+1) { .box(@green); }
+    }
 }
 
 // Event organizer - single event

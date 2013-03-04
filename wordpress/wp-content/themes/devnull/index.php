@@ -13,10 +13,12 @@ get_header(); ?>
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         <header class="entry-header">
           <h1 class="entry-title"><?php
-            if(is_front_page())
+            if(is_front_page()):
               bloginfo( 'name' );
-            else
+              echo '<i class="cursor">&nbsp;</i>';
+            else:
               the_title();
+            endif;
             ?></h1>
         </header>
         <div class="entry-content">
