@@ -261,12 +261,13 @@ dl.horizontal {
     .clearfix(); // Ensure dl clears floats if empty dd elements present
 
     dt {
-        color: @cyan;
+        color: @orange;
 
         clear: left;
         float: left;
         overflow: hidden;
-        width: 160px;
+        margin-top: @rhythmUnit;
+        width: 100px;
 
         font-weight: bold;
         text-align: right;
@@ -275,11 +276,12 @@ dl.horizontal {
     }
 
     dd {
-        margin-left: 180px;
+        margin-top: @rhythmUnit;
+        margin-left: 100px + @rhythmUnit;
     }
 
     // Reset on tight layouts
-    @media (max-width: 479px) {
+    @media (max-width: 419px) {
         dt {
             float: none;
             clear: none;
@@ -288,6 +290,7 @@ dl.horizontal {
         }
 
         dd {
+            margin-top: 0;
             margin-left: 0;
         }
     }
