@@ -1162,116 +1162,116 @@ blockquote {
 .eo-events .eo-event:nth-child(8n+8) a:hover {
   color: #4aed9f;
 }
-.future-events .eo-events .eo-event:nth-child(8n+8) {
+.past-events .eo-events .eo-event:nth-child(8n+5) {
   background-color: rgba(255, 218, 69, 0.1);
   color: #ffda45;
   border-color: #ffda45;
 }
-.future-events .eo-events .eo-event:nth-child(8n+8) a {
+.past-events .eo-events .eo-event:nth-child(8n+5) a {
   color: #98ff45;
 }
-.future-events .eo-events .eo-event:nth-child(8n+8) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+5) a:visited {
   color: #98ff45;
 }
-.future-events .eo-events .eo-event:nth-child(8n+8) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+5) a:hover {
   color: #45ff5e;
 }
-.future-events .eo-events .eo-event:nth-child(8n+7) {
+.past-events .eo-events .eo-event:nth-child(8n+6) {
   background-color: rgba(255, 122, 65, 0.1);
   color: #ff7a41;
   border-color: #ff7a41;
 }
-.future-events .eo-events .eo-event:nth-child(8n+7) a {
+.past-events .eo-events .eo-event:nth-child(8n+6) a {
   color: #f5ff41;
 }
-.future-events .eo-events .eo-event:nth-child(8n+7) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+6) a:visited {
   color: #f5ff41;
 }
-.future-events .eo-events .eo-event:nth-child(8n+7) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+6) a:hover {
   color: #87ff41;
 }
-.future-events .eo-events .eo-event:nth-child(8n+6) {
+.past-events .eo-events .eo-event:nth-child(8n+7) {
   background-color: rgba(255, 70, 67, 0.1);
   color: #ff4643;
   border-color: #ff4643;
 }
-.future-events .eo-events .eo-event:nth-child(8n+6) a {
+.past-events .eo-events .eo-event:nth-child(8n+7) a {
   color: #ffd343;
 }
-.future-events .eo-events .eo-event:nth-child(8n+6) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+7) a:visited {
   color: #ffd343;
 }
-.future-events .eo-events .eo-event:nth-child(8n+6) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+7) a:hover {
   color: #bdff43;
 }
-.future-events .eo-events .eo-event:nth-child(8n+5) {
+.past-events .eo-events .eo-event:nth-child(8n+8) {
   background-color: rgba(255, 119, 185, 0.1);
   color: #ff77b9;
   border-color: #ff77b9;
 }
-.future-events .eo-events .eo-event:nth-child(8n+5) a {
+.past-events .eo-events .eo-event:nth-child(8n+8) a {
   color: #ff9b77;
 }
-.future-events .eo-events .eo-event:nth-child(8n+5) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+8) a:visited {
   color: #ff9b77;
 }
-.future-events .eo-events .eo-event:nth-child(8n+5) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+8) a:hover {
   color: #ffea77;
 }
-.future-events .eo-events .eo-event:nth-child(8n+4) {
+.past-events .eo-events .eo-event:nth-child(8n+1) {
   background-color: rgba(129, 135, 234, 0.1);
   color: #8187ea;
   border-color: #8187ea;
 }
-.future-events .eo-events .eo-event:nth-child(8n+4) a {
+.past-events .eo-events .eo-event:nth-child(8n+1) a {
   color: #ca81ea;
 }
-.future-events .eo-events .eo-event:nth-child(8n+4) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+1) a:visited {
   color: #ca81ea;
 }
-.future-events .eo-events .eo-event:nth-child(8n+4) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+1) a:hover {
   color: #ea81cd;
 }
-.future-events .eo-events .eo-event:nth-child(8n+3) {
+.past-events .eo-events .eo-event:nth-child(8n+2) {
   background-color: rgba(73, 175, 246, 0.1);
   color: #49aff6;
   border-color: #49aff6;
 }
-.future-events .eo-events .eo-event:nth-child(8n+3) a {
+.past-events .eo-events .eo-event:nth-child(8n+2) a {
   color: #6549f6;
 }
-.future-events .eo-events .eo-event:nth-child(8n+3) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+2) a:visited {
   color: #6549f6;
 }
-.future-events .eo-events .eo-event:nth-child(8n+3) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+2) a:hover {
   color: #ca49f6;
 }
-.future-events .eo-events .eo-event:nth-child(8n+2) {
+.past-events .eo-events .eo-event:nth-child(8n+3) {
   background-color: rgba(79, 224, 213, 0.1);
   color: #4fe0d5;
   border-color: #4fe0d5;
 }
-.future-events .eo-events .eo-event:nth-child(8n+2) a {
+.past-events .eo-events .eo-event:nth-child(8n+3) a {
   color: #4f7ee0;
 }
-.future-events .eo-events .eo-event:nth-child(8n+2) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+3) a:visited {
   color: #4f7ee0;
 }
-.future-events .eo-events .eo-event:nth-child(8n+2) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+3) a:hover {
   color: #744fe0;
 }
-.future-events .eo-events .eo-event:nth-child(8n+1) {
+.past-events .eo-events .eo-event:nth-child(8n+4) {
   background-color: rgba(206, 237, 74, 0.1);
   color: #ceed4a;
   border-color: #ceed4a;
 }
-.future-events .eo-events .eo-event:nth-child(8n+1) a {
+.past-events .eo-events .eo-event:nth-child(8n+4) a {
   color: #54ed4a;
 }
-.future-events .eo-events .eo-event:nth-child(8n+1) a:visited {
+.past-events .eo-events .eo-event:nth-child(8n+4) a:visited {
   color: #54ed4a;
 }
-.future-events .eo-events .eo-event:nth-child(8n+1) a:hover {
+.past-events .eo-events .eo-event:nth-child(8n+4) a:hover {
   color: #4aed9f;
 }
 .eo-event {

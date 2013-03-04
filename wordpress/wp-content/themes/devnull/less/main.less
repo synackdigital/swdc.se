@@ -199,16 +199,16 @@ blockquote {
         &:nth-child(8n+8) { .box-color(@green); }
     }
 
-    // Inverted rainbow scale for lists of upcoming events
-    .future-events & .eo-event {
-        &:nth-child(8n+8) { .box-color(@yellow); }
-        &:nth-child(8n+7) { .box-color(@orange); }
-        &:nth-child(8n+6) { .box-color(@red); }
-        &:nth-child(8n+5) { .box-color(@magenta); }
-        &:nth-child(8n+4) { .box-color(@violet); }
-        &:nth-child(8n+3) { .box-color(@blue); }
-        &:nth-child(8n+2) { .box-color(@cyan); }
-        &:nth-child(8n+1) { .box-color(@green); }
+    // Inverted rainbow scale for lists of past events
+    .past-events & .eo-event {
+        &:nth-child(8n+5) { .box-color(@yellow); }
+        &:nth-child(8n+6) { .box-color(@orange); }
+        &:nth-child(8n+7) { .box-color(@red); }
+        &:nth-child(8n+8) { .box-color(@magenta); }
+        &:nth-child(8n+1) { .box-color(@violet); }
+        &:nth-child(8n+2) { .box-color(@blue); }
+        &:nth-child(8n+3) { .box-color(@cyan); }
+        &:nth-child(8n+4) { .box-color(@green); }
     }
 }
 
