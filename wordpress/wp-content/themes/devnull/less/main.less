@@ -30,17 +30,29 @@ body {
 }
 
 a {
-    color: @blue;
+    color: @red;
     text-decoration: none;
-}
 
-a:visited {
-    color: @green;
-}
+    &:visited {
+        color: @violet;
+    }
 
-a:hover {
-    color: @magenta;
-    text-decoration: underline;
+    &:hover,
+    &:focus {
+        color: @magenta;
+        text-decoration: underline;
+    }
+
+    &.home-link {
+        .box(@red);
+        display: inline-block;
+        font-size: 80%;
+
+        &:hover,
+        &:focus {
+            .box-color(@magenta);
+        }
+    }
 }
 
 /*
@@ -156,7 +168,7 @@ img {
 
 // Typographic trickery
 strong {
-    .box-color(@cyan);
+    .box-color(@blue);
     font-size: 80%;
     padding: .25em;
     white-space: nowrap;
@@ -171,18 +183,6 @@ blockquote {
     border-left: 3px solid @yellow;
     margin-left: 20px;
     padding-left: 20px;
-}
-
-// Home link
-a.home-link {
-    .box(@violet);
-    display: inline-block;
-    font-size: 80%;
-
-    &:hover,
-    &:focus {
-        .box-color(@magenta);
-    }
 }
 
 // Box variations

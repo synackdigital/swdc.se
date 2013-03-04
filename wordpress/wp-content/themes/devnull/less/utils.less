@@ -59,10 +59,6 @@
   .clearfix();
   padding: @rhythmUnit;
   margin-bottom: @rhythmUnit;
-
-  h1, h2, h3, h4 {
-      color: inherit;
-  }
 }
 // Use after .box() for defining new colors
 .box-color(@color) {
@@ -73,5 +69,8 @@
       color: spin(@color, 45);
       &:visited { color: spin(@color, 45); }
       &:hover { color: spin(@color, 80); }
+  }
+  h1, h2, h3, h4, h5 {
+    color: spin(@color, -45);
   }
 }
