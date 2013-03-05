@@ -194,19 +194,20 @@ blockquote {
         max-width: 120px;
         height: auto;
     }
+}
 
-    // Images are scaled and centered
-    img {
-        display: block;
-        max-width: 100%;
-        height: auto;
-        @media only screen and (max-width: 520px) {
-            &.alignleft,
-            &.alignright {
-                float: none;
-                margin-right: auto;
-                margin-left: auto;
-            }
+// Images in posts and events are scaled
+
+.entry-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    @media only screen and (max-width: 520px) {
+        &.alignleft,
+        &.alignright {
+            float: none;
+            margin-right: auto;
+            margin-left: auto;
         }
     }
 }
