@@ -110,47 +110,6 @@ h2 { font-size: @fontSizeLarge; }
 h3, h4 { font-size: @fontSizeMedium; }
 aside h1, aside h2, aside h3, aside h4 { color: @green; font-size: @fontSizeMedium; }
 
-// Animated cursor
-html.rgba.cssanimations .cursor {
-    background-color: fade(@cyan, 50%);
-
-    display: inline-block;
-    margin-left: 1px;
-
-    -webkit-animation: blink 2s linear 0s infinite;
-    -moz-animation: blink 2s linear 0s infinite;
-    -ms-animation: blink 2s linear 0s infinite;
-    -o-animation: blink 2s linear 0s infinite;
-}
-@-webkit-keyframes blink {
-  0%   { background: fade(@cyan, 50%) }
-  47%  { background: fade(@cyan, 40%) }
-  50%  { background: fade(@cyan, 0%) }
-  97%  { background: fade(@cyan, 0%) }
-  100% { background: fade(@cyan, 40%) }
-}
-@-moz-keyframes blink {
-  0%   { background: fade(@cyan, 50%) }
-  47%  { background: fade(@cyan, 40%) }
-  50%  { background: fade(@cyan, 0%) }
-  97%  { background: fade(@cyan, 0%) }
-  100% { background: fade(@cyan, 40%) }
-}
-@-ms-keyframes blink {
-  0%   { background: fade(@cyan, 50%) }
-  47%  { background: fade(@cyan, 40%) }
-  50%  { background: fade(@cyan, 0%) }
-  97%  { background: fade(@cyan, 0%) }
-  100% { background: fade(@cyan, 40%) }
-}
-@-o-keyframes blink {
-  0%   { background: fade(@cyan, 50%) }
-  47%  { background: fade(@cyan, 40%) }
-  50%  { background: fade(@cyan, 0%) }
-  97%  { background: fade(@cyan, 0%) }
-  100% { background: fade(@cyan, 40%) }
-}
-
 // Images are scaled and centered
 figure {
     max-width: 100%;

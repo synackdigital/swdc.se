@@ -804,83 +804,6 @@ aside h4 {
   color: #92ee3a;
   font-size: 16px;
 }
-html.rgba.cssanimations .cursor {
-  background-color: rgba(79, 224, 213, 0.5);
-  display: inline-block;
-  margin-left: 1px;
-  -webkit-animation: blink 2s linear 0s infinite;
-  -moz-animation: blink 2s linear 0s infinite;
-  -ms-animation: blink 2s linear 0s infinite;
-  -o-animation: blink 2s linear 0s infinite;
-}
-@-webkit-keyframes blink {
-  0% {
-    background: rgba(79, 224, 213, 0.5);
-  }
-  47% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-  50% {
-    background: rgba(79, 224, 213, 0);
-  }
-  97% {
-    background: rgba(79, 224, 213, 0);
-  }
-  100% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-}
-@-moz-keyframes blink {
-  0% {
-    background: rgba(79, 224, 213, 0.5);
-  }
-  47% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-  50% {
-    background: rgba(79, 224, 213, 0);
-  }
-  97% {
-    background: rgba(79, 224, 213, 0);
-  }
-  100% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-}
-@-ms-keyframes blink {
-  0% {
-    background: rgba(79, 224, 213, 0.5);
-  }
-  47% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-  50% {
-    background: rgba(79, 224, 213, 0);
-  }
-  97% {
-    background: rgba(79, 224, 213, 0);
-  }
-  100% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-}
-@-o-keyframes blink {
-  0% {
-    background: rgba(79, 224, 213, 0.5);
-  }
-  47% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-  50% {
-    background: rgba(79, 224, 213, 0);
-  }
-  97% {
-    background: rgba(79, 224, 213, 0);
-  }
-  100% {
-    background: rgba(79, 224, 213, 0.4);
-  }
-}
 figure {
   max-width: 100%;
   text-align: center;
@@ -1993,4 +1916,333 @@ textarea[contenteditable] {
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
   /* Style adjustments for viewports that meet the condition */
+}
+html.rgba.cssanimations .cursor {
+  background-color: rgba(79, 224, 213, 0.5);
+  display: inline-block;
+  margin-left: 1px;
+  -webkit-animation: cursor-pulse 2s linear 0s infinite;
+  -moz-animation: cursor-pulse 2s linear 0s infinite;
+  -ms-animation: cursor-pulse 2s linear 0s infinite;
+  -o-animation: cursor-pulse 2s linear 0s infinite;
+}
+@-webkit-keyframes cursor-pulse {
+  0% {
+    background: rgba(79, 224, 213, 0.5);
+  }
+  47% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+  50% {
+    background: rgba(79, 224, 213, 0);
+  }
+  97% {
+    background: rgba(79, 224, 213, 0);
+  }
+  100% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+}
+@-moz-keyframes cursor-pulse {
+  0% {
+    background: rgba(79, 224, 213, 0.5);
+  }
+  47% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+  50% {
+    background: rgba(79, 224, 213, 0);
+  }
+  97% {
+    background: rgba(79, 224, 213, 0);
+  }
+  100% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+}
+@-ms-keyframes cursor-pulse {
+  0% {
+    background: rgba(79, 224, 213, 0.5);
+  }
+  47% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+  50% {
+    background: rgba(79, 224, 213, 0);
+  }
+  97% {
+    background: rgba(79, 224, 213, 0);
+  }
+  100% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+}
+@-o-keyframes cursor-pulse {
+  0% {
+    background: rgba(79, 224, 213, 0.5);
+  }
+  47% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+  50% {
+    background: rgba(79, 224, 213, 0);
+  }
+  97% {
+    background: rgba(79, 224, 213, 0);
+  }
+  100% {
+    background: rgba(79, 224, 213, 0.4);
+  }
+}
+html.rgba.cssanimations a.home-link {
+  -webkit-animation: button-pulse 3s linear 0s infinite;
+  -moz-animation: button-pulse 3s linear 0s infinite;
+  -ms-animation: button-pulse 3s linear 0s infinite;
+  -o-animation: button-pulse 3s linear 0s infinite;
+}
+html.rgba.cssanimations a.home-link:hover,
+html.rgba.cssanimations a.home-link:focus {
+  -webkit-animation: none;
+  -moz-animation: none;
+  -ms-animation: none;
+  -o-animation: none;
+}
+@-webkit-keyframes button-pulse {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+  }
+  50% {
+    -webkit-opacity: 0.2;
+    -moz-opacity: 0.2;
+    opacity: 0.2;
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+  }
+}
+@-moz-keyframes button-pulse {
+  0% {
+    background-color: rgba(255, 70, 67, 0.1);
+    color: #ff4643;
+    border-color: #ff4643;
+  }
+  0% a {
+    color: #ffd343;
+  }
+  0% a:visited {
+    color: #ffd343;
+  }
+  0% a:hover {
+    color: #bdff43;
+  }
+  0% h1,
+  0% h2,
+  0% h3,
+  0% h4,
+  0% h5 {
+    color: #ff43cd;
+  }
+  0% li:before {
+    color: #a443ff;
+  }
+  50% {
+    background-color: rgba(146, 238, 58, 0.1);
+    color: #92ee3a;
+    border-color: #92ee3a;
+  }
+  50% a {
+    color: #3aee69;
+  }
+  50% a:visited {
+    color: #3aee69;
+  }
+  50% a:hover {
+    color: #3aeed2;
+  }
+  50% h1,
+  50% h2,
+  50% h3,
+  50% h4,
+  50% h5 {
+    color: #eec33a;
+  }
+  50% li:before {
+    color: #ee3c3a;
+  }
+  100% {
+    background-color: rgba(255, 70, 67, 0.1);
+    color: #ff4643;
+    border-color: #ff4643;
+  }
+  100% a {
+    color: #ffd343;
+  }
+  100% a:visited {
+    color: #ffd343;
+  }
+  100% a:hover {
+    color: #bdff43;
+  }
+  100% h1,
+  100% h2,
+  100% h3,
+  100% h4,
+  100% h5 {
+    color: #ff43cd;
+  }
+  100% li:before {
+    color: #a443ff;
+  }
+}
+@-ms-keyframes button-pulse {
+  0% {
+    background-color: rgba(255, 70, 67, 0.1);
+    color: #ff4643;
+    border-color: #ff4643;
+  }
+  0% a {
+    color: #ffd343;
+  }
+  0% a:visited {
+    color: #ffd343;
+  }
+  0% a:hover {
+    color: #bdff43;
+  }
+  0% h1,
+  0% h2,
+  0% h3,
+  0% h4,
+  0% h5 {
+    color: #ff43cd;
+  }
+  0% li:before {
+    color: #a443ff;
+  }
+  50% {
+    background-color: rgba(146, 238, 58, 0.1);
+    color: #92ee3a;
+    border-color: #92ee3a;
+  }
+  50% a {
+    color: #3aee69;
+  }
+  50% a:visited {
+    color: #3aee69;
+  }
+  50% a:hover {
+    color: #3aeed2;
+  }
+  50% h1,
+  50% h2,
+  50% h3,
+  50% h4,
+  50% h5 {
+    color: #eec33a;
+  }
+  50% li:before {
+    color: #ee3c3a;
+  }
+  100% {
+    background-color: rgba(255, 70, 67, 0.1);
+    color: #ff4643;
+    border-color: #ff4643;
+  }
+  100% a {
+    color: #ffd343;
+  }
+  100% a:visited {
+    color: #ffd343;
+  }
+  100% a:hover {
+    color: #bdff43;
+  }
+  100% h1,
+  100% h2,
+  100% h3,
+  100% h4,
+  100% h5 {
+    color: #ff43cd;
+  }
+  100% li:before {
+    color: #a443ff;
+  }
+}
+@-o-keyframes button-pulse {
+  0% {
+    background-color: rgba(255, 70, 67, 0.1);
+    color: #ff4643;
+    border-color: #ff4643;
+  }
+  0% a {
+    color: #ffd343;
+  }
+  0% a:visited {
+    color: #ffd343;
+  }
+  0% a:hover {
+    color: #bdff43;
+  }
+  0% h1,
+  0% h2,
+  0% h3,
+  0% h4,
+  0% h5 {
+    color: #ff43cd;
+  }
+  0% li:before {
+    color: #a443ff;
+  }
+  50% {
+    background-color: rgba(146, 238, 58, 0.1);
+    color: #92ee3a;
+    border-color: #92ee3a;
+  }
+  50% a {
+    color: #3aee69;
+  }
+  50% a:visited {
+    color: #3aee69;
+  }
+  50% a:hover {
+    color: #3aeed2;
+  }
+  50% h1,
+  50% h2,
+  50% h3,
+  50% h4,
+  50% h5 {
+    color: #eec33a;
+  }
+  50% li:before {
+    color: #ee3c3a;
+  }
+  100% {
+    background-color: rgba(255, 70, 67, 0.1);
+    color: #ff4643;
+    border-color: #ff4643;
+  }
+  100% a {
+    color: #ffd343;
+  }
+  100% a:visited {
+    color: #ffd343;
+  }
+  100% a:hover {
+    color: #bdff43;
+  }
+  100% h1,
+  100% h2,
+  100% h3,
+  100% h4,
+  100% h5 {
+    color: #ff43cd;
+  }
+  100% li:before {
+    color: #a443ff;
+  }
 }
