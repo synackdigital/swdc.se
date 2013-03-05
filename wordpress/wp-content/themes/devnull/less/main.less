@@ -110,16 +110,6 @@ h2 { font-size: @fontSizeLarge; }
 h3, h4 { font-size: @fontSizeMedium; }
 aside h1, aside h2, aside h3, aside h4 { color: @green; font-size: @fontSizeMedium; }
 
-// Images are scaled and centered
-figure {
-    max-width: 100%;
-    text-align: center;
-    img {
-        max-width: 80%;
-        height: auto;
-    }
-}
-
 // Rounded corners on all images
 img {
     .border-radius(@baseBorderRadius);
@@ -202,6 +192,13 @@ blockquote {
     .wp-post-image {
         float: right;
         max-width: 120px;
+        height: auto;
+    }
+
+    // Images are scaled and centered
+    img {
+        display: block;
+        max-width: 100%;
         height: auto;
     }
 }
