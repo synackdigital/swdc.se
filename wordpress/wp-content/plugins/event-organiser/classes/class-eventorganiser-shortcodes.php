@@ -62,7 +62,7 @@ class EventOrganiser_Shortcodes {
 		      'id' => '',
 		), $atts ) );
 
-		$url = add_query_arg('feed','eo-events',site_url());
+		$url = eo_get_events_feed();
 
 		$class = esc_attr($class);
 		$title = esc_attr($title);
@@ -88,7 +88,9 @@ class EventOrganiser_Shortcodes {
 			'tooltip'=>'true',
 			'weekends'=>'true',
 			'alldayslot'=>'true',
+			'users_events' => 'false'
 		);
+		
 		$atts = wp_parse_args( $atts, $bool_atts );
 
 		foreach( $bool_atts as $att => $value )
@@ -116,6 +118,7 @@ class EventOrganiser_Shortcodes {
 				$atts['venue'] = eo_get_venue_slug(get_the_ID());
 			}
 		}
+	
 
 		$venue_slugs = explode(',',$atts['venue']);
 
@@ -181,7 +184,10 @@ class EventOrganiser_Shortcodes {
 			'/%(event_venue_postcode)%/',
 			'/%(event_venue_city)%/',
 			'/%(event_venue_country)%/',
+			'/%(event_venue_state)%/',
+			'/%(event_venue_city)%/',
 			'/%(schedule_start)({([^{}]*)}{([^{}]*)}|{[^{}]*})?%/',
+			'/%(schedule_last)({([^{}]*)}{([^{}]*)}|{[^{}]*})?%/',
 			'/%(schedule_end)({([^{}]*)}{([^{}]*)}|{[^{}]*})?%/',
 			'/%(event_thumbnail)(?:{([^{}]+)})?(?:{([^{}]+)})?%/',
 			'/%(event_url)%/',
@@ -200,13 +206,7 @@ class EventOrganiser_Shortcodes {
 	function parse_template($matches){
 		global $post;
 		$replacement='';
-		$col = array(
-			'start'=>array('date'=>'StartDate','time'=>'StartTime'),
-			'end'=>array('date'=>'EndDate','time'=>'FinishTime'),
-			'schedule_start'=>array('date'=>'reoccurrence_start','time'=>'StartTime'),
-			'schedule_end'=>array('date'=>'reoccurrence_end','time'=>'FinishTime')
-		);
-		
+
 		switch($matches[1]):
 			case 'event_title':
 				$replacement = get_the_title();
@@ -215,6 +215,7 @@ class EventOrganiser_Shortcodes {
 			case 'start':
 			case 'end':
 			case 'schedule_start':
+			case 'schedule_last':
 			case 'schedule_end':
 				switch(count($matches)):
 					case 2:
@@ -231,11 +232,24 @@ class EventOrganiser_Shortcodes {
 						break;
 				endswitch;
 		
-				if( eo_is_all_day(get_the_ID()) ){
-					$replacement = eo_format_date($post->$col[$matches[1]]['date'].' '.$post->$col[$matches[1]]['time'], $dateFormat);
-				}else{	
-					$replacement = eo_format_date($post->$col[$matches[1]]['date'].' '.$post->$col[$matches[1]]['time'], $dateFormat.$dateTime);					
-				}
+				$format = eo_is_all_day(get_the_ID()) ? $dateFormat : $dateFormat . $dateTime;
+
+				switch( $matches[1] ):
+					case 'start':
+						$replacement = eo_get_the_start( $format );
+					break;
+					case 'end':
+						$replacement = eo_get_the_end( $format );
+					break;
+					case 'schedule_start':
+						$replacement = eo_get_schedule_start( $format );
+					break;
+          				case 'schedule_last':
+          				case 'schedule_end':
+						$replacement = eo_get_schedule_end( $format );
+					break;
+				endswitch;
+
 				break;
 			case 'event_duration':
 				$start = eo_get_the_start(DATETIMEOBJ);
@@ -291,6 +305,14 @@ class EventOrganiser_Shortcodes {
 				$address = eo_get_venue_address();
 				$replacement =$address['country'];
 				break;
+			case 'event_venue_state':
+                                $address = eo_get_venue_address();
+                                $replacement =$address['state'];
+                                break;
+			case 'event_venue_city':
+                                $address = eo_get_venue_address();
+                                $replacement =$address['city'];
+                                break;
 			case 'event_thumbnail':
 				$size = (isset($matches[2]) ? self::eo_clean_input($matches[2]) : '');
 				$size = (!empty($size) ?  $size : 'thumbnail');
@@ -346,15 +368,15 @@ class EventOrganiser_Shortcodes {
 			'venues' => get_terms( 'event-venue', array('hide_empty' => 0)),
 			'categories' => get_terms( 'event-category', array('hide_empty' => 0)),
 		));
-		wp_localize_script( 'eo_front', 'EOAjax', 
-		array(
+		
+		eo_localize_script( 'eo_front', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php'),
 			'calendars' => self::$calendars,
 			'widget_calendars' => self::$widget_calendars,
 			'fullcal' => $fullcal,
 			'map' => self::$map,
 		));	
-
+		
 		if( !empty(self::$calendars) || !empty(self::$map) || !empty(self::$widget_calendars) ):				
 			wp_enqueue_script( 'eo_qtip2');	
 			wp_enqueue_style('eo_calendar-style');	

@@ -195,7 +195,7 @@ $args = array(
 	'supports' => eventorganiser_get_option('supports'),
   ); 
 
-  register_post_type('event',$args);
+	register_post_type( 'event', apply_filters( 'eventorganiser_event_properties', $args ) );
 }
 add_action('init', 'eventorganiser_cpt_register');
 
@@ -226,6 +226,7 @@ function eventorganiser_messages( $messages ) {
 		 // translators: Publish box date format, see http://php.net/date
       		date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
 		10 => sprintf( __('Event draft updated. <a target="_blank" href="%s">Preview event</a>','eventorganiser'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
+		20 => __('This event has been broken from a recurring event.','eventorganiser')
   	);
 	return $messages;
 }
@@ -487,8 +488,8 @@ function eventorganiser_cpt_help_text($contextual_help, $screen_id, $screen) {
 	$screen->set_help_sidebar( 
 		'<p> <strong>'. __('For more information','eventorganiser').'</strong></br>'
 			.sprintf(__('See the <a %s> documentation</a>','eventorganiser'),'target="_blank" href="http://wp-event-organiser.com/documentation/"').'</p>' 
-			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', 'http://wp-event-organiser.com/forums/forum/report-a-bug/',__('Found a bug?','eventorganiser'))
-			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', 'http://wp-event-organiser.com/forums/forum/general-question/',__('Have a question?','eventorganiser'))
+			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', 'http://wordpress.org/support/plugin/event-organiser',__('Have a question?','eventorganiser'))
+			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', admin_url('index.php?page=eo-pro'),__('Go Pro!','eventorganiser'))
 	);
 
 	return $contextual_help;
@@ -760,8 +761,8 @@ function eventorganiser_update_venue_meta_cache( $terms, $tax){
 		if( empty($terms) )
 		       return $terms;
 
-
-          	$term_ids = wp_list_pluck($terms,'term_id');
+		//TODO Sort this out when $terms is an array of IDs not objects.
+		$term_ids = wp_list_pluck($terms,'term_id');
 
    		update_meta_cache('eo_venue',$term_ids);
 
@@ -854,4 +855,204 @@ function eventorganiser_edit_venue_link($link, $term_id, $taxonomy){
 	return $link;
 }
 add_filter('get_edit_term_link','eventorganiser_edit_venue_link',10,3);
+
+
+/*
+ * A walker class to use that extends wp_dropdown_categories and allows it to use the term's slug as a value rather than ID.
+*
+* See http://core.trac.wordpress.org/ticket/13258
+*
+* Usage, as normal:
+* wp_dropdown_categories($args);
+*
+* But specify the custom walker class, and (optionally) a 'id' or 'slug' for the 'value' parameter:
+* $args=array('walker'=> new EO_Walker_TaxonomyDropdown(), 'value'=>'slug', .... );
+* wp_dropdown_categories($args);
+*
+* If the 'value' parameter is not set it will use term ID for categories, and the term's slug for other taxonomies in the value attribute of the term's <option>.
+*/
+
+class EO_Walker_TaxonomyDropdown extends Walker_CategoryDropdown{
+
+	function start_el(&$output, $category, $depth, $args) {
+		$pad = str_repeat('&nbsp;', $depth * 3);
+		$cat_name = apply_filters('list_cats', $category->name, $category);
+
+		if( !isset($args['value']) ){
+			$args['value'] = ( $category->taxonomy != 'category' ? 'slug' : 'id' );
+		}
+
+		$value = ($args['value']=='slug' ? $category->slug : $category->term_id );
+
+		$output .= "\t<option class=\"level-$depth\" value=\"".$value."\"";
+		if ( $value === (string) $args['selected'] ){
+			$output .= ' selected="selected"';
+		}
+		$output .= '>';
+		$output .= $pad.$cat_name;
+		if ( $args['show_count'] )
+			$output .= '&nbsp;&nbsp;('. $category->count .')';
+
+		$output .= "</option>\n";
+	}
+
+}
+
+/**
+ * For this to work you need to add the following to the custom field exceptions on the ThreeWP settings page:
+ *
+ * _eventorganiser_event_schedule
+ * _eventorganiser_schedule_start_start
+ * _eventorganiser_schedule_start_finish
+ *_eventorganiser_schedule_last_start
+ *_eventorganiser_schedule_last_finish
+ *
+ * @access private
+ * @ignore
+ *
+*/
+function eventorganiser_threeWP( $activity ){
+	
+
+	if( isset( $activity['activity_id'] ) && $activity['activity_id'] == '3broadcast_broadcasted' && 'event' == get_post_type( get_the_ID() ) ){
+
+		$details = $activity['activity_details'];
+  		$current_blog_id = get_current_blog_id();
+		$original_id = get_the_ID();
+		$original_cats = get_the_terms( $original_id, 'event-category' );
+		$original_venue_id = eo_get_venue( $original_id );
+
+		//Venue Meta &Thumbnail
+		$venue_meta =  eo_get_venue_meta( $original_venue_id, '', false );
+		if( $original_venue_id && $venue_thumbnail_id = eo_get_venue_meta( $original_venue_id, '_eventorganiser_thumbnail_id', true ) ){
+
+			$original_upload_dir = wp_upload_dir();
+			$metadata = wp_get_attachment_metadata( $venue_thumbnail_id );
+			$data = get_post( $venue_thumbnail_id );
+			$file = $metadata['file'];
+			$guid = $data->guid;
+			$post_title = $data->post_title;
+			$menu_order = $data->menu_order;
+			$post_excerpt = $data->post_excerpt;
+			$filename_base = basename( $metadata['file'] );
+			$filename_path = $original_upload_dir[ 'basedir' ] . '/' . $metadata[ 'file' ];
+
+			$venue_thumbnail = compact( 'filename_path' , 'file', 'filename_base', 'post_title', 'guid', 'menu_order', 'post_excerpt' );
+			unset( $venue_meta['_eventorganiser_thumbnail_id'] );
+		}
+	
+		foreach( $details as $broadcast ){
+			$blog_id = $broadcast['blog_id'];
+			$post_id = $broadcast['post_id'];
+			switch_to_blog( $blog_id );
+			
+			$event_data = array ( 'force_regenerate_dates' => true );
+			eo_update_event($post_id, $event_data );
+
+			$venue_id = eo_get_venue( $post_id );
+			//Delete old venue meta
+			if( $old_meta =  eo_get_venue_meta( $venue_id, '', false ) ){
+				$old_meta_keys = array_keys( $old_meta );
+				foreach( $old_meta_keys as $key ){
+					eo_delete_venue_meta( $venue_id, $key );
+				}
+			}
+			//Add new venue  meta
+			foreach( $venue_meta as $key => $values ){
+				foreach( $values as $value ){
+					eo_add_venue_meta( $venue_id, $key, $value );
+				}
+			}
+
+			//Sync cat colours
+			$cats = get_the_terms( $post_id, 'event-category' );
+			foreach( $cats as $cat ){
+				//Find original cat
+				foreach( $original_cats as $original_cat ){
+					if( $original_cat->slug == $cat->slug ){
+						$re = update_option( "eo-event-category_{$cat->term_id}", array( 'colour' => $original_cat->color ) );
+						break;
+					}
+				}
+			}
+
+			//Sync venue thumbnails
+			$upload_dir = wp_upload_dir();
+			if ( file_exists( $venue_thumbnail['filename_path'] ) ){
+				$file_path =  $upload_dir['path'] . '/' . $venue_thumbnail['filename_base'];
+
+				// Copy the file to the blog's upload directory
+				copy( $venue_thumbnail['filename_path'], $file_path );
+
+				if(  false == ( $attachment_id = eventorganiser_file_to_attachment( $venue_thumbnail['file'] ) ) ){
+
+					// And now create the attachment stuff.
+					// This is taken almost directly from http://codex.wordpress.org/Function_Reference/wp_insert_attachment
+					$wp_filetype = wp_check_filetype( $venue_thumbnail['filename_base'], null );
+					$attachment = array(
+						'guid' => $upload_dir['url'] . '/' . $venue_thumbnail['filename_base'],
+						'menu_order' => $venue_thumbnail['menu_order'],
+						'post_excerpt' =>$venue_thumbnail['post_excerpt'],
+						'post_mime_type' => $wp_filetype['type'],
+						'post_title' => $venue_thumbnail['post_title'],
+						'post_status' => 'inherit',
+					);
+					$attachment_id = wp_insert_attachment( $attachment, $file_path, 0 );
+		
+					// Now to handle the metadata.
+					require_once(ABSPATH . "wp-admin" . '/includes/image.php' );
+					$attach_data = wp_generate_attachment_metadata( $attachment_id, $file_path );
+					wp_update_attachment_metadata( $attachment_id,  $attach_data );
+				}//If attachment post doesn't exist
+
+				eo_update_venue_meta( $venue_id, '_eventorganiser_thumbnail_id', $attachment_id );
+			}//If original file exists
+			
+		}//Foreach blog
+		switch_to_blog( $current_blog_id );
+	}//If broadcasting
+
+}
+
+
+function eventorganiser_file_to_attachment( $file ){
+
+	$attachments = get_posts( array(
+		'numberposts' => 1,
+		'post_type'  => 'attachment',
+            	'fields'     => 'ids',
+            	'meta_query' => array(
+                	array(
+                    		'value'   => $file,
+                    		'key' => '_wp_attached_file',
+                	),
+            	)
+        ));
+    	if( $attachments )
+		return intval( $attachments[0] );
+	else
+		return false;
+}
+
+add_action( 'threewp_activity_monitor_new_activity', 'eventorganiser_threeWP' );
+
+
+function eventorganiser_event_shortlink( $shortlink, $id, $context ) {
+
+	//Context can be post/blog/meta ID
+	$event_id = 0;
+	if( 'query' == $context && is_singular( 'event' ) ){
+		$event_id = get_queried_object_id();
+	}elseif( 'post' == $context ){
+		$event_id = $id;
+	}
+
+	//Only do something if of event post type
+	if( 'event' == get_post_type( $event_id )  ){
+		$shortlink = home_url( '?p=' . $event_id );
+	}
+	
+	return $shortlink;
+}
+add_filter( 'pre_get_shortlink', 'eventorganiser_event_shortlink', 10, 3 );
 ?>

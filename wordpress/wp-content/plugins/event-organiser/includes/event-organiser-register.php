@@ -9,7 +9,7 @@
  */
 function eventorganiser_register_script() {
 	global $wp_locale;
-	$version = '1.7.2';
+	$version = '2.1.1';
 
 	$ext = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
 
@@ -36,6 +36,7 @@ function eventorganiser_register_script() {
 		'jquery-ui-button',
 		'jquery-ui-datepicker',
 		'eo_fullcalendar',
+		'eo-wp-js-hooks'
 	),$version,true);
 	
 	/* Add js variables to frontend script */
@@ -59,6 +60,9 @@ function eventorganiser_register_script() {
 				)
 			));
 
+	/* WP-JS-Hooks */
+	wp_register_script( 'eo-wp-js-hooks', EVENT_ORGANISER_URL."js/event-manager{$ext}.js",array('jquery'),$version,true);
+	
 	/* Q-Tip */
 	wp_register_script( 'eo_qtip2', EVENT_ORGANISER_URL.'js/qtip2.js',array('jquery'),$version,true);
 
@@ -76,7 +80,7 @@ add_action('init', 'eventorganiser_register_script');
  * @access private
  */
 function eventorganiser_register_scripts(){
-	$version = '1.7.2';
+	$version = '2.1.1';
 	$ext = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
 
 	/*  Venue scripts for venue & event edit */
@@ -86,17 +90,31 @@ function eventorganiser_register_scripts(){
 	),$version,true);
 	
 	/*  Script for event edit page */
+	wp_register_script( 'eo-time-picker', EVENT_ORGANISER_URL."js/time-picker{$ext}.js",array(
+		'jquery',
+		'jquery-ui-datepicker',		
+	),$version,true);
+	
 	wp_register_script( 'eo_event', EVENT_ORGANISER_URL."js/event{$ext}.js",array(
 		'jquery',
 		'jquery-ui-datepicker',
+		'eo-time-picker',
 		'jquery-ui-autocomplete',
 		'jquery-ui-widget',
 		'jquery-ui-position'
-	),$version,true);	
+	),$version,true);
+	
+	wp_register_script( 'eo-edit-event-controller', EVENT_ORGANISER_URL."js/edit-event-controller{$ext}.js",array(
+			'jquery',
+			'eo_event',
+	),$version,true);
 
 	/*  Script for admin calendar */
 	wp_register_script( 'eo_calendar', EVENT_ORGANISER_URL."js/admin-calendar{$ext}.js",array(
 		'eo_fullcalendar',
+		'jquery-ui-datepicker',
+		'jquery-ui-autocomplete',
+		'jquery-ui-widget',
 		'jquery-ui-dialog',
 		'jquery-ui-tabs',
 		'jquery-ui-position'
@@ -107,11 +125,32 @@ function eventorganiser_register_scripts(){
 	wp_register_style('eventorganiser-jquery-ui-style',EVENT_ORGANISER_URL."css/eventorganiser-admin-{$style}.css",array(),$version);
 
 	/* Admin styling */
-	wp_register_style('eventorganiser-style',EVENT_ORGANISER_URL.'css/eventorganiser-admin-style.css',array('eventorganiser-jquery-ui-style'),$version);
+	wp_register_style('eventorganiser-style',EVENT_ORGANISER_URL.'css/eventorganiser-admin-style.css',array('eventorganiser-jquery-ui-style'),$version );
+
+	/* Inline Help */
+       	wp_register_script( 'eo-inline-help', EVENT_ORGANISER_URL.'js/inline-help.js',array( 'jquery', 'eo_qtip2' ), $version, true );
 }
-add_action('admin_enqueue_scripts', 'eventorganiser_register_scripts',10);
+add_action( 'admin_init', 'eventorganiser_register_scripts', 5 );
 
-
+/**
+ * The "Comprehensive Google Map Plugin" plug-in deregisters all other Google scripts registered
+ * by other plug-ins causing these plug-ins not to function. This plug-in removes that behaviour.
+ *
+ * Of course if two google scripts are loaded there may be problems, but this is better than always having
+ * experiencing a 'bug'. At time writing the function responsible `cgmp_google_map_deregister_scripts()`
+ * can be found here {@see https://github.com/azagniotov/Comprehensive-Google-Map-Plugin/blob/master/functions.php#L520 }
+ *
+ * @see https://github.com/stephenharris/Event-Organiser/issues/49
+ * @see http://wordpress.org/support/topic/googlemap-doesnt-shown-on-event-detail-page
+ * @since 1.7.4
+ * @ignore
+ * @access private
+ */
+function eventorganiser_cgmp_workaround(){
+	remove_action( 'wp_head', 'cgmp_google_map_deregister_scripts', 200 );
+}
+add_action( 'wp_head', 'eventorganiser_cgmp_workaround', 1 );
+	
  /**
  * Check the export and event creation (from Calendar view) actions. 
  * These cannot be called later. Most other actions are only called when
@@ -154,14 +193,15 @@ function eventorganiser_add_admin_scripts( $hook ) {
 	if ( $hook == 'post-new.php' || $hook == 'post.php') {
 		if( $post->post_type == 'event' ) {     
 
-			wp_enqueue_script('eo_event');
+			wp_enqueue_script('eo-edit-event-controller');
 			wp_localize_script( 'eo_event', 'EO_Ajax_Event', array( 
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'startday'=>intval(get_option('start_of_week')),
-					'format'=> eventorganiser_get_option('dateformat').'-yy',
+					'format'=> eventorganiser_php2jquerydate( eventorganiser_get_option('dateformat') ),
 					'current_user_can' => array(
 						'manage_venues' => current_user_can( 'manage_venues' ),
 					),
+					'is24hour' => eventorganiser_blog_is_24(),
 					'location'=>get_option('timezone_string'),
 					'locale'=>array(
 						'monthNames'=>array_values($wp_locale->month),
@@ -170,6 +210,7 @@ function eventorganiser_add_admin_scripts( $hook ) {
 						'showDates' => __( 'Show dates', 'eventorganiser' ),
 						'hideDates' => __( 'Hide dates', 'eventorganiser' ),
 						'weekDay'=>$wp_locale->weekday,
+						'meridian' => array( $wp_locale->get_meridiem('am'), $wp_locale->get_meridiem('pm') ),
 						'hour'=>__('Hour','eventorganiser'),
 						'minute'=>__('Minute','eventorganiser'),
 						'day'=>__('day','eventorganiser'),
@@ -320,6 +361,23 @@ function eventorganiser_clear_cron_jobs(){
 	wp_clear_scheduled_hook('eventorganiser_delete_expired');
 }
 
+/**
+ * Returns the time in seconds until a specified cron job is scheduled.
+ *
+ *@since 1.8
+ *@see http://wordpress.stackexchange.com/questions/83270/when-does-next-cron-job-run-time-from-now/83279#83279
+ *
+ *@param string $cron_name The name of the cron job
+ *@return int|bool The time in seconds until the cron job is scheduled. False if
+ *it could not be found.
+*/
+function eventorganiser_get_next_cron_time( $cron_name ){
+	if( $timestamp = wp_next_scheduled( $cron_name ) ){
+		$timestamp = $timestamp - time();
+	}
+	return $timestamp;
+}
+
 
 /**
  * Callback for the delete expired events cron job. Deletes events that finished at least 24 hours ago.
@@ -332,19 +390,28 @@ function eventorganiser_clear_cron_jobs(){
 function eventorganiser_delete_expired_events(){
 	//Get expired events
 	$events = eo_get_events(array('showrepeats'=>0,'showpastevents'=>1,'eo_interval'=>'expired'));
-	if($events):
-		foreach($events as $event):
-			$now = new DateTime('now', eo_get_blog_timezone());
-			$start = new DateTime($event->StartDate.' '.$event->StartTime, eo_get_blog_timezone());
-			$end = new DateTime($event->EndDate.' '.$event->FinishTime, eo_get_blog_timezone());
-			$expired = round(abs($end->format('U')-$start->format('U'))) + 24*60*60; //Duration + 24 hours
-			$finished =  new DateTime($event->reoccurrence_end.' '.$event->StartTime, eo_get_blog_timezone());
-			$finished->modify("+$expired seconds");
+	
+	$time_until_expired = (int) apply_filters( 'eventorganiser_events_expire_time', 24*60*60 );
+	$time_until_expired = max( $time_until_expired, 0 );
 
-			//Delete if 24 hours has passed
-			if($finished <= $now):
+	if($events):
+		$now = new DateTime('now', eo_get_blog_timezone());
+	
+		foreach($events as $event):
+			
+			$start = eo_get_the_start( DATETIMEOBJ, $event->ID, null, $event->occurrence_id );
+			$end = eo_get_the_end( DATETIMEOBJ, $event->ID, null, $event->occurrence_id );
+			
+			$expired = round(abs($end->format('U')-$start->format('U'))) + $time_until_expired; //Duration + expire time
+			
+			$finished =  eo_get_schedule_last( DATETIMEOBJ, $event->ID );
+			$finished->modify("+$expired seconds");//[Expired time] after the last occurrence finishes
+			
+			//Delete if [expired time] has passed
+			if( $finished <= $now ){
 				wp_trash_post((int) $event->ID);
-			endif;
+			}
+			
 		endforeach;
 	endif;
 }
@@ -425,6 +492,8 @@ $hooks = array(
 	'update_option_start_of_week', /* Start of week is used for calendars */
 	'update_option_rewrite_rules', /* If permalinks updated - links on fullcalendar might now be invalid */ 
 	'delete_option_rewrite_rules',
+	'update_option_siteurl',
+	'update_option_home',
 	'edited_event-category', /* Colours of events may change */
 );
 foreach( $hooks as $hook ){
@@ -704,4 +773,24 @@ function _eventorganiser_autofill_city(){
 	wp_safe_redirect(admin_url('edit.php?post_type=event&page=venues'));
 }
 add_action('admin_post_eo-autofillcity','_eventorganiser_autofill_city');
+
+function _eventorganiser_theme_check_results(){
+	delete_option( 'eo_wp_footer_present' );
+	delete_option( 'eo_sidebar_correct' );
+}
+add_action( 'switch_theme', '_eventorganiser_theme_check_results' );
+
+function _eventorganiser_check_sidebars( $sidebar ){
+	$before_widget = $sidebar['before_widget'];
+	
+	if( did_action( 'register_sidebar') > 1 && ( -1 == get_option( 'eo_sidebar_correct' ) ) )
+		return;
+	
+	if( strpos( $before_widget, '%1$s' ) == false || strpos( $before_widget, '%2$s' ) == false ){
+		update_option( 'eo_sidebar_correct', -1 );
+	}else{
+		update_option( 'eo_sidebar_correct', 1 );
+	}
+}
+
  ?>

@@ -28,12 +28,10 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 		$this->slug = 'event-settings';
 	}
 
-	function  admin_init_actions(){
-		//Register options
+	function admin_init_actions(){
+		
 		register_setting( 'eventorganiser_options', 'eventorganiser_options', array( $this, 'validate' ) );
-
-		add_action( 'eventorganiser_event_settings_permalinks', 'flush_rewrite_rules' );
-
+		
 		//Initialise the tab array
 		$this->tabs = $this->setup_tabs();
 		
@@ -59,6 +57,15 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 					break;
 			}
 			do_action("eventorganiser_register_tab_{$tab_id}", $tab_id );
+		}
+	}
+	
+	function page_actions(){
+		//Register options
+		add_action( 'eventorganiser_event_settings_permalinks', 'flush_rewrite_rules' );
+
+		foreach ( $this->tabs as $tab_id => $label ){
+			//Add sections to each tabbed page
 			$this->add_fields( $tab_id );
 		}
 
@@ -124,8 +131,9 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 						'selected' => eventorganiser_get_option( 'dateformat' ),
 						'name' => 'eventorganiser_options[dateformat]',
 						'options' => array(
-							'dd-mm' => __( 'dd-mm-yyyy', 'eventorganiser' ),
-							'mm-dd' => __( 'mm-dd-yyyy', 'eventorganiser' ),
+							'd-m-Y' => __( 'dd-mm-yyyy', 'eventorganiser' ),
+							'm-d-Y' => __( 'mm-dd-yyyy', 'eventorganiser' ),
+							'Y-m-d' => __( 'yyyy-mm-dd', 'eventorganiser' ),
 						),
 						'help' => __("This alters the default format for inputting dates.", 'eventorganiser' ),
 				) );
@@ -192,15 +200,21 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 						'name' => 'eventorganiser_options[templates]',
 						'options' => 1,
 						'checked' => eventorganiser_get_option( 'templates' ),
-						'help' => __("For each of the pages, the corresponding template is used. To use your own template simply give it the same name and store in your theme folder. By default, if Event Organiser cannot find a template in your theme directory, it will use its own default template. To prevent this, uncheck this option. WordPress will then decide which template from your theme's folder to use.", 'eventorganiser' ). sprintf("<p><strong> %s </strong><code>archive-event.php</code></p>
+						'help' => __("For each of the pages, the corresponding template is used. To use your own template simply give it the same name and store in your theme folder. By default, if Event Organiser cannot find a template in your theme directory, it will use its own default template. To prevent this, uncheck this option. WordPress will then decide which template from your theme's folder to use.", 'eventorganiser' )
+									. sprintf(
+											"<p><strong> %s </strong><code>archive-event.php</code></p>
 											<p><strong> %s </strong><code>single-event.php</code></p>
-											<p><strong> %s </strong><code>venue-template.php</code></p>
+											<p><strong> %s </strong><code>taxonomy-event-venue.php</code></p>
 											<p><strong> %s </strong><code>taxonomy-event-category.php</code></p>",
 												__("Events archives:", 'eventorganiser' ),
 												__("Event page:", 'eventorganiser' ),
 												 __("Venue page:", 'eventorganiser' ),
 												__("Events Category page:", 'eventorganiser' )
 										)
+									.sprintf( 
+										__( "For more information see documentation <a href='%s'>on editing the templates</a>", 'eventorganiser' ),
+										'http://wp-event-organiser/documentation/editing-templates'
+									)
 					) );
 				break;
 
@@ -255,7 +269,7 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 						'help' => "<code>{$home_url}/<strong>".eventorganiser_get_option( 'url_cat' )."</strong>/[event_cat_slug]</code>"
 				) );
 
-				add_settings_field( 'url_cat', __("Event Tags", 'eventorganiser' ), 'eventorganiser_text_field' , 'eventorganiser_'.$tab_id, $tab_id,
+				add_settings_field( 'url_tag', __("Event Tags", 'eventorganiser' ), 'eventorganiser_text_field' , 'eventorganiser_'.$tab_id, $tab_id,
 					array(
 						'label_for' => 'url_tag',
 						'name' => 'eventorganiser_options[url_tag]',
@@ -309,6 +323,12 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 
 				//Navigation menu - $addtomenu int 0 if no menu, menu databse ID otherwise
 				$clean['menu_item_db_id'] = $this->update_nav_menu( $clean['addtomenu'], $clean['navtitle'] );
+
+				if( $clean['deleteexpired'] && !eventorganiser_get_next_cron_time( 'eventorganiser_delete_expired' ) ){
+					eventorganiser_cron_jobs();
+				}elseif( !$clean['deleteexpired'] ){
+					eventorganiser_clear_cron_jobs();
+				}
 			break;
 
 
@@ -394,6 +414,15 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 				'menu-item-status' => $status,
 				'menu-item-type' => 'post_type_archive',
 			);
+			
+			//If we're updating preserve parent and position
+			if( is_nav_menu_item( $menu_item_db_id ) ){
+				$menu_item = wp_setup_nav_menu_item( get_post( $menu_item_db_id ) );
+				$menu_item_data += array(
+					'menu-item-parent-id' => $menu_item->menu_item_parent,
+					'menu-item-position' => $menu_item->menu_order,
+				);
+			}
 
 			//Update menu item (post type) to have taxonom term $menu_id
 			$menu_item_db_id = wp_update_nav_menu_item( $menu_id, $menu_item_db_id,$menu_item_data );

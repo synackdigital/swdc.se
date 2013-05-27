@@ -132,7 +132,7 @@ function eo_get_venue_by($field,$value,$output = OBJECT, $filter = 'raw' ){
 
 /**
 * Returns the name of the venue of an event.
-* If used with any arguments uses the venue of the current event.
+* If used without any arguments uses the venue of the current event.
 *
 * Returns the name of a venue specified by it's slug or ID. If used inside the loop, it can return the name of the current post's venue. If specifying the venue by ID, **the ID must be an integer**.
 *
@@ -173,8 +173,22 @@ function eo_venue_name($venue_slug_or_id=''){
 * Returns the description of a venue specified by it's slug or ID. When used without an argument it uses the event specified in the `global $post` (i.e. the current event in the Loop). If specifying the 
 * venue by ID, **the ID must be an integer**.
 *
-* @since 1.0.0
+* ###Example
 *
+*     <?php 
+*     $event_id = 7;
+*     $venue_id = eo_get_venue( $event_id );
+*     echo eo_get_venue_description( $venue_id );
+*     
+*     //The following displays the description for the venue with **ID** '12'
+*     echo eo_get_venue_description( 12 );
+*     
+*     //The following displays the description for the venue with **slug** '12'
+*     echo eo_get_venue_description( '12' );
+*     ?>
+*
+* @since 1.0.0
+* @see `eo_venue_description()`
 * @param int|string $venue_slug_or_id The venue ID (as an integer) or slug (as a string). Uses venue of current event if empty.
 * @return string The description. of the corresponding venue
  */
@@ -633,8 +647,15 @@ function eo_get_venue_map($venue_slug_or_id='', $args=array()){
 				$tooltip_content .='</br>'.implode(', ',$address);
 			
 			$tooltip_content = apply_filters('eventorganiser_venue_tooltip',$tooltip_content,$venue_id);
+			
+			$icon = apply_filters('eventorganiser_venue_marker',null,$venue_id);
 	
-			$locations[] =array('lat'=>$latlng['lat'],'lng'=>$latlng['lng'], 'tooltipContent'=>$tooltip_content);
+			$locations[] =array( 
+					'venue_id' => $venue_id,
+					'lat'=>$latlng['lat'], 
+					'lng'=>$latlng['lng'], 
+					'tooltipContent'=>$tooltip_content, 
+					'icon' => $icon );
 		}
 
 		//This could be improved
@@ -660,7 +681,7 @@ function eo_get_venue_map($venue_slug_or_id='', $args=array()){
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
  *  is true.
  */
-function eo_get_venue_meta($venue_id, $key, $single=true){	
+function eo_get_venue_meta($venue_id, $key ='', $single=true){	
 	return get_metadata('eo_venue', $venue_id, $key, $single); 
 }
 
@@ -791,7 +812,6 @@ function _eventorganiser_get_venue_address_fields(){
 		'_city'=>  __('City','eventorganiser'),
 		'_state'=>  __('State / Province','eventorganiser'),
 		'_postcode'=>  __('Post Code','eventorganiser'),
-		'_state'=>  __('State / Province','eventorganiser'),
 		'_country'=>  __('Country','eventorganiser'),
 	);
 

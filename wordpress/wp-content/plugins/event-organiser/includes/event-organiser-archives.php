@@ -24,6 +24,7 @@ function eventorganiser_register_query_vars( $qvars ){
 	$qvars[] = 'event_start_after';
 	$qvars[] = 'event_end_before';
 	$qvars[] = 'event_after_after';
+	$qvars[] = 'event_series';
 	return $qvars;
 }
 add_filter('query_vars', 'eventorganiser_register_query_vars' );
@@ -48,13 +49,14 @@ function eventorganiser_pre_get_posts( $query ) {
 	if( !empty($query->query_vars['venue']) ){
 		$venue = $query->get('venue');
 		$query->set('event-venue',$venue);
-       }
-
-	//If event-venue, event-tag or event-category is being queried, we must be after events
-	if(isset($query->query_vars['event-venue'])  || isset($query->query_vars['event-category'] ) || isset($query->query_vars['event-tag']) || $query->is_feed('eo-events') ){
-		$query->set('post_type', 'event');
+		$query->set( 'post_type', 'event' );
 	}
 
+	//If the query is for eo-events feed, set post type
+	if( $query->is_feed( 'eo-events' ) ){
+		$query->set( 'post_type', 'event' );
+	}   
+	
 	//If querying for all events starting on given date, set the date parameters
 	if( !empty($query->query_vars['ondate']) ) {
 
@@ -84,7 +86,7 @@ function eventorganiser_pre_get_posts( $query ) {
 	}
 
 	//If not on event, stop here.
-	if('event'!= $query->get('post_type') )
+	if( ! eventorganiser_is_event_query( $query, true ) )
 		return $query;
 
 	$blog_now = new DateTime(null, eo_get_blog_timezone());
@@ -223,7 +225,10 @@ function eventorganiser_pre_get_posts( $query ) {
 	add_filter('posts_orderby','eventorganiser_sort_events',10,2);
 	add_filter('posts_groupby', 'eventorganiser_event_groupby',10,2);
 }
-add_action( 'pre_get_posts', 'eventorganiser_pre_get_posts' );
+add_action( 'pre_get_posts', 'eventorganiser_pre_get_posts', 11 );
+
+//Workaround for https://github.com/stephenharris/Event-Organiser/issues/55,
+add_action( 'pre_get_posts', '__return_false', 10 );
 
 
 /**
@@ -260,8 +265,8 @@ function wp17853_eventorganiser_workaround( $limit ){
  */
 function eventorganiser_event_fields( $select, $query ){
 	global $wpdb;
-
-	if('event'== $query->get('post_type') ) {
+	
+	if( eventorganiser_is_event_query( $query, true ) ){
 		$et =$wpdb->eo_events;
 		/* Include 'event_occurrence' for backwards compatibility. Will eventually be removed. */
 		/* Renaming event_id as occurrence id. Keep event_id for backwards compatibility */
@@ -295,7 +300,7 @@ function eventorganiser_event_groupby( $groupby, $query ){
 		return "{$wpdb->eo_events}.post_id";
 	}
 
-	if('event'== $query->get('post_type') ) :
+	if( eventorganiser_is_event_query( $query, true ) ):
 		if(empty($groupby))
 			return $groupby;
 
@@ -321,12 +326,70 @@ function eventorganiser_event_groupby( $groupby, $query ){
 function eventorganiser_join_tables( $join, $query ){
 	global $wpdb;
 
-	if('event'== $query->get('post_type') ) {
-			$join .=" LEFT JOIN $wpdb->eo_events ON $wpdb->posts.id = {$wpdb->eo_events}.post_id ";
+	if( eventorganiser_is_event_query( $query, true ) ){
+		$join .=" LEFT JOIN $wpdb->eo_events ON $wpdb->posts.id = {$wpdb->eo_events}.post_id ";
 	}
 	return $join;
 }
 
+
+function eventorganiser_is_event_query( $query, $exclusive = false ){
+		
+	$post_types = $query->get( 'post_type' );
+	if( 'any' == $post_types )
+		$post_types = get_post_types( array('exclude_from_search' => false) );
+	
+	if( $post_types == 'event' ){
+		$bool = true;
+	
+	}elseif( ( $query && $query->is_feed('eo-events') ) || is_feed( 'eo-events' ) ){
+		$bool = true;
+		
+	}elseif( empty( $post_types ) && eo_is_event_taxonomy( $query ) ){
+		
+		//Querying by taxonomy - check if 'event' is the only post type
+		$post_types = array();
+		$taxonomies = wp_list_pluck( $query->tax_query->queries, 'taxonomy' );
+		
+		foreach ( get_post_types() as $pt ) {
+			
+			if( version_compare( '3.4', get_bloginfo( 'version' ) ) <= 0 ){
+				$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
+			}else{
+				//Backwards compat for 3.3
+				$object_taxonomies = $pt === 'attachment' ? array() : get_object_taxonomies( $pt );
+			}
+			
+			if ( array_intersect( $taxonomies, $object_taxonomies ) )
+				$post_types[] = $pt;
+		}
+
+		if( in_array( 'event', $post_types ) ){
+			if( $exclusive && 1 == count( $post_types ) ){
+				$query->set( 'post_type', 'event' );
+				$bool = true;
+			}elseif( !$exclusive ){
+				$bool = true;
+			}else{
+				$bool = false;
+			}
+		}else{
+			$bool = false;
+		}
+
+	}elseif( $exclusive ){
+		$bool = false;
+		
+	}elseif( ( is_array( $post_types ) && in_array( 'event', $post_types ) ) ){
+		$bool = true;
+		
+	}else{
+		$bool = false;
+		
+	}
+
+	return apply_filters( 'eventorganiser_is_event_query', $bool, $query, $exclusive );
+}
 
 /**
  * Selects posts which satisfy custom WHERE statements
@@ -343,7 +406,7 @@ function eventorganiser_events_where( $where, $query ){
 	global $wpdb;
 
 	//Only alter event queries
-	if('event'== $query->get('post_type') ):
+	if( eventorganiser_is_event_query( $query, true ) ):
 
 		//If we only want events (or occurrences of events) that belong to a particular 'event'
 		if(isset($query->query_vars['event_series'])):
@@ -354,6 +417,11 @@ function eventorganiser_events_where( $where, $query ){
 		if(isset($query->query_vars['event_occurrence_id'])):
 			$occurrence_id =$query->query_vars['event_occurrence_id'];
 			$where .= $wpdb->prepare(" AND {$wpdb->eo_events}.event_id=%d ",$occurrence_id);
+		endif;
+		
+		if(isset($query->query_vars['event_occurrence__in'])):
+			$occurrence__in = implode(', ', array_map( 'intval', $query->query_vars['event_occurrence__in'] ) );
+			$where .= " AND {$wpdb->eo_events}.event_id IN({$occurrence__in}) ";
 		endif;
 
 		//Check date ranges were are interested in. 
@@ -392,6 +460,7 @@ function eventorganiser_events_where( $where, $query ){
 			}
 		}
 	endif;
+
 	return $where;
 }
 
@@ -429,7 +498,7 @@ function eventorganiser_sort_events( $orderby, $query ){
 				return $orderby;
 		endswitch;
 
-	}elseif('event'== $query->get('post_type') ) {
+	}elseif( eventorganiser_is_event_query( $query, true ) ){
 			//If no orderby is set, but we are querying events, return the default order for events;
 			$orderby = " {$wpdb->eo_events}.StartDate ASC, {$wpdb->eo_events}.StartTime ASC";
 	}

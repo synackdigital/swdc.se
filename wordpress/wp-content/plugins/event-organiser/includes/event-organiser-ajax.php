@@ -49,6 +49,10 @@ function eventorganiser_public_fullcalendar() {
 			);
 	}
 
+	if( !empty( $_GET['users_events'] ) && 'false' != $_GET['users_events'] ){
+		$request['bookee_id'] = get_current_user_id();	
+	}
+
 	$presets = array('numberposts'=>-1, 'group_events_by'=>'','showpastevents'=>true);
 
 	//Retrieve events		
@@ -132,6 +136,10 @@ function eventorganiser_public_fullcalendar() {
 			else
 				$event['className'][] = 'eo-future-event';
 				
+			//Add class if event is all day
+			if( eo_is_all_day() )
+				$event['className'][] = 'eo-all-day';
+			
 			//Include venue if this is set
 			$venue = eo_get_venue($post->ID);
 

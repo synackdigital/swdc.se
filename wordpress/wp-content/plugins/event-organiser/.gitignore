@@ -3,3 +3,8 @@
 .settings
 .buildpath
 .metadata
+compiler.jar
+dist
+externs.js
+externs-venue.js
+Makefile

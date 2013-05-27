@@ -8,19 +8,19 @@
 /**
 * Retrieve list of events matching criteria.
 *
-* This function is a wrapper for {@see `get_posts()`}. As such you can also use `get_posts()` or {@link http://codex.wordpress.org/Class_Reference/WP_Query `WP_Query`} instead to retrieve events. 
-* **All the arguments listed below can be used with them**. 
-* *Arguments from {@link http://codex.wordpress.org/Template_Tags/get_posts `get_posts()`} and {@link http://codex.wordpress.org/Class_Reference/WP_Query `WP_Query`} can also be used. Their default values are as indicated by the relevant codex page.*
-*
+* This function is a wrapper for get_posts(). **As such parameters from {@see `get_posts()`} and {@link http://codex.wordpress.org/Class_Reference/WP_Query `WP_Query`} can also be used**.
+* Their default values are as indicated by the relevant codex page unless specified below. 
+* You can also use {@see `get_posts()`} and {@link http://codex.wordpress.org/Class_Reference/WP_Query `WP_Query`} instead to retrieve events.
+* 
 * The `$args` array can include the following.
 *
-* * **event_start_before** - default: null
-* * **event_end_before** - default: null
-* * **event_start_after** - default: null
-* * **event_end_after** - default: null. This argument, and those above can take a date in 'Y-m-d' format or {@link http://wp-event-organiser.com/documentation/relative-date-formats/ relative dates}. 
-* * **numberposts** - default is - 1 (all events)
-* * **orderby** - default is 'eventstart'
-* * **showpastevents** - default is true (it's recommended to use `event_start_after=today` or `event_end_after=today` instead) 
+* * **event_start_before** - default: `null`
+* * **event_end_before** - default: `null`
+* * **event_start_after** - default: `null`
+* * **event_end_after** - default: `null`. This argument, and those expect dates in **Y-m-d** format or {@link http://wp-event-organiser.com/documentation/relative-date-formats/ relative dates}. 
+* * **numberposts** - default is `-1` (all events)
+* * **orderby** - default is `eventstart`. You can also have `eventend`.
+* * **showpastevents** - default is `true` (it's recommended to use `event_start_after=today` or `event_end_after=today` instead) 
 *
 * If you use `get_posts()` or `WP_Query` instead then you should ensure the following:
 *
@@ -30,25 +30,28 @@
 *
 * ###Example
 *
+*     <?php 
 *     $events = eo_get_events(array(
 *            'numberposts'=>5,
 *            'event_start_after'=>'today',
 *            'showpastevents'=>true,//Will be deprecated, but set it to true to play it safe.
 *       ));
 *
-*     <?php if($events):
+*     if($events):
 *        echo '<ul>'; 
 *        foreach ($events as $event):
-*                //Check if all day, set format accordingly
-*                $format = ( eo_is_all_day($event->ID) ? get_option('date_format') ? get_option('date_format').' '.get_option('time_format') );
-*                printf('<li><a href="%s"> %s </a> on %s </li>',
-*                                   get_permalink($event->ID),
-*                                   get_the_title($event->ID),
-*                                   eo_get_the_start($format, $event->ID,null,$event->occurrence_id)
-*                               );                           
+*             //Check if all day, set format accordingly
+*             $format = ( eo_is_all_day($event->ID) ? get_option('date_format') : get_option('date_format').' '.get_option('time_format') );
+*             printf(
+*                '<li><a href="%s"> %s </a> on %s </li>',
+*                get_permalink($event->ID),
+*                get_the_title($event->ID),
+*                eo_get_the_start($format, $event->ID,null,$event->occurrence_id)
+*             );                           
 *        endforeach; 
-*         echo '</ul>'; 
-*     endif; ?>
+*        echo '</ul>'; 
+*     endif; 
+*     ?>
 *
 * @since 1.0.0
 * @uses get_posts()
@@ -181,7 +184,7 @@ function eo_get_the_start($format='d-m-Y',$post_id=0,$deprecated=0, $occurrence_
 
 	$start = $occurrences[$occurrence_id]['start'];
 
-	return eo_format_datetime($start,$format);
+	return apply_filters('eventorganiser_get_the_start', eo_format_datetime( $start, $format ), $start, $format, $post_id, $occurrence_id );
 }
 
 /**
@@ -273,7 +276,7 @@ function eo_get_the_end($format='d-m-Y',$post_id=0,$deprecated=0, $occurrence_id
 
 	$end = $occurrences[$occurrence_id]['end'];
 
-	return eo_format_datetime($end,$format);
+	return apply_filters('eventorganiser_get_the_end', eo_format_datetime( $end, $format ), $end, $format, $post_id, $occurrence_id );
 }
 
 /**
@@ -307,7 +310,8 @@ function eo_get_next_occurrence($format='d-m-Y',$post_id=0){
 	if( !$next_occurrence )
 		return false;
 
-	return eo_format_datetime($next_occurrence['start'],$format);
+	$next = $next_occurrence['start'];
+	return apply_filters('eventorganiser_get_next_occurrence', eo_format_datetime( $next, $format ), $next, $format, $post_id );
 }
 
 /**
@@ -441,7 +445,8 @@ function eo_is_all_day($post_id=0){
 function eo_get_schedule_start($format='d-m-Y',$post_id=0){
 	$post_id = (int) ( empty($post_id) ? get_the_ID() : $post_id);
 	$schedule = eo_get_event_schedule($post_id);
-	return eo_format_datetime($schedule['schedule_start'],$format);
+	$schedule_start = $schedule['schedule_start'];
+	return apply_filters('eventorganiser_get_schedule_start', eo_format_datetime( $schedule_start, $format ), $schedule_start, $format, $post_id );
 }
 
 /**
@@ -470,7 +475,8 @@ function eo_schedule_start($format='d-m-Y',$post_id=0){
 function eo_get_schedule_last($format='d-m-Y',$post_id=0){
 	$post_id = (int) ( empty($post_id) ? get_the_ID() : $post_id);
 	$schedule = eo_get_event_schedule($post_id);
-	return eo_format_datetime($schedule['schedule_last'],$format);
+	$schedule_last = $schedule['schedule_last'];
+	return apply_filters('eventorganiser_get_schedule_last', eo_format_datetime( $schedule_last, $format ), $schedule_last, $format, $post_id );
 }
 
 /**
@@ -660,7 +666,7 @@ function eo_get_the_future_occurrences_of( $post_id=0 ){
 		);
 	endforeach;
 	
-	return $occurrences;
+	return apply_filters( 'eventorganiser_get_the_future_occurrences_of', $occurrences, $post_id );
 }
 /** 
 * Returns an array of occurrences. Each occurrence is an array with 'start' and 'end' key. 
@@ -679,7 +685,14 @@ function eo_get_the_occurrences_of($post_id=0){
 	if(empty($post_id)) 
 		return false;
 
-	$occurrences = wp_cache_get( 'eventorganiser_occurrences_'.$post_id );
+	 //Can't cache datetime objects before 5.3
+	 //@see{http://wordpress.org/support/topic/warning-datetimeformat-functiondatetime-format?replies=7#post-3940247}
+	if( version_compare(PHP_VERSION, '5.3.0') >= 0 ){
+		$occurrences = wp_cache_get( 'eventorganiser_occurrences_'.$post_id );
+	}else{
+		$occurrences = false;
+	}
+
 	if( !$occurrences ){
 
 		$results = $wpdb->get_results($wpdb->prepare("
@@ -699,7 +712,7 @@ function eo_get_the_occurrences_of($post_id=0){
 		wp_cache_set( 'eventorganiser_occurrences_'.$post_id, $occurrences );
 	}
 
-	return $occurrences;
+	return apply_filters( 'eventorganiser_get_the_occurrences_of', $occurrences, $post_id );
 }
 
 /**
@@ -798,13 +811,36 @@ function eo_get_event_classes($post_id=0, $occurrence_id=0){
 
 
 /**
-* Checks if an event taxonomy archive page is being displayed. A simple wrapper for `is_tax()`.
+* Checks if the query is for an event taxonomy.
+*  
+* When no $query is passed, acts as a simple wrapper for `is_tax()`.
+* More generally acts as a wrapper for `$query->is_tax()`.
+* 
 * @since 1.6
 *
-* @return bool True if an event category, tag or venue archive page is being displayed. False otherwise.
+* @param $query - The query to check. If not passed, uses the global $wp_query;
+* @return bool True if query is for any event taxonomy (e.g. 'event-venue', 'event-category', 'event-tag').
  */
-function eo_is_event_taxonomy(){
-	return (is_tax(array('event-category','event-tag','event-venue')));
+function eo_is_event_taxonomy( $query = false ){
+	$event_tax = get_object_taxonomies( 'event' );
+	
+	//Handle post tags
+	if( in_array( 'post_tag', $event_tax ) ){
+		if( ( !$query && is_tag() ) || $query->is_tag() )
+			return true;
+	}
+	
+	//Handle categories
+	if( in_array( 'category', $event_tax ) ){
+		if( ( !$query && is_category() ) || $query->is_category() )
+			return true;
+	}
+	
+	if( !$query ){
+		return is_tax( $event_tax );
+	}else{
+		return $query->is_tax( $event_tax );
+	}
 }
 
 /**
@@ -969,6 +1005,9 @@ function eo_event_category_dropdown( $args = '' ) {
  * * **columnformatmonth** (string) Dateformat for month columns. Default 'D'.
  * * **columnformatweek** (string) Dateformat for month columns. Default 'D n/j'.
  * * **columnformatday** (string) Dateformat for month columns. Default 'l n/j',
+ * * **year** The year the calendar should start on (e.g. 2013)
+ * * **month** The month the calendar should start on (1=Jan, 12=Dec)
+ * * **date** The calendar the date should start on
  *
  * @link http://arshaw.com/fullcalendar/ The fullCalendar (jQuery plug-in)
  * @link https://github.com/stephenharris/fullcalendar Event Organiser version of fullCalendar
@@ -980,23 +1019,34 @@ function eo_get_event_fullcalendar( $args ){
 
 	$defaults = array(
 		'headerleft'=>'title', 'headercenter'=>'', 'headerright'=>'prev next today', 'defaultview'=>'month',
-		'event_category'=>'', 'event_venue'=>'', 'timeformat'=>'G:i', 'axisformat'=>get_option('time_format'), 'key'=>false,
+		'event_category'=>'', 'event_venue'=>'', 'timeformat'=>get_option('time_format'), 'axisformat'=>get_option('time_format'), 'key'=>false,
 		'tooltip'=>true, 'weekends'=>true, 'mintime'=>'0', 'maxtime'=>'24', 'alldayslot'=>true,
 		'alldaytext'=>__('All Day','eventorganiser'), 'columnformatmonth'=>'D', 'columnformatweek'=>'D n/j', 'columnformatday'=>'l n/j',
+		'titleformatmonth' => 'F Y', 'titleformatweek' => "M j[ Y]{ '&#8212;'[ M] j Y}", 'titleformatday' => 'l, M j, Y',
+		'year' => false, 'month' => false, 'date' => false,	'users_events' => false, 'event_occurrence__in' =>array(),	
 	);
-	$args = shortcode_atts( $defaults, $args );
+	
+	$args = shortcode_atts( $defaults, $args, 'eo_fullcalendar' );
+	
 	$key = $args['key'];
 	unset($args['key']);
 	
 	//Convert php time format into xDate time format
-	$date_attributes = array( 'timeformat', 'axisformat', 'columnformatday', 'columnformatweek', 'columnformatmonth' );
+	$date_attributes = array( 'timeformat', 'axisformat', 'columnformatday', 'columnformatweek', 'columnformatmonth',
+	'titleformatmonth', 'titleformatday', 'titleformatweek' );
 	$args['timeformatphp'] = $args['timeformat'];
 	foreach ( $date_attributes as $date_attribute ){
+		$args[$date_attribute] = str_replace( '((', '[', $args[$date_attribute] );
+		$args[$date_attribute] = str_replace( '))', ']', $args[$date_attribute] );
 		$args[$date_attribute.'php'] = $args[$date_attribute];
 		$args[$date_attribute] = eventorganiser_php2xdate( $args[$date_attribute] );
 	}
+	
+	//Month expects 0-11, we ask for 1-12.
+	$args['month'] = ( $args['month'] ? $args['month'] - 1 : false );
 
 	EventOrganiser_Shortcodes::$calendars[] = array_merge( $args );
+	
 	EventOrganiser_Shortcodes::$add_script = true;
 	$id = count( EventOrganiser_Shortcodes::$calendars );
 
@@ -1029,7 +1079,7 @@ function eo_get_event_meta_list( $post_id=0 ){
 	if( empty($post_id) ) 
 		return false;
 
-	$html = '<ul id="eo-event-meta" style="margin:10px 0px;">';
+	$html = '<ul class="eo-event-meta" style="margin:10px 0px;">';
 
 	if( $venue_id = eo_get_venue($post_id) ){
 		$html .= sprintf('<li><strong>%s:</strong> <a href="%s">
@@ -1111,4 +1161,100 @@ function eo_get_event_archive_link( $year=false,$month=false, $day=false){
 	return $archive;
 }
 
+
+function eo_break_occurrence( $post_id, $event_id ){
+
+	global $post;
+	$post = get_post( $post_id );
+	setup_postdata( $post_id );
+
+	do_action( 'eventorganiser_pre_break_occurrence', $post_id, $event_id );
+	
+	$tax_input = array();
+	foreach ( array( 'event-category', 'event-tag', 'event-venue' ) as $tax ):
+		$terms = get_the_terms( $post->ID, $tax );
+		if ( $terms &&  !is_wp_error( $terms ) ){
+			$tax_input[$tax] = array_map( 'intval', wp_list_pluck( $terms, 'term_id' ) );
+		}
+	endforeach;
+
+	//Post details
+	$post_array = array(
+		'post_title' => $post->post_title, 'post_name' => $post->post_name, 'post_author' => $post->post_author,
+		'post_content' => $post->post_content, 'post_status' => $post->post_status, 'post_date' => $post->post_date,
+		'post_date_gmt' => $post->post_date_gmt, 'post_excerpt' => $post->post_excerpt, 'post_password' => $post->post_password,
+		'post_type' => 'event', 'tax_input' => $tax_input, 'comment_status' => $post->comment_status, 'ping_status' => $post->ping_status,
+	);  
+
+	//Event details
+	$event_array = array(
+		'start' => eo_get_the_start( DATETIMEOBJ, $post_id, null, $event_id ),
+		'end' => eo_get_the_end(DATETIMEOBJ, $post_id, null, $event_id ),
+		'all_day' => ( eo_is_all_day( $post_id )  ? 1 : 0 ),
+		'schedule' => 'once',
+		'frequency' => 1,
+	);
+
+	//Create new event with duplicated details (new event clears cache)
+	$new_event_id = eo_insert_event( $post_array, $event_array );
+
+	//delete occurrence, and copy post meta
+	if ( $new_event_id && !is_wp_error( $new_event_id ) ){
+		$response = _eventorganiser_remove_occurrence( $post_id, $event_id );
+
+		$post_custom = get_post_custom( $post_id );
+		foreach ( $post_custom as $meta_key => $meta_values ) {
+
+			//Don't copy these
+			$ignore_meta = array( '_eo_tickets', '_edit_last', '_edit_last', '_edit_lock' ) ;
+			$ignore_meta = apply_filters( 'eventorganiser_breaking_occurrence_exclude_meta', $ignore_meta );
+			if( in_array( $meta_key, $ignore_meta ) )
+				continue;
+		
+			//Don't copy event meta
+			if( 0 == strncmp( $meta_key,  '_eventorganiser', 15 ) )
+				continue;
+
+			foreach ( $meta_values as $meta_value ) {
+				//get_post_meta() without a key doesn't unserialize: 
+				// @see{https://github.com/WordPress/WordPress/blob/3.5.1/wp-includes/meta.php#L289}
+				$meta_value = maybe_unserialize( $meta_value );
+				add_post_meta( $new_event_id, $meta_key, $meta_value );
+			}
+		}
+	}
+	_eventorganiser_delete_calendar_cache();
+
+	do_action( 'eventorganiser_occurrence_broken', $post_id, $event_id, $new_event_id );
+
+	wp_reset_postdata();
+	return $new_event_id;
+}
+
+/**
+ * Returns a UID for an event
+ * 
+ * If the UID is not found it generates one based on event (post) ID, a timestamp, blog ID and server address.
+ * 
+ * @since 2.1
+ * @param int $post_id The event (post) ID. If ommitted 'current event' is used
+ * @return string The UID, or false if error.
+ */
+function eo_get_event_uid( $post_id = 0 ){
+	
+	$post_id = (int) ( empty( $post_id ) ? get_the_ID() : $post_id );
+	
+	if( empty( $post_id ) )
+		return false;
+	
+	$uid = get_post_meta( get_the_ID(), '_eventorganiser_uid', true );
+	
+	if( empty( $uid ) ){
+		$now = new DateTime();
+		$uid = implode( '-', array( $now->format('Ymd\THi\Z'), microtime(true), 'EO', get_the_ID(), get_current_blog_id() ) ).'@'.$_SERVER['SERVER_ADDR'];
+		add_post_meta( get_the_ID(), '_eventorganiser_uid', $uid );
+	}
+	
+	return $uid;
+}
 ?>

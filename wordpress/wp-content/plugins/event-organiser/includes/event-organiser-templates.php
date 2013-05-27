@@ -99,17 +99,17 @@ function eo_is_event_archive( $type = false ){
 
 	switch( $type ){
 		case 'year':
-			if( _eventorganiser_check_datetime($ondate.'-01-01 00:00',true) )
+			if( _eventorganiser_check_datetime( $ondate.'-01-01 00:00', 'Y-m-d' ) )
 				return true;
 			return false;
 
 		case 'month':
-			if( _eventorganiser_check_datetime($ondate.'-01 00:00',true) )
+			if( _eventorganiser_check_datetime( $ondate.'-01 00:00', 'Y-m-d' ) )
 				return true;
 			return false;
 
 		case 'day':
-			if( _eventorganiser_check_datetime($ondate.' 00:00',true) )
+			if( _eventorganiser_check_datetime( $ondate.' 00:00', 'Y-m-d') )
 				return true;
 			return false;
 
@@ -148,7 +148,7 @@ function eo_get_event_archive_date( $format = DATETIMEOBJ ){
 		$ondate .= '-01';
 	}
 		
-	$ondate =  _eventorganiser_check_datetime($ondate.' 00:00',true);
+	$ondate =  _eventorganiser_check_datetime( $ondate.' 00:00', 'Y-m-d' );
 	return eo_format_datetime($ondate, $format);
 }
 
@@ -248,6 +248,13 @@ function _eventorganiser_single_event_content( $content ){
 	if( !is_singular('event') )
 		return $content;
 
+	global $eo_event_parsed;
+	if( !empty( $eo_event_parsed[get_the_ID()] ) ){
+		return $content;
+	}else{
+		$eo_event_parsed[get_the_ID()] = 1;
+	}
+	
 	//Object buffering				
 	ob_start();
 	eo_get_template_part('event-meta','event-single');

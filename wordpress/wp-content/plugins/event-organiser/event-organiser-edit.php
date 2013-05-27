@@ -39,13 +39,17 @@ function _eventorganiser_details_metabox( $post ){
 	global $wp_locale;	
 
 	//Sets the format as php understands it, and textual.
-	if ( eventorganiser_get_option( 'dateformat' ) == 'dd-mm' ){
-		$phpFormat = 'd-m-Y';
+	$phpFormat = eventorganiser_get_option( 'dateformat' );
+	if ( 'd-m-Y' == $phpFormat ){
 		$format    = 'dd-mm-yyyy'; //Human form
-	} else {
-		$phpFormat = 'm-d-Y';
+	} elseif( 'Y-m-d' == $phpFormat ) {
+		$format = 'yyyy-mm-dd'; //Human form
+	}else{
 		$format = 'mm-dd-yyyy'; //Human form
 	}
+	
+	$is24 = eventorganiser_blog_is_24();
+	$time_format = $is24 ? 'H:i' : 'g:ia';
 
 	//Get the starting day of the week
 	$start_day = intval( get_option( 'start_of_week' ) );
@@ -56,7 +60,11 @@ function _eventorganiser_details_metabox( $post ){
 	$venues = eo_get_venues();
 	$venue_id = (int) eo_get_venue( $post->ID );
 
-	$sche_once = $schedule == 'once';
+	
+	//$sche_once is used to disable date editing unless the user specifically requests it.
+	//But a new event might be recurring (via filter), and we don't want to 'lock' new events.
+	//See http://wordpress.org/support/topic/wrong-default-in-input-element
+	$sche_once = ( $schedule == 'once' || !empty(get_current_screen()->action) );
 	 
 	if ( !$sche_once ){
 		$notices = '<strong>'. __( 'This is a reoccurring event', 'eventorganiser' ).'</strong>. '
@@ -79,8 +87,11 @@ function _eventorganiser_details_metabox( $post ){
 					<td class="eo-label"><?php echo __( 'Start Date/Time', 'eventorganiser' ).':'; ?> </td>
 					<td> 
 						<input class="ui-widget-content ui-corner-all" name="eo_input[StartDate]" size="10" maxlength="10" id="from_date" <?php disabled( !$sche_once );?> value="<?php echo $start->format( $phpFormat ); ?>"/>
-
-						<input name="eo_input[StartTime]" class="eo_time ui-widget-content ui-corner-all" size="4" maxlength="5" id="HWSEvent_time" <?php disabled( (!$sche_once) || $all_day );?> value="<?php echo $start->format( 'H:i' );?>"/>
+						<?php printf(
+								'<input name="eo_input[StartTime]" class="eo_time ui-widget-content ui-corner-all" size="4" maxlength="5" id="HWSEvent_time" %s value="%s"/>',
+								disabled( (!$sche_once) || $all_day, true, false ),
+								eo_format_datetime( $start, $time_format )
+						);?>						
 
 					</td>
 				</tr>
@@ -88,8 +99,13 @@ function _eventorganiser_details_metabox( $post ){
 				<tr valign="top"  class="event-date">
 					<td class="eo-label"><?php echo __( 'End Date/Time', 'eventorganiser' ).':';?> </td>
 					<td> 
-					<input class="ui-widget-content ui-corner-all" name="eo_input[EndDate]" size="10" maxlength="10" id="to_date" <?php disabled( !$sche_once );?>  value="<?php echo $end->format( $phpFormat ); ?>"/>
-					<input name="eo_input[FinishTime]" class="eo_time ui-widget-content ui-corner-all " size="4" maxlength="5" id="HWSEvent_time2" <?php disabled( (!$sche_once) || $all_day );?> value="<?php echo $end->format( 'H:i' ); ?>"/>
+						<input class="ui-widget-content ui-corner-all" name="eo_input[EndDate]" size="10" maxlength="10" id="to_date" <?php disabled( !$sche_once );?>  value="<?php echo $end->format( $phpFormat ); ?>"/>
+					
+						<?php printf(
+								'<input name="eo_input[FinishTime]" class="eo_time ui-widget-content ui-corner-all" size="4" maxlength="5" id="HWSEvent_time2" %s value="%s"/>',
+								disabled( (!$sche_once) || $all_day, true, false ),
+								eo_format_datetime( $end, $time_format )
+						);?>	
 
 					<label>
 					<input type="checkbox" id="eo_allday"  <?php checked( $all_day ); ?> name="eo_input[allday]"  <?php  disabled( !$sche_once );?> value="1"/>
@@ -294,6 +310,11 @@ function eventorganiser_details_save( $post_id ) {
 	if ( $all_day ){
 		$raw_data['StartTime'] = '00:00';
 		$raw_data['FinishTime'] = '23:59';
+	}elseif( !eventorganiser_blog_is_24() ){
+		//Potentially need to parse 24
+		//TODO incorproate into _eventorganiser_check_datetime
+		$raw_data['StartTime'] = date( "H:i", strtotime( $raw_data['StartTime'] ) );
+		$raw_data['FinishTime'] = date( "H:i", strtotime( $raw_data['FinishTime'] ) );
 	}
 
 	//Check dates
@@ -321,7 +342,7 @@ function eventorganiser_details_save( $post_id ) {
 		$arr = explode( ',', sanitize_text_field( $raw_data[$key] ) ); 
 		if ( !empty( $arr ) ){
 			foreach ( $arr as $date ):
-				$date_obj = _eventorganiser_check_datetime( $date . ' ' . $raw_data['StartTime'], true );
+				$date_obj = _eventorganiser_check_datetime( $date . ' ' . $raw_data['StartTime'], 'Y-m-d' );
 				if( $date_obj )
 					$in_ex[$key][] = $date_obj;
 			endforeach;
@@ -372,7 +393,7 @@ function _eventorganiser_event_edit_admin_notice(){
 
 	foreach ( $notice as $pid => $messages ){
 		if ( $post->ID == $pid ){
-			printf( '<div id="message" class="error"> <p> %s </p> </div>', implode( ' </p> <p> ', $m ) );
+			printf( '<div id="message" class="error"> <p> %s </p> </div>', implode( ' </p> <p> ', $messages ) );
 
 			//make sure to remove notice after its displayed so its only displayed when needed.
 			unset( $notice[0] );

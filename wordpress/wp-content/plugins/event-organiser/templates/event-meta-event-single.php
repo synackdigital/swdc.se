@@ -29,7 +29,7 @@
 	<?php if( eo_is_all_day() ){
 		$date_format = 'j F Y'; 
 	}else{
-		$date_format = 'j F Y g:ia'; 
+		$date_format = 'j F Y ' . get_option('time_format'); 
 	} ?>
 	<hr>
 
@@ -51,7 +51,7 @@
 			<?php endif; ?>
 		<?php endif; ?>
 
-	<ul id="eo-event-meta" style="float:left;width:40%">
+	<ul class="eo-event-meta" style="float:left;width:40%">
 
 		<?php if( !eo_reoccurs() ){ ?>
 				<!-- Single event -->
