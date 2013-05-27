@@ -186,8 +186,12 @@ img {
     }
 }
 
-// Images in posts and events are scaled
+// Clear floated elements inside entry-content
+.entry-content {
+    .clearfix();
+}
 
+// Images in posts and events are scaled
 .entry-content img {
     display: block;
     max-width: 100%;
