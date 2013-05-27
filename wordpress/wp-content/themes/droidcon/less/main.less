@@ -42,16 +42,20 @@ a {
         color: @magenta;
         text-decoration: underline;
     }
+}
 
-    &.home-link {
-        .box(@red);
-        display: inline-block;
-        font-size: 80%;
+/*
+ * Animate home link
+ */
+.home-link {
+    .box(@red);
+    .animate-button-pulse();
 
-        &:hover,
-        &:focus {
-            .box-color(@magenta);
-        }
+    display: inline-block;
+
+    &:hover,
+    &:focus {
+        .box-color(@orange);
     }
 }
 
