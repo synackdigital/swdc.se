@@ -19,7 +19,6 @@ get_header(); ?>
           <h1 class="entry-title"><?php
             if(is_front_page()):
               bloginfo( 'name' );
-              echo '<i class="cursor">&nbsp;</i>';
             else:
               the_title();
             endif;
