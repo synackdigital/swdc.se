@@ -36,7 +36,6 @@ get_header(); ?>
       if(is_front_page()):
       ?>
       <aside class="events future-events">
-        <h1>Upcoming events</h1>
         <?php
           echo do_shortcode('[eo_events event_start_after="today" showpastevents=false]');
         ?>
@@ -48,7 +47,6 @@ get_header(); ?>
       if(is_front_page()):
       ?>
       <aside class="events past-events">
-        <h1>Past events</h1>
         <?php
           echo do_shortcode('[eo_events event_end_before="today" showpastevents=true orderby="eventstart" order="DESC"]');
         ?>
