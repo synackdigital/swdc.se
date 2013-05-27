@@ -26,7 +26,7 @@ html {
 body {
     background-color: @base03;
     font-size: @fontSizeMedium;
-    line-height: 1.35;
+    line-height: 1.5;
 }
 
 a {
@@ -117,14 +117,14 @@ img {
 
 // Typographic trickery
 strong {
-    .box-color(@blue);
-    font-size: 80%;
+    .box-color(@cyan);
+    font-size: 90%;
     padding: .25em;
     white-space: nowrap;
 }
 em {
-    .box-color(@yellow);
-    font-size: 80%;
+    .box-color(@orange);
+    font-size: 90%;
     border: none;
     padding: .25em;
 }
@@ -132,6 +132,16 @@ blockquote {
     border-left: 3px solid @yellow;
     margin-left: 20px;
     padding-left: 20px;
+}
+.google-link {
+    .box-color(@yellow);
+    padding: .25em;
+    white-space: nowrap;
+}
+.facebook-link {
+    .box-color(@blue);
+    padding: .25em;
+    white-space: nowrap;
 }
 
 // Box variations
