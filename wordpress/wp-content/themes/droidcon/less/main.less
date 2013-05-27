@@ -33,14 +33,11 @@ a {
     color: @red;
     text-decoration: none;
 
-    &:visited {
-        color: @violet;
-    }
-
     &:hover,
     &:focus {
-        color: @magenta;
+        color: @orange;
         text-decoration: underline;
+        .transition(~"color 90ms linear");
     }
 }
 
@@ -48,14 +45,14 @@ a {
  * Animate home link
  */
 .home-link {
-    .box(@red);
+    .box(@green, @base03);
     .animate-button-pulse();
 
     display: inline-block;
 
     &:hover,
     &:focus {
-        .box-color(@orange);
+        .box-color(@yellow, @base03);
     }
 }
 
@@ -99,7 +96,7 @@ body {
 
 // Background pattern
 body {
-    background-image: url('img/twinkle_twinkle.png');
+    background-image: url('img/office.png');
 }
 
 // Text glow everywhere
@@ -112,52 +109,24 @@ h1, h2, h3, h4 { color: @cyan; }
 h1 { font-size: @fontSizeXLarge; }
 h2 { font-size: @fontSizeLarge; }
 h3, h4 { font-size: @fontSizeMedium; }
-aside h1, aside h2, aside h3, aside h4 { color: @green; font-size: @fontSizeMedium; }
+aside h1, aside h2, aside h3, aside h4 { font-size: @fontSizeMedium; }
 
 // Rounded corners on all images
 img {
     .border-radius(@baseBorderRadius);
 }
 
-// Typographic trickery
-strong {
-    .box-color(@cyan);
-    font-size: 90%;
-    padding: .25em;
-    white-space: nowrap;
-}
-em {
-    .box-color(@orange);
-    font-size: 90%;
-    border: none;
-    padding: .25em;
-}
-blockquote {
-    border-left: 3px solid @yellow;
-    margin-left: 20px;
-    padding-left: 20px;
-}
-.google-link {
-    .box-color(@yellow);
-    padding: .25em;
-    white-space: nowrap;
-}
-.facebook-link {
-    .box-color(@blue);
-    padding: .25em;
-    white-space: nowrap;
-}
-
 // Box variations
 .box {
   .box();
-  &.yellow { .box-color(@yellow) }
-  &.orange { .box-color(@orange) }
-  &.red { .box-color(@red) }
-  &.magenta { .box-color(@magenta) }
-  &.violet { .box-color(@violet) }
-  &.blue { .box-color(@blue) }
-  &.cyan { .box-color(@cyan) }
+  background-image: url('img/twinkle_twinkle.png');
+  // &.yellow { .box-color(@yellow) }
+  // &.orange { .box-color(@orange) }
+  // &.red { .box-color(@red) }
+  // &.magenta { .box-color(@magenta) }
+  // &.violet { .box-color(@violet) }
+  // &.blue { .box-color(@blue) }
+  // &.cyan { .box-color(@cyan) }
 }
 
 // Event organizer - event list
@@ -165,28 +134,28 @@ blockquote {
     .unstyled-list();
 
     // Rainbow scale
-    .eo-event {
-        &:nth-child(8n+1) { .box-color(@yellow); }
-        &:nth-child(8n+2) { .box-color(@orange); }
-        &:nth-child(8n+3) { .box-color(@red); }
-        &:nth-child(8n+4) { .box-color(@magenta); }
-        &:nth-child(8n+5) { .box-color(@violet); }
-        &:nth-child(8n+6) { .box-color(@blue); }
-        &:nth-child(8n+7) { .box-color(@cyan); }
-        &:nth-child(8n+8) { .box-color(@green); }
-    }
+    // .eo-event {
+    //     &:nth-child(8n+1) { .box-color(@yellow); }
+    //     &:nth-child(8n+2) { .box-color(@orange); }
+    //     &:nth-child(8n+3) { .box-color(@red); }
+    //     &:nth-child(8n+4) { .box-color(@magenta); }
+    //     &:nth-child(8n+5) { .box-color(@violet); }
+    //     &:nth-child(8n+6) { .box-color(@blue); }
+    //     &:nth-child(8n+7) { .box-color(@cyan); }
+    //     &:nth-child(8n+8) { .box-color(@green); }
+    // }
 
     // Inverted rainbow scale for lists of past events
-    .past-events & .eo-event {
-        &:nth-child(8n+5) { .box-color(@yellow); }
-        &:nth-child(8n+6) { .box-color(@orange); }
-        &:nth-child(8n+7) { .box-color(@red); }
-        &:nth-child(8n+8) { .box-color(@magenta); }
-        &:nth-child(8n+1) { .box-color(@violet); }
-        &:nth-child(8n+2) { .box-color(@blue); }
-        &:nth-child(8n+3) { .box-color(@cyan); }
-        &:nth-child(8n+4) { .box-color(@green); }
-    }
+    // .past-events & .eo-event {
+    //     &:nth-child(8n+5) { .box-color(@yellow); }
+    //     &:nth-child(8n+6) { .box-color(@orange); }
+    //     &:nth-child(8n+7) { .box-color(@red); }
+    //     &:nth-child(8n+8) { .box-color(@magenta); }
+    //     &:nth-child(8n+1) { .box-color(@violet); }
+    //     &:nth-child(8n+2) { .box-color(@blue); }
+    //     &:nth-child(8n+3) { .box-color(@cyan); }
+    //     &:nth-child(8n+4) { .box-color(@green); }
+    // }
 }
 
 // Event organizer - single event
@@ -240,7 +209,7 @@ dl.horizontal {
     .clearfix(); // Ensure dl clears floats if empty dd elements present
 
     dt {
-        color: @orange;
+        color: @green;
 
         clear: left;
         float: left;
