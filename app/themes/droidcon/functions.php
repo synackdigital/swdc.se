@@ -4,9 +4,6 @@
  * @subpackage devnull
  */
 
-define('DISALLOW_FILE_EDIT',true); // Disable theme and plugin editor
-define('DISALLOW_FILE_MODS',true); // Disable core and plugin updates
-
 /* Basic theme setup */
 function devnull_setup() {
   add_theme_support( 'post-thumbnails' ); // Add post thumbnail support

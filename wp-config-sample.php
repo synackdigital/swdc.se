@@ -97,6 +97,10 @@ define('BLOG_ID_CURRENT_SITE', 1);
  */
 define('DISALLOW_FILE_MODS', true);
 
+/**
+ * Disallow editing of plugins and themes in Admin
+ */
+define('DISALLOW_FILE_EDIT',true);
 
 /**
  * Wordpress URLs
