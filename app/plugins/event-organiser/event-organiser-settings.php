@@ -3,6 +3,9 @@
 if ( !class_exists( 'EventOrganiser_Admin_Page' ) ){
     require_once(EVENT_ORGANISER_DIR.'classes/class-eventorganiser-admin-page.php' );
 }
+/**
+ * @ignore
+ */
 class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 
 	static $eventorganiser_roles;
@@ -26,6 +29,17 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 		$this->menu = __( 'Event Organiser', 'eventorganiser' );
 		$this->permissions = 'manage_options';
 		$this->slug = 'event-settings';
+		
+		self::$eventorganiser_roles = array(
+				'edit_events' => __( 'Edit Events', 'eventorganiser' ),
+				'publish_events' => __( 'Publish Events', 'eventorganiser' ),
+				'delete_events' => __( 'Delete Events', 'eventorganiser' ),
+				'edit_others_events' => __( 'Edit Others\' Events', 'eventorganiser' ),
+				'delete_others_events' => __( 'Delete Other\'s Events', 'eventorganiser' ),
+				'read_private_events' => __( 'Read Private Events', 'eventorganiser' ),
+				'manage_venues' => __( 'Manage Venues', 'eventorganiser' ),
+				'manage_event_categories' => __( 'Manage Event Categories & Tags', 'eventorganiser' ),
+		);
 	}
 
 	function admin_init_actions(){
@@ -68,17 +82,10 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 			//Add sections to each tabbed page
 			$this->add_fields( $tab_id );
 		}
-
-		self::$eventorganiser_roles = array(
-			 'edit_events' => __( 'Edit Events', 'eventorganiser' ),
-			 'publish_events' => __( 'Publish Events', 'eventorganiser' ),
-			 'delete_events' => __( 'Delete Events', 'eventorganiser' ),
-			'edit_others_events' => __( 'Edit Others\' Events', 'eventorganiser' ),
-			 'delete_others_events' => __( 'Delete Other\'s Events', 'eventorganiser' ),
-			'read_private_events' => __( 'Read Private Events', 'eventorganiser' ),
-			 'manage_venues' => __( 'Manage Venues', 'eventorganiser' ),
-			 'manage_event_categories' => __( 'Manage Event Categories & Tags', 'eventorganiser' ),
-		);
+		
+		if( !empty( $_GET['export-settings'] ) && $_GET['export-settings'] == 1 && current_user_can( 'manage_options' ) ){
+			$this->export_settings();
+		}
 	}
 
 
@@ -100,7 +107,7 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 						'label_for' => 'supports',
 						'checked' => eventorganiser_get_option( 'supports' ),
 						'options' => array(
-							'author' => __( 'Organiser', 'eventorganiser' ).' ( '.__( 'Author' ).' )',
+							'author' => __( 'Organiser', 'eventorganiser' ).' ( '.__( 'Author', 'eventorganiser' ).' )',
 							'thumbnail' => __( 'Thumbnail' ),
 							'excerpt' => __( 'Excerpt' ),
 							'custom-fields' => __( 'Custom Fields' ),
@@ -555,6 +562,21 @@ class EventOrganiser_Settings_Page extends EventOrganiser_Admin_Page{
 		);
 	}
 	
+	function export_settings(){
+		
+		$options = array();
+		$options['event-organiser'] = eventorganiser_get_option( false );
+		
+		$options = apply_filters( 'eventorganiser_export_settings', $options );
+		
+		$filename = 'event-organiser-settings-'.get_bloginfo( 'name' ).'.json'; 
+		$filename = sanitize_file_name( $filename );
+		
+		header('Content-disposition: attachment; filename=' . $filename );
+		header('Content-type: application/json');
+		echo json_encode( $options );
+		exit();
+	}
 
 	function menu_option(){
 

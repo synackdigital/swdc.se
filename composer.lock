@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ca234f75aeb412c641ecf9f3af12183a",
+    "hash": "fc1932bd21b6e3c7c4c34d23e2a8a56c",
     "packages": [
         {
             "name": "composer/installers",
@@ -135,11 +135,41 @@
             "type": "webroot"
         },
         {
-            "name": "wpackagist/logged-in",
-            "version": "trunk",
+            "name": "wpackagist/event-organiser",
+            "version": "2.2.2",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/logged-in.zip",
+                "url": "http://downloads.wordpress.org/plugin/event-organiser.2.2.2.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/event-organiser"
+        },
+        {
+            "name": "wpackagist/google-analyticator",
+            "version": "6.4.4.3",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/google-analyticator.6.4.4.3.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/google-analyticator"
+        },
+        {
+            "name": "wpackagist/logged-in",
+            "version": "1.0.4",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/logged-in.1.0.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -148,6 +178,21 @@
             },
             "type": "wordpress-plugin",
             "homepage": "http://wordpress.org/extend/plugins/logged-in"
+        },
+        {
+            "name": "wpackagist/wordpress-mu-domain-mapping",
+            "version": "0.5.4.3",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/wordpress-mu-domain-mapping.0.5.4.3.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping"
         }
     ],
     "packages-dev": [

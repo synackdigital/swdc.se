@@ -24,8 +24,13 @@ add_action( 'admin_init', 'eventorganiser_edit_init' );
  * @ignore
  */
 function _eventorganiser_author_meta_box_title() {
-    remove_meta_box( 'authordiv', 'event', 'core' );
-    add_meta_box( 'authordiv',  __( 'Organiser', 'eventorganiser' ), 'post_author_meta_box', 'event', 'core', 'high' );
+    $post_type_object = get_post_type_object( 'event' );
+    if ( post_type_supports('event', 'author') ) {
+        if ( is_super_admin() || current_user_can( $post_type_object->cap->edit_others_posts ) ){
+            remove_meta_box( 'authordiv', 'event', 'core' );
+            add_meta_box( 'authordiv',  __( 'Organiser', 'eventorganiser' ), 'post_author_meta_box', 'event', 'normal', 'core' );
+        }
+    }   
 }
 add_action( 'add_meta_boxes_event',  '_eventorganiser_author_meta_box_title' );
 
@@ -88,7 +93,7 @@ function _eventorganiser_details_metabox( $post ){
 					<td> 
 						<input class="ui-widget-content ui-corner-all" name="eo_input[StartDate]" size="10" maxlength="10" id="from_date" <?php disabled( !$sche_once );?> value="<?php echo $start->format( $phpFormat ); ?>"/>
 						<?php printf(
-								'<input name="eo_input[StartTime]" class="eo_time ui-widget-content ui-corner-all" size="4" maxlength="5" id="HWSEvent_time" %s value="%s"/>',
+								'<input name="eo_input[StartTime]" class="eo_time ui-widget-content ui-corner-all" size="6" maxlength="8" id="HWSEvent_time" %s value="%s"/>',
 								disabled( (!$sche_once) || $all_day, true, false ),
 								eo_format_datetime( $start, $time_format )
 						);?>						
@@ -102,7 +107,7 @@ function _eventorganiser_details_metabox( $post ){
 						<input class="ui-widget-content ui-corner-all" name="eo_input[EndDate]" size="10" maxlength="10" id="to_date" <?php disabled( !$sche_once );?>  value="<?php echo $end->format( $phpFormat ); ?>"/>
 					
 						<?php printf(
-								'<input name="eo_input[FinishTime]" class="eo_time ui-widget-content ui-corner-all" size="4" maxlength="5" id="HWSEvent_time2" %s value="%s"/>',
+								'<input name="eo_input[FinishTime]" class="eo_time ui-widget-content ui-corner-all" size="6" maxlength="8" id="HWSEvent_time2" %s value="%s"/>',
 								disabled( (!$sche_once) || $all_day, true, false ),
 								eo_format_datetime( $end, $time_format )
 						);?>	
@@ -175,7 +180,7 @@ function _eventorganiser_details_metabox( $post ){
 						<?php esc_html_e( 'Include/Exclude occurrences', 'eventorganiser' );?>
 					</td>
 					<td>
-						<?php submit_button( __( 'Show dates', 'eventorganiser' ), 'hide-if-no-js eo_occurrence_toogle button small', 'eo_date_toggle', false ); ?>
+						<?php submit_button( __( 'Show dates', 'eventorganiser' ), 'hide-if-no-js eo_occurrence_toggle button small', 'eo_date_toggle', false ); ?>
 						
 						<div id="eo_occurrence_datepicker"></div>
 						<?php 	
@@ -199,7 +204,7 @@ function _eventorganiser_details_metabox( $post ){
 
 					</td>
 				</tr>
-				<tr valign="top"class="eo-venue-combobox-select">
+				<tr valign="top" class="eo-venue-combobox-select">
 					<td class="eo-label"> <?php _e( 'Venue', 'eventorganiser' );?>: </td>
 					<td> 	
 						<select size="50" id="venue_select" name="eo_input[event-venue]">
@@ -212,14 +217,14 @@ function _eventorganiser_details_metabox( $post ){
 				</tr>
 		
 				<!-- Add New Venue --> 
-				<tr valign="top"class="eo-add-new-venue">
+				<tr valign="top" class="eo-add-new-venue">
 					<td class="eo-label"><label><?php _e( 'Venue Name', 'eventorganiser' );?>:</label></td>
 					<td><input type="text" name="eo_venue[name]" id="eo_venue_name"  value=""/></td>
 				</tr>
 			<?php
 				$address_fields = _eventorganiser_get_venue_address_fields();
 				foreach ( $address_fields as $key => $label ){
-					printf( '<tr valign="top"class="eo-add-new-venue">
+					printf( '<tr valign="top" class="eo-add-new-venue">
 								<th><label>%1$s:</label></th>
 								<td><input type="text" name="eo_venue[%2$s]" class="eo_addressInput" id="eo_venue_add"  value=""/></td>
 							</tr>',

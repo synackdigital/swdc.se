@@ -2,7 +2,8 @@
 /**
  * Class used to create the event calendar shortcode
  *
- *@uses EO_Calendar Widget class to generate calendar html
+ * @uses EO_Calendar Widget class to generate calendar html
+ * @ignore
  */
 class EventOrganiser_Shortcodes {
 	static $add_script;
@@ -11,16 +12,16 @@ class EventOrganiser_Shortcodes {
 	static $map = array();
 	static $event;
  
-	function init() {
+	static function init() {
 		add_shortcode('eo_calendar', array(__CLASS__, 'handle_calendar_shortcode'));
-		add_shortcode('eo_fullcalendar', array(__CLASS__, 'handle_fullcalendar_shortcode'));
+		add_shortcode('eo_fullcalendar', array( __CLASS__, 'handle_fullcalendar_shortcode'));
 		add_shortcode('eo_venue_map', array(__CLASS__, 'handle_venuemap_shortcode'));
 		add_shortcode('eo_events', array(__CLASS__, 'handle_eventlist_shortcode'));
 		add_shortcode('eo_subscribe', array(__CLASS__, 'handle_subscription_shortcode'));
 		add_action('wp_footer', array(__CLASS__, 'print_script'));
 	}
  
-	function handle_calendar_shortcode($atts=array()) {
+	static function handle_calendar_shortcode($atts=array()) {
 		global $post;
 
 		/* Shortcodes don't accept hyphens, so convert taxonomy names */
@@ -54,19 +55,32 @@ class EventOrganiser_Shortcodes {
 		return $html;
 	}
 
-	function handle_subscription_shortcode($atts, $content=null) {
+	static function handle_subscription_shortcode($atts, $content=null) {
 		extract( shortcode_atts( array(
 			'title' => 'Subscribe to calendar',
 			'type' => 'google',
-		      'class' => '',
-		      'id' => '',
+			'class' => '',
+			'id' => '',
+			'style' => '',
+			'category' => false,
+			'venue' => false,
 		), $atts ) );
+		
+		if( $category ){
+			$url = eo_get_event_category_feed( $category );
+			
+		}elseif( $venue ){
+			$url = eo_get_event_venue_feed( $venue );
+		
+		}else{
+			$url = eo_get_events_feed();
+		
+		}
 
-		$url = eo_get_events_feed();
-
-		$class = esc_attr($class);
-		$title = esc_attr($title);
-		$id = esc_attr($id);
+		$class = $class ? 'class="'.esc_attr($class).'"' : false;
+		$title = $title ? 'title="'.esc_attr($title).'"' : false;
+		$style = $style ? 'style="'.esc_attr($style).'"' : false;
+		$id = $id ? 'id="'.esc_attr($id).'"' : false;
 		
 		if(strtolower($type)=='webcal'):
 			$url = str_replace( 'http://', 'webcal://',$url);
@@ -76,11 +90,11 @@ class EventOrganiser_Shortcodes {
 			$url = add_query_arg('cid',urlencode($url),'http://www.google.com/calendar/render');
 		endif;
 
-		$html = '<a href="'.$url.'" target="_blank" class="'.$class.'" title="'.$title.'" id="'.$id.'">'.$content.'</a>';
+		$html = '<a href="'.$url.'" target="_blank" '.$class.' '.$title.' '.$id.' '.$style.'>'.$content.'</a>';
 		return $html;
 	}
 
-	function handle_fullcalendar_shortcode($atts=array()) {
+	static function handle_fullcalendar_shortcode($atts=array()) {
 
 		/* Handle Boolean attributes - this will be passed as strings, we want them as boolean */
 		$bool_atts = array(
@@ -104,7 +118,7 @@ class EventOrganiser_Shortcodes {
 		return eo_get_event_fullcalendar( $atts );
 	}
 
-	function handle_venuemap_shortcode($atts) {
+	static function handle_venuemap_shortcode($atts) {
 		global $post;
 
 		if( !empty($atts['event_venue']) )
@@ -142,7 +156,7 @@ class EventOrganiser_Shortcodes {
 
 
 
-	function handle_eventlist_shortcode($atts=array(),$content=null) {
+	static function handle_eventlist_shortcode($atts=array(),$content=null) {
 		$taxs = array('category','tag','venue');
 		foreach ($taxs as $tax){
 			if(isset($atts['event_'.$tax])){
@@ -158,6 +172,10 @@ class EventOrganiser_Shortcodes {
 				unset($atts['venue']);
 				unset($atts['event-venue']);
 			}
+		}
+		
+		if( isset( $atts['users_events'] ) && strtolower( $atts['users_events'] ) == 'true' ){
+			$atts['bookee_id'] = get_current_user_id();
 		}
 
 		$args = array(
@@ -360,7 +378,7 @@ class EventOrganiser_Shortcodes {
 		return $input;
 	}
  
-	function print_script() {
+	static function print_script() {
 		global $wp_locale;
 		if ( ! self::$add_script ) return;
 		$fullcal = (empty(self::$calendars) ? array() : array(
@@ -391,7 +409,10 @@ class EventOrganiser_Shortcodes {
  
 EventOrganiser_Shortcodes::init();
 
-	function eventorganiser_category_key($args=array(),$id=1){
+/**
+ * @ignore
+ */	
+function eventorganiser_category_key($args=array(),$id=1){
 		$args['taxonomy'] ='event-category';
 
 		$html ='<div class="eo-fullcalendar-key" id="eo_fullcalendar_key'.$id.'">';

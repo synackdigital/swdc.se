@@ -4,7 +4,7 @@
  * Parses a local or remote ICAL file
  * 
  * Example usage
- * 
+ * <code>
  *      $ical = new EO_ICAL_Parser();
  *      $ical->parse( 'http://www.dol.govt.nz/er/holidaysandleave/publicholidays/publicholidaydates/ical/auckland.ics' );
  *      
@@ -12,21 +12,27 @@
  *      $ical->venues; //Array of venue names
  *      $ical->categories; //Array of category names
  *      $ical->errors; //Array of WP_Error errors
+ * </code>
  * 
  * You can configire default settings by passing an array to the class constructor.
- * 
+ * <code>
  *      $ical = new EO_ICAL_Parser( array( ..., 'default_status' => 'published', ... ) );
- * 
+ * </code>
  * Available settings include:
  * 
  *  *  **status_map** - How to interpret the ICAL STATUS property.
  *  *  **default_status** - Default status of posts (unless otherwise specified by STATUS). Default is 'draft'
  * 
+ * @link http://www.ietf.org/rfc/rfc2445.txt ICAL Specification 
+ * @link http://www.kanzaki.com/docs/ical/ ICAL Specification excerpts
  * @author stephen
+ * @package ical-functions
  *
  */
 class EO_ICAL_Parser{
 
+	var $remote_timeout = 10;
+	
 	var $events = array();
 	var $venues = array();
 	var $categories = array();
@@ -38,6 +44,12 @@ class EO_ICAL_Parser{
 
 	var $current_event = array();
 
+	/**
+	 * Constructor with settings passed as arguments
+	 * Available options include 'status_map' and 'default_status'.
+	 * 
+	 * @param array $args
+	 */
 	function __construct( $args = array() ){
 
 		$args = array_merge( array(
@@ -57,6 +69,12 @@ class EO_ICAL_Parser{
 	}
 
 
+	/**
+	 * Parses the given $file. Returns WP_Error on error.
+	 * 
+	 * @param string $file Path to iCal file or an url to an ical file
+	 * @return bool|WP_Error. True if parsed. Returns WP_Error on error;
+	 */
 	function parse( $file ){
 		
 		//Local file
@@ -68,11 +86,13 @@ class EO_ICAL_Parser{
 			$this->ical_array = $this->url_to_array( $file );
 
 		}else{
-			$this->ical_array = false;
+			$this->ical_array =  WP_Error( 'invalid-ical-source', 
+				__( 'There was an error detecting ICAL source.', 'eventorgansier' )
+				);
 		}
 
-		if( !$this->ical_array )
-			return false;
+		if( is_wp_error( $this->ical_array ) )
+			return $this->ical_array;
 
 		//Go through array and parse events
 		$result = $this->parse_ical_array();
@@ -80,38 +100,61 @@ class EO_ICAL_Parser{
 		$this->events_parsed = count( $this->events );
 		$this->venue_parsed = count( $this->venues );
 		$this->categories_parsed = count( $this->categories );
-			
-		echo '<pre>';
-		print_r( $this );
-		wp_die('');
+		
+		return true;
 	}
 	
 	/**
 	 * Fetches ICAL calendar from a feed url and returns its contents as an array.
 	 * 
+	 * @ignore
 	 * @param sring $url The url of the ICAL feed 
 	 * @return array|bool Array of line in ICAL feed, false on error 
 	 */
-	function url_to_array( $url ){
-		$contents = wp_remote_retrieve_body( wp_remote_get( $url ) );
+	protected function url_to_array( $url ){
+		$response =  wp_remote_get( $url, array( 'timeout' => $this->remote_timeout ) );
+		$contents = wp_remote_retrieve_body( $response );
+		$response_code = wp_remote_retrieve_response_code( $response );
+		
+		if( $response_code != 200 ){
+			return new WP_Error( 'unable-to-fetch',
+					sprintf(
+							'%s. Response code: %s.',
+							wp_remote_retrieve_response_message( $response ),
+							$response_code
+					));
+		}
+		
 		if( $contents )
 			return explode( "\n", $contents );
-		return false;
+		
+		if( is_wp_error( $response ) )
+			return $response;
+		
+		return new WP_Error( 'unable-to-fetch', 
+				sprintf( 
+					__( 'There was an error fetching the feed. Response code: %s.', 'eventorgansier' ),
+					$response_code
+				));
 	}
 
 	/**
 	 * Fetches ICAL calendar from a file and returns its contents as an array.
 	 *
+	 * @ignore
 	 * @param sring $url The ICAL file
 	 * @return array|bool Array of line in ICAL feed, false on error
 	 */
-	function file_to_array( $file ){
+	protected function file_to_array( $file ){
 
 		$file_handle = @fopen( $file, "rb");
 		$lines = array();
 
 		if( !$file_handle )
-			return false;
+			return new WP_Error( 
+						'unable-to-open', 
+					__( 'There was an error opening the ICAL file.', 'eventorgansier' )
+					);
 
 		//Feed lines into array
 		while (!feof( $file_handle ) ):
@@ -127,8 +170,9 @@ class EO_ICAL_Parser{
 
 	/**
 	 * Parses through an array of lines (of an ICAL file)
+	 * @ignore
 	 */
-	function parse_ical_array(){
+	protected function parse_ical_array(){
 
 		$state = "NONE";//Initial state
 
@@ -198,7 +242,14 @@ class EO_ICAL_Parser{
 	}
 
 
-	function report_error( $line, $type, $message ){
+	/**
+	 * Report an error with an iCal file
+	 * @ignore
+	 * @param int $line The line on which the error occurs.
+	 * @param string $type The type of error
+	 * @param string $message Verbose error message
+	 */
+	protected function report_error( $line, $type, $message ){
 
 		$this->errors[] = new WP_Error(
 				$type,
@@ -207,7 +258,10 @@ class EO_ICAL_Parser{
 	}
 
 
-	function parse_event_property( $property, $value, $modifiers ){
+	/**
+	 * @ignore
+	 */
+	protected function parse_event_property( $property, $value, $modifiers ){
 
 		if( !empty( $modifiers ) ):
 			foreach( $modifiers as $modifier ):
@@ -226,7 +280,7 @@ class EO_ICAL_Parser{
 
 		switch( $property ):
 		case 'UID':
-			$this->current_event['UID'] = $value;
+			$this->current_event['uid'] = $value;
 		break;
 
 		case 'CREATED':
@@ -304,7 +358,7 @@ class EO_ICAL_Parser{
 			if( !isset( $this->venues[$venue_name] ) )
 				$this->venues[$venue_name] = $venue_name;
 				
-			$this->current_event['event_venue'] = $venue_name;
+			$this->current_event['event-venue'] = $venue_name;
 			endif;
 		break;
 
@@ -318,8 +372,8 @@ class EO_ICAL_Parser{
 			if( !isset( $this->categories[$cat_name] ) )
 				$this->categories[$cat_name] = $cat_name;
 				
-			if( isset($this->current_event['event_category']) && !in_array( $cat_name, $this->current_event['event_category']) )
-				$this->current_event['event_category'][] = $cat_name;
+			if( isset($this->current_event['event-category']) && !in_array( $cat_name, $this->current_event['event-category']) )
+				$this->current_event['event-category'][] = $cat_name;
 				
 			endforeach;
 
@@ -345,11 +399,12 @@ class EO_ICAL_Parser{
 
 	/**
 	 * Takes escaped text and returns the text unescaped.
-	 *
+	 * 
+	 * @ignore
 	 * @param string $text - the escaped test
 	 * @return string $text - the text, unescaped.
 	 */
-	function parse_ical_text($text){
+	protected function parse_ical_text($text){
 		//Get rid of carriage returns:
 		$text = str_replace("\r\n","\n",$text);
 		$text = str_replace("\r","\n",$text);
@@ -367,11 +422,11 @@ class EO_ICAL_Parser{
 
 	/**
 	 * Takes a date-time in ICAL and returns a datetime object
-	 *
+	 * @ignore
 	 * @param string $tzid - the value of the ICAL TZID property
 	 * @return DateTimeZone - the timezone with the given identifier or false if it isn't recognised
 	 */
-	function parse_timezone( $tzid ){
+	protected function parse_timezone( $tzid ){
 		$tzid = str_replace( '-', '/', $tzid );
 		$tz = new DateTimeZone( $tzid );
 		return $tz;
@@ -381,11 +436,11 @@ class EO_ICAL_Parser{
 	 * Takes a date in ICAL and returns a datetime object
 	 * 
 	 * Expects date in yyyymmdd format
-	 * 
+	 * @ignore
 	 * @param string $ical_date - date in ICAL format
 	 * @return DateTime - the $ical_date as DateTime object
 	 */
-	function parse_ical_date( $ical_date ){
+	protected function parse_ical_date( $ical_date ){
 
 		preg_match('/^(\d{8})*/', $ical_date, $matches);
 
@@ -406,12 +461,13 @@ class EO_ICAL_Parser{
 	 * Expects
 	 *  * utc:  YYYYMMDDTHHiissZ
 	 *  * local:  YYYYMMDDTHHiiss
-	 *
+	 *  
+	 * @ignores
 	 * @param string $ical_date - date-time in ICAL format
 	 * @param DateTimeZone $tz - Timezone 'local' is interpreted as
 	 * @return DateTime - the $ical_date as DateTime object
 	 */
-	function parse_ical_datetime( $ical_date, $tz ){
+	protected function parse_ical_datetime( $ical_date, $tz ){
 		
 		preg_match('/^((\d{8}T\d{6})(Z)?)/', $ical_date, $matches);
 
@@ -435,11 +491,11 @@ class EO_ICAL_Parser{
 	 * Takes a date-time in ICAL and returns a datetime object
 
 	 * @since 1.1.0
-	 *
+	 * @ignore
 	 * @param string $RRule - the value of the ICAL RRule property
 	 * @return array - a reoccurrence rule array as understood by Event Organiser
 	 */
-	function parse_RRule($RRule){
+	protected function parse_RRule($RRule){
 		//RRule is a sequence of rule parts seperated by ';'
 		$rule_parts = explode(';',$RRule);
 

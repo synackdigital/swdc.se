@@ -43,7 +43,7 @@ function eo_get_template_part( $slug, $name = null ) {
  * Searches the child theme first, then the parent theme before checking the plug-in templates folder.
  * So parent themes can override the default plug-in templates, and child themes can over-ride both.
  *
- * Behaves almost identically to {@see locate_template()} 
+ * Behaves almost identically to `{@see locate_template()}` 
  *
  * @since 1.7
  *
@@ -52,14 +52,15 @@ function eo_get_template_part( $slug, $name = null ) {
  * @param bool $require_once Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
-function eo_locate_template($template_names, $load = false, $require_once = true ) {
+function eo_locate_template( $template_names, $load = false, $require_once = true ) {
 	$located = '';
 
 	$template_dir = get_stylesheet_directory(); //child theme
 	$parent_template_dir = get_template_directory(); //parent theme
 
 	$stack = apply_filters( 'eventorganiser_template_stack', array( $template_dir, $parent_template_dir, EVENT_ORGANISER_DIR . 'templates' ) );
-
+	$stack = array_unique( $stack );
+	
 	foreach ( (array) $template_names as $template_name ) {
 		if ( !$template_name )
 			continue;
@@ -125,6 +126,21 @@ function eo_is_event_archive( $type = false ){
  * for year archives returns 1st January of that year, for month archives 1st of that month.
  * The date is formatted according to `$format` via {@see `eo_format_datetime()`}
  *
+ * <code>
+ * 	<?php
+ *	 if( eo_is_event_archive('day') )
+ *      //Viewing date archive: "Events: 3rd June 2013"
+ *      echo __('Events: ','eventorganiser').' '.eo_get_event_archive_date('jS F Y');
+ *	 elseif( eo_is_event_archive('month') )
+ *      //Viewing month archive: "Events: June 2013"
+ *      echo __('Events: ','eventorganiser').' '.eo_get_event_archive_date('F Y');
+ *   elseif( eo_is_event_archive('year') )
+ *      //Viewing year archive: "Events: 2013"
+ *      echo __('Events: ','eventorganiser').' '.eo_get_event_archive_date('Y');
+ *   else
+ *      _e('Events','eventorganiser');
+ *   ?>
+ * </code>
  * @since 1.7
  * @uses is_post_type_archive()
  * @uses eo_format_datetime()
@@ -248,12 +264,16 @@ function _eventorganiser_single_event_content( $content ){
 	if( !is_singular('event') )
 		return $content;
 
+	/*
+	 * This was introduced to fix an obscure bug with including pages
+	 * in another page via shortcodes.
+	 * But it breaks yoast SEO.
 	global $eo_event_parsed;
 	if( !empty( $eo_event_parsed[get_the_ID()] ) ){
 		return $content;
 	}else{
 		$eo_event_parsed[get_the_ID()] = 1;
-	}
+	}*/
 	
 	//Object buffering				
 	ob_start();

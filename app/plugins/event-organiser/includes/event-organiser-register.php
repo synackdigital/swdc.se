@@ -9,7 +9,7 @@
  */
 function eventorganiser_register_script() {
 	global $wp_locale;
-	$version = '2.1.1';
+	$version = defined( 'EVENT_ORGANISER_VER' ) ? EVENT_ORGANISER_VER : false;
 
 	$ext = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
 
@@ -80,7 +80,7 @@ add_action('init', 'eventorganiser_register_script');
  * @access private
  */
 function eventorganiser_register_scripts(){
-	$version = '2.1.1';
+	$version = defined( 'EVENT_ORGANISER_VER' ) ? EVENT_ORGANISER_VER : false;
 	$ext = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
 
 	/*  Venue scripts for venue & event edit */
@@ -128,7 +128,7 @@ function eventorganiser_register_scripts(){
 	wp_register_style('eventorganiser-style',EVENT_ORGANISER_URL.'css/eventorganiser-admin-style.css',array('eventorganiser-jquery-ui-style'),$version );
 
 	/* Inline Help */
-       	wp_register_script( 'eo-inline-help', EVENT_ORGANISER_URL.'js/inline-help.js',array( 'jquery', 'eo_qtip2' ), $version, true );
+	wp_register_script( 'eo-inline-help', EVENT_ORGANISER_URL.'js/inline-help.js',array( 'jquery', 'eo_qtip2' ), $version, true );
 }
 add_action( 'admin_init', 'eventorganiser_register_scripts', 5 );
 
@@ -196,6 +196,7 @@ function eventorganiser_add_admin_scripts( $hook ) {
 			wp_enqueue_script('eo-edit-event-controller');
 			wp_localize_script( 'eo_event', 'EO_Ajax_Event', array( 
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'wpversion' => get_bloginfo('version'),
 					'startday'=>intval(get_option('start_of_week')),
 					'format'=> eventorganiser_php2jquerydate( eventorganiser_get_option('dateformat') ),
 					'current_user_can' => array(
@@ -430,7 +431,16 @@ add_action('eventorganiser_delete_expired', 'eventorganiser_delete_expired_event
 function eventorganiser_screen_retina_icon(){
 
 	$screen_id = get_current_screen()->id;
-
+	
+	if ( 'mp6' === get_user_option( 'admin_color' ) ) {
+		//MP6 tweaks - ongoing and limited.
+	?>
+	<style>
+		.icon16.icon-event:before, #adminmenu .menu-icon-event div.wp-menu-image:before {content: '\f145';}
+		body.event_page_calendar #calendar-view .view-button.active{ border-color: #dfdfdf #dfdfdf #eee }
+	</style>
+	<?php
+	}
 	if( !in_array($screen_id, array('event','edit-event','edit-event-tag','edit-event-category','event_page_venues','event_page_calendar')) )
 		return;
 

@@ -25,17 +25,18 @@ function eventorganiser_create_event_taxonomies() {
 	}
 
 	$venue_labels = array(
-		'name' => __('Event Venues','eventorganiser'),
-    		'singular_name' => _x( 'Venues', 'taxonomy singular name'),
-    		'search_items' =>  __( 'Search Venues'),
-    		'all_items' => __( 'All Venues'),
-		'edit_item' => __( 'Edit Venue'),
-		'update_item' => __( 'Update Venue'),
-		'add_new_item' => __( 'Add New Venue'),
-		'new_item_name' => __( 'New Venue Name'),
-		'not_found' =>  __('No venues found'),
-		'add_or_remove_items' => __( 'Add or remove venues' ),
-		'separate_items_with_commas' => __( 'Separate venues with commas' )
+		'name' => __( 'Event Venues','eventorganiser' ),
+    	'singular_name' => _x( 'Venues', 'taxonomy singular name' ),
+    	'search_items' =>  __( 'Search Venues', 'eventorganiser' ),
+    	'all_items' => __( 'All Venues', 'eventorganiser' ),
+		'view_item' => __( 'View Venue', 'eventorganiser' ),
+		'edit_item' => __( 'Edit Venue', 'eventorganiser' ),
+		'update_item' => __( 'Update Venue', 'eventorganiser' ),
+		'add_new_item' => __( 'Add New Venue', 'eventorganiser' ),
+		'new_item_name' => __( 'New Venue Name', 'eventorganiser' ),
+		'not_found' =>  __('No venues found', 'eventorganiser' ),
+		'add_or_remove_items' => __( 'Add or remove venues', 'eventorganiser' ),
+		'separate_items_with_commas' => __( 'Separate venues with commas', 'eventorganiser' )
   		); 		
 
 	register_taxonomy('event-venue',array('event'), array(
@@ -488,7 +489,7 @@ function eventorganiser_cpt_help_text($contextual_help, $screen_id, $screen) {
 	$screen->set_help_sidebar( 
 		'<p> <strong>'. __('For more information','eventorganiser').'</strong></br>'
 			.sprintf(__('See the <a %s> documentation</a>','eventorganiser'),'target="_blank" href="http://wp-event-organiser.com/documentation/"').'</p>' 
-			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', 'http://wordpress.org/support/plugin/event-organiser',__('Have a question?','eventorganiser'))
+			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', admin_url('edit.php?post_type=event&page=debug'),__('Debugging Event Organiser','eventorganiser' ) )
 			.sprintf('<p><strong><a href="%s">%s</a></strong></p>', admin_url('index.php?page=eo-pro'),__('Go Pro!','eventorganiser'))
 	);
 
@@ -610,7 +611,7 @@ function eventorganiser_tax_meta_form($colour){
 		</th>
 		<td> 
 			<input type="text" style="width:100px" name="eo_term_meta[colour]" class="color colour-input" id="color" value="<?php echo $colour; ?>" />
-			<a id="link-color-example" class="color  hide-if-no-js" style="border: 1px solid #DFDFDF;border-radius: 4px 4px 4px 4px;margin: 0 7px 0 3px;padding: 4px 14px;"></a>
+			<a id="link-color-example" class="color eo-event-category-color-sample hide-if-no-js"></a>
    			 <div style="z-index: 100; background: none repeat scroll 0% 0% rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204); position: absolute;display: none;" id="colorpicker"></div>
 			<p><?php _e('Assign the category a colour.','eventorganiser')?></p>
 		</td>
@@ -620,6 +621,50 @@ var farbtastic;(function($){var pickColor=function(a){farbtastic.setColor(a);$('
 <?php
 }
 
+
+/**
+ * Add a "Color" column to the Event Categories table.
+ */
+function eventorganiser_add_color_column_header( $columns ) {
+	// Insert the Color column before the Events ("posts") column.
+	$offset = array_search( 'posts', array_keys( $columns ) );
+	return array_merge (
+			array_slice( $columns, 0, $offset ),
+			array( 'event-color' => esc_html__( 'Color', 'eventorganiser' ) ),
+			array_slice( $columns, $offset, null )
+		);
+}
+add_filter( 'manage_edit-event-category_columns', 'eventorganiser_add_color_column_header' );  
+
+
+/**
+ * Add a box with the color of the current row's event category.
+ */
+function eventorganiser_add_color_column_data( $html, $column, $term_id ) {
+	$term = get_term( $term_id, 'event-category' );
+	if( $column == 'event-color'){
+		$html = sprintf(
+					'<a class="eo-event-category-color-sample" style="background-color: %s;"></a>',
+					esc_attr( eo_get_category_meta( $term, 'color' ) )
+				);
+	}
+	return $html;
+}
+add_filter( 'manage_event-category_custom_column', 'eventorganiser_add_color_column_data', 10, 3 );
+
+/**
+ * Prints styling to event category admin pages
+ */
+function eventorganiser_print_event_cat_admin_styles(){
+	?>
+	<style>
+	/* Category amin page */
+	.eo-event-category-color-sample{ border: 1px solid #DFDFDF;border-radius: 4px;margin: 0 7px 0 3px;padding: 4px 14px;line-height: 25px;}
+	th.column-event-color{ width:10%}
+	</style>
+	<?php
+}
+add_action( 'admin_print_styles-edit-tags.php', 'eventorganiser_print_event_cat_admin_styles' );
 /**
  * Add the colour of the category to the term object.
  * Hooked onto get_event-category
@@ -761,8 +806,13 @@ function eventorganiser_update_venue_meta_cache( $terms, $tax){
 		if( empty($terms) )
 		       return $terms;
 
-		//TODO Sort this out when $terms is an array of IDs not objects.
-		$term_ids = wp_list_pluck($terms,'term_id');
+		//Check if its array of terms or term IDs
+		$first_element = reset( $terms );
+		if ( is_object( $first_element ) ){
+			$term_ids = wp_list_pluck( $terms, 'term_id' );
+		} else {
+			$term_ids = $terms;
+		}
 
    		update_meta_cache('eo_venue',$term_ids);
 
@@ -874,7 +924,7 @@ add_filter('get_edit_term_link','eventorganiser_edit_venue_link',10,3);
 
 class EO_Walker_TaxonomyDropdown extends Walker_CategoryDropdown{
 
-	function start_el(&$output, $category, $depth, $args) {
+	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 		$cat_name = apply_filters('list_cats', $category->name, $category);
 
@@ -1055,4 +1105,41 @@ function eventorganiser_event_shortlink( $shortlink, $id, $context ) {
 	return $shortlink;
 }
 add_filter( 'pre_get_shortlink', 'eventorganiser_event_shortlink', 10, 3 );
+
+
+function _eventorganiser_add_venue_admin_bar_edit_menu( ){
+	global $wp_admin_bar;
+
+	if ( is_admin() ) {
+		$current_screen = get_current_screen();
+
+		if ( 'event_page_venues' == $current_screen->base
+				&& isset( $_GET['action'] ) && 'edit' == $_GET['action']
+				&& ( $tax = get_taxonomy( 'event-venue' ) )
+				&& $tax->public )
+		{
+			$wp_admin_bar->add_menu( array(
+					'id' => 'view',
+					'title' => $tax->labels->view_item,
+					'href' => eo_get_venue_link( $_GET['event-venue'] )
+			) );
+		}
+	} else {
+		$current_object = get_queried_object();
+
+		if ( !eo_is_venue() )
+			return;
+
+		if ( ( $tax = get_taxonomy( $current_object->taxonomy ) )
+				&& current_user_can( $tax->cap->edit_terms ) )
+		{
+			$wp_admin_bar->add_menu( array(
+					'id' => 'edit',
+					'title' => $tax->labels->edit_item,
+					'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy )
+			) );
+		}
+	}
+}
+add_action( 'admin_bar_menu', '_eventorganiser_add_venue_admin_bar_edit_menu', 80 );
 ?>

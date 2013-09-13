@@ -43,8 +43,8 @@ function eo_update_event($post_id, $event_data=array(), $post_data=array() ){
 		return new WP_Error('eo_error','Empty post ID.');
 
 	if( !empty($event_data['venue']) || !empty($event_data['category']) ){
-		$post_data['taxonomy']['event-venue'] = isset($event_data['venue']) ? $event_data['venue'] : null;
-		$post_data['taxonomy']['event-category'] = isset($event_data['category']) ? $event_data['category'] : null;
+		$post_data['tax_input']['event-venue'] = isset($event_data['venue']) ? $event_data['venue'] : null;
+		$post_data['tax_input']['event-category'] = isset($event_data['category']) ? $event_data['category'] : null;
 		unset($event_data['venue']);
 		unset($event_data['category']);
 	}
@@ -135,6 +135,28 @@ function eo_update_event($post_id, $event_data=array(), $post_data=array() ){
 * * `schedule_last` =>  **START** date of last occurrence (or upper-bound thereof) as a datetime object
 * * `include` => array of datetime objects to include in the schedule
 * * `exclude` => array of datetime objects to exclude in the schedule
+*
+* ### Example
+* The following example creates an event which starts on the 3rd December 2012 15:00 and ends on the 4th December 15:00 and repeats every 4 days until the 25th December (So the last occurrence actually ends on the 23rd).
+* <code>
+*     $event_data = array(
+*	     'start'=> new DateTime('2012-12-03 15:00', eo_get_blog_timezone() ),
+*	     'end'=> new DateTime('2012-12-04 15:00', eo_get_blog_timezone() ),
+*	     'schedule_last'=> new DateTime('2012-12-25 15:00', eo_get_blog_timezone() ),
+*	     'frequency' => 4,
+*	     'all_day' => 0,
+*	     'schedule'=>'daily',
+*    );
+*     $post_data = array(
+*	     'post_title'=>'The Event Title',
+*	     'post_content'=>'My event content',
+*    );
+*
+*    $e = eo_insert_event($post_data,$event_data);
+* </code>
+* 
+* ### Tutorial
+* See this <a href="http://www.stephenharris.info/2012/front-end-event-posting/">tutorial</a> or <a href="https://gist.github.com/3867194">this Gist</a> on front-end event posting.
 *
 * @since 1.5
 * @link http://www.stephenharris.info/2012/front-end-event-posting/ Tutorial on front-end event posting
@@ -388,10 +410,9 @@ function eo_get_event_schedule( $post_id=0 ){
 		
 		$occurrences =array(); //occurrences array	
 
-		//Make sure the same doesn't appear in both $include/$exclude. Is this really needed?
 		$exclude = array_udiff($exclude, $include, '_eventorganiser_compare_dates');
 		$include = array_udiff($include, $exclude, '_eventorganiser_compare_dates');
-
+		
 		//Check dates are supplied and are valid
 		if( !($start instanceof DateTime) )
 			return new WP_Error('eo_error',__('Start date not provided.','eventorganiser'));
@@ -399,7 +420,7 @@ function eo_get_event_schedule( $post_id=0 ){
 		if( !($end instanceof DateTime) )
 			$end = clone $start;
 
-		if( !($schedule_last instanceof DateTime) )
+		if( 'once' == $schedule || !($schedule_last instanceof DateTime) )
 			$schedule_last = clone $start;
 
 		//Check dates are in chronological order
@@ -595,6 +616,10 @@ function eo_get_event_schedule( $post_id=0 ){
 		//Now schedule meta is set up and occurrences are generated.
 
 		//Add inclusions, removes exceptions and duplicates
+		if( defined( 'WP_DEBUG' ) && WP_DEBUG ){
+			//Make sure 'included' dates doesn't appear in generate date
+			$include = array_udiff( $include, $occurrences, '_eventorganiser_compare_dates' );
+		}
 		$occurrences = array_merge($occurrences, $include); 
 		$occurrences = array_udiff($occurrences, $exclude, '_eventorganiser_compare_dates');
 		$occurrences = _eventorganiser_remove_duplicates($occurrences);
@@ -626,6 +651,7 @@ function eo_get_event_schedule( $post_id=0 ){
  * @access private
  * @ignore
  * @since 1.0.0
+ * @package ical-functions
  *
  * @param int $post_id The event (post) ID. Uses current event if empty.
  * @return string The RRULE to be used in an ICS calendar

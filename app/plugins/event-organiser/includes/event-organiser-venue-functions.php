@@ -7,11 +7,18 @@
 /**
 * Returns the ID of the venue of an event.
 *
-* Can be used inside the loop to output the 
-* venue id of the current event by not passing an ID.
-*
+* Can be used inside the loop to output the venue id of the current event by not passing an ID.
 * Otherwise it returns the venue ID of the passed event ID.
 *
+* ### Examples
+* This function can be used inside the Loop to return the venue ID of the current event
+* <code>
+*    $current_events_venue_id = eo_get_venue();
+* </code>  
+* To obtain the venue ID of event 23:
+* <code>
+*    $venue_id = eo_get_venue(23);
+* </code>
 * @since 1.0.0
 * @param int $post_id The event (post) ID. Uses current event if empty.
 * @return int The corresponding venue (event-venue term) ID
@@ -45,8 +52,18 @@ function eo_get_venue($event_id=''){
 *
 * When used without an argument it uses the event specified in the global $post (e.g. current event in the loop).
 * Can be used inside the loop to output the venue id of the current event.
+* 
+* ### Examples
+* Inside the loop, you can output the current event's venue
+* <code>
+*   <?php echo eo_get_venue_slug(); ?> 
+* </code>    
+* Get the last start date of event with id 7
+* <code>
+*   <?php $venue_slug = eo_get_venue_slug(7); ?>
+* </code>
+* 
 * @since 1.0.0
-*
 * @param int $post_id The event (post) ID. Uses current event if empty.
 * @return int The corresponding venue (event-venue term) slug
  */
@@ -109,11 +126,11 @@ function eo_get_venue_id_by_slugorid($venue_slug_or_id=''){
  *
  * ###Example
  * Get the venue ID by slug (A better way is to use {@see `eo_get_venue_id_by_slugorid()`}
- *
+ * <code>
  *     $venue = eo_get_venue_by('slug','my-venue-slug'); 
  *     if( $venue )
  *          $venue_id = (int) $venue->term_id;
- *
+ *</code>
  *
  * @uses get_term_by()
  * @since 1.6
@@ -135,11 +152,21 @@ function eo_get_venue_by($field,$value,$output = OBJECT, $filter = 'raw' ){
 * If used without any arguments uses the venue of the current event.
 *
 * Returns the name of a venue specified by it's slug or ID. If used inside the loop, it can return the name of the current post's venue. If specifying the venue by ID, **the ID must be an integer**.
-*
 * This function behaves differently to {@see `eo_get_venue_slug()`} which takes the event ID, rather than venue ID or slug, as an optional argument.
 *
+* ### Examples
+* Inside the loop, you can output the current event's venue
+* <code>
+*      <?php echo eo_get_venue_name(); ?>
+* </code>   
+* To get the name of event with id 7, you can use `eo_get_venue` to obtain the venue ID of the event.
+* <code>
+*      <?php 
+*         $venue_id = eo_get_venue(7); 
+*         $venue_name = eo_get_venue_name(%venue_id); 
+*       ?>
+* </code>
 * @since 1.0.0
-*
 * @param int|string $venue_slug_or_id The venue ID (as an integer) or slug (as a string). Uses venue of current event if empty.
 * @return string The name of the corresponding venue
  */
@@ -174,7 +201,7 @@ function eo_venue_name($venue_slug_or_id=''){
 * venue by ID, **the ID must be an integer**.
 *
 * ###Example
-*
+* <code>
 *     <?php 
 *     $event_id = 7;
 *     $venue_id = eo_get_venue( $event_id );
@@ -186,7 +213,7 @@ function eo_venue_name($venue_slug_or_id=''){
 *     //The following displays the description for the venue with **slug** '12'
 *     echo eo_get_venue_description( '12' );
 *     ?>
-*
+* </code>
 * @since 1.0.0
 * @see `eo_venue_description()`
 * @param int|string $venue_slug_or_id The venue ID (as an integer) or slug (as a string). Uses venue of current event if empty.
@@ -337,9 +364,26 @@ function eo_venue_link($venue_slug_or_id=''){
 * * 'postcode'
 * * 'country'
 *
-* If used with any arguments uses the venue of the current event.
- * @since 1.0.0
-*
+* If used without any arguments uses the venue of the current event.
+* 
+* ### Examples
+* Return the details of venue 16. **(Please note when using the ID it must be an integer - that is 16 not '16').**
+* <code>
+*     $address_details = eo_get_venue_address(16); 
+*     //$address_details = eo_get_venue_address('16'); This method is incorrect.
+* </code>   
+* Print the post-code of venue 'my-venue-slug'
+* <code>
+*     $address_details = eo_get_venue_address('my-venue-slug'); 
+*     echo "The post code of 'my-venue-slug' is: ".$address_details['postcode']; 
+* </code>   
+* Return the details of the venue of event 23 we can use `{@see eo_get_venue()}` to obtain the venue ID.
+* <code>
+*   $venue_id = eo_get_venue(23); 
+*    $address_details = eo_get_venue_address($venue_id); 
+* </code>   
+* 
+* @since 1.0.0
 * @param int|string $venue_slug_or_id The venue ID (as an integer) or slug (as a string). Uses venue of current event if empty.
 * @return array Array of venue address details
  */
@@ -360,10 +404,9 @@ function eo_get_venue_address($venue_slug_or_id=''){
  *
  * The list of arguments that `$args` can contain, which will overwrite the defaults:
  *
- * * **orderby** - Default is 'name'. Can be name, count, term_group, slug or nothing
- * (will use venue/term ID), Passing a custom value other than these will cause it to
- * order based on the custom value.
- * * **order** - Default is ASC. Can use DESC.
+ * * **orderby** - Default is 'name'. Can be name, count, slug, city, state, country, postcode, address 
+ * or distance (when used with a {@link http://wp-event-organiser.com/pro-features/event-venue-queries/ proximity-query})
+ * * **order** - ASC|DESC Default is ASC.
  * * **hide_empty** - Default is 0 (false)
  * * **exclude** - Default is an empty array. An array, comma- or space-delimited string
  * of term ids to exclude from the return array. If 'include' is non-empty,
@@ -379,7 +422,7 @@ function eo_get_venue_address($venue_slug_or_id=''){
  * * **case-insensitive**. Default is an empty string.
  *
  * ###Example
- *
+ * <code>
  *     $venues = eo_get_venues(); 
  *     
  *     if( $venues ){
@@ -390,12 +433,28 @@ function eo_get_venue_address($venue_slug_or_id=''){
  *          endforeach; 
  *          echo '</ul>';
  *     }
+ * </code>        
+ * The retreive all venues within 10 miles of Windsor Castle
+ * <code>
+ *      $meta_query = array(
+ *			'proximity' => array(
+ *					'center' => eo_remote_geocode( "Windsor [castle]" ),
+ *					'distance' => 10,
+ *					'unit' => 'miles',
+ *					'compare' => '<='
+ *			),	
+ *      );
+ *
+ *      $venues = eo_get_venues( array( 'meta_query' => $meta_query ) );
+ * </code>
+ * See {@link http://wp-event-organiser.com/pro-features/event-venue-queries/ documentation on venue meta queries}.    
  *
  * @uses get_terms()
+ * @see eo_remote_geocode()
+ * @link http://wp-event-organiser.com/pro-features/event-venue-queries/ Documentation on event-venue meta queries
  * @link https://gist.github.com/3902494 Gist for creating an archive page of all the venues
  * @link http://codex.wordpress.org/Function_Reference/get_terms get_terms()
  * @since 1.0.0
- *
  * @param string|array $args The values of what to search for when returning venues
  * @return array List of Term (venue) Objects
  */
@@ -580,12 +639,17 @@ function eo_get_venues($args=array()){
 /**
  * Returns the mark-up for a Google map of the venue (and enqueues scripts).
  * Accepts an arguments array corresponding to the attributes supported by the shortcode.
+ * 
+ * ### Examples
+ * <code>
+ *   // Display map of two venues 
+ *   <?php echo eo_get_venue_map(array('london-eye','edinburgh-castle')); ?>
+ * </code>
  * @since 1.6
- *
+ * @link http://wp-event-organiser.com/blog/tutorial/changing-the-venue-map-icon/ Changing the venue map icon
  * @link http://www.stephenharris.info/2012/event-organiser-1-6-whats-new/ Examples of using eo_get_venue_map()
- *
-* @param mixed $venue_slug_or_id The venue ID as an integer. Or Slug as string. Uses venue of current event if empty.
-* @return string The markup of the map. False is no venue found.
+ * @param mixed $venue_slug_or_id The venue ID as an integer. Or Slug as string. Uses venue of current event if empty.
+ * @return string The markup of the map. False is no venue found.
  */
 function eo_get_venue_map($venue_slug_or_id='', $args=array()){
 
@@ -646,9 +710,9 @@ function eo_get_venue_map($venue_slug_or_id='', $args=array()){
 			if( !empty($address) )
 				$tooltip_content .='</br>'.implode(', ',$address);
 			
-			$tooltip_content = apply_filters('eventorganiser_venue_tooltip',$tooltip_content,$venue_id);
+			$tooltip_content = apply_filters( 'eventorganiser_venue_tooltip', $tooltip_content, $venue_id, $args );
 			
-			$icon = apply_filters('eventorganiser_venue_marker',null,$venue_id);
+			$icon = apply_filters( 'eventorganiser_venue_marker', null, $venue_id, $args );
 	
 			$locations[] =array( 
 					'venue_id' => $venue_id,
@@ -672,9 +736,16 @@ function eo_get_venue_map($venue_slug_or_id='', $args=array()){
  *
  * This function returns the values of the venue meta with the specified key from the specified venue. (Specified by the venue ID - the taxonomy term ID).
  *
+ * ### Examples
+ * <code>
+ *    <?php $key_1_values = eo_get_venue_meta(76, 'key_1'); ?>
+ * </code>
+ * To retrieve only the first value of a given key:
+ * <code>
+ *   <?php $key_1_value = eo_get_venue_meta(76, 'key_1', true); ?>
+ * </code>
  * @since 1.5.0
  * @link http://wp-event-organiser.com/documentation/developers/venue-meta-data-and-metaboxes/ How to create custom fields for venues
- *
  * @param int $venue_id Venue (term) ID.
  * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
  * @param bool $single Whether to return a single value.
@@ -773,7 +844,7 @@ function eo_delete_venue_meta($venue_id, $key, $value = '', $delete_all = false 
  * 
  * @since 1.4.0
  * @access private
- *
+ * @ignore
  * @param string The key of the meta data
  * @param mixed The meta data being validated.
  * @return mixed The validated value. False if the key is not recognised.

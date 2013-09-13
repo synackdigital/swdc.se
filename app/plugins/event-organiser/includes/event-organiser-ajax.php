@@ -52,6 +52,11 @@ function eventorganiser_public_fullcalendar() {
 	if( !empty( $_GET['users_events'] ) && 'false' != $_GET['users_events'] ){
 		$request['bookee_id'] = get_current_user_id();	
 	}
+	
+	if( !empty( $_GET['event_occurrence__in'] ) ){
+		$request['event_occurrence__in'] = $_GET['event_occurrence__in'];
+	}
+	
 
 	$presets = array('numberposts'=>-1, 'group_events_by'=>'','showpastevents'=>true);
 
@@ -59,7 +64,7 @@ function eventorganiser_public_fullcalendar() {
 	$query = array_merge($request,$presets,array($time_format));
 	$key = 'eo_fc_'.md5(serialize($query));
 	$calendar = get_transient('eo_full_calendar_public');
-	if( $calendar && is_array($calendar) && isset($calendar[$key]) ){
+	if( $calendar && is_array($calendar) && isset( $calendar[$key] ) ){
 		echo json_encode($calendar[$key]);
 		exit;
 	}
@@ -359,6 +364,7 @@ function eventorganiser_admin_calendar() {
 
 				//Filter the event array
 				$event = apply_filters('eventorganiser_admin_calendar',$event, $post);
+				$event = apply_filters('eventorganiser_admin_fullcalendar_event', $event, $post->ID, $post->occurrence_id );
 
 				//Add event to array
 				$eventsarray[]=$event;
@@ -418,6 +424,8 @@ function eventorganiser_widget_cal() {
 
 		//Options for the calendar
 		$args['showpastevents'] = (empty($_GET['showpastevents']) ? 0 : 1);
+		$args['link-to-single'] = (empty($_GET['link-to-single']) ? 0 : 1);
+		$args['show-long'] = (empty($_GET['show-long']) ? 0 : 1);
 
 		echo json_encode(EO_Calendar_Widget::generate_output($month,$args));
 		exit;

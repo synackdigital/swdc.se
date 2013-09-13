@@ -213,30 +213,29 @@ function eo_date_interval($_date1,$_date2, $format){
 * that it can b used in javascript (notably the fullCalendar).
 *
 * Doesn't support
-*L Whether it's a leap year
-* N ISO-8601 numeric representation of the day of the week (added in PHP 5.1.0)
-* w Numeric representation of the day of the week (0=sun,...)
-*  z The day of the year (starting from 0)
-*  t Number of days in the given month
-* B Swatch Internet time
-* u microseconds
+* 
+* * L Whether it's a leap year
+* * N ISO-8601 numeric representation of the day of the week (added in PHP 5.1.0)
+* * w Numeric representation of the day of the week (0=sun,...)
+* * z The day of the year (starting from 0)
+* * t Number of days in the given month
+* * B Swatch Internet time
+* * u microseconds
+* * e 	Timezone identifier (added in PHP 5.1.0) 	Examples: UTC, GMT, Atlantic/Azores
+* * I (capital i) 	Whether or not the date is in daylight saving time 	1 if Daylight Saving Time, 0 otherwise.
+* * O  Difference to Greenwich time (GMT) in hours 	Example: +0200
+* * T  Timezone abbreviation 	Examples: EST, MDT ...
+* * Z  Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
+* * c  ISO 8601 date (added in PHP 5) 	2004-02-12T15:19:21+00:00
+* * r  RFC 2822 formatted date 	Example: Thu, 21 Dec 2000 16:01:07 +0200
+* * U Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT) 	See also time()
 *
-* e 	Timezone identifier (added in PHP 5.1.0) 	Examples: UTC, GMT, Atlantic/Azores
-*  I (capital i) 	Whether or not the date is in daylight saving time 	1 if Daylight Saving Time, 0 otherwise.
-*  O  Difference to Greenwich time (GMT) in hours 	Example: +0200
-*  T  Timezone abbreviation 	Examples: EST, MDT ...
-*  Z  Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
-
-*  c  ISO 8601 date (added in PHP 5) 	2004-02-12T15:19:21+00:00
-*  r  RFC 2822 formatted date 	Example: Thu, 21 Dec 2000 16:01:07 +0200
-*  U Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT) 	See also time()
-*
-* @since 1.4
+* @since 2.1.3
 *
 *@param string $phpformat Format according to http://php.net/manual/en/function.date.php
 *@return string The format translated to xdate format: http://arshaw.com/xdate/#Formatting
 */
-function eventorganiser_php2xdate($phpformat=""){
+function eo_php2xdate($phpformat=""){
 	$php2xdate = array(
 		'Y'=>'yyyy','y'=>'yy','L'=>''/*Not Supported*/,'o'=>'I',
 		'j'=>'d','d'=>'dd','D'=>'ddd','l'=>'dddd','N'=>'', /*NS*/ 'S'=>'S',
@@ -269,22 +268,44 @@ function eventorganiser_php2xdate($phpformat=""){
 	return $xdateformat;
 }
 
+/**
+ * Very basic class to convert php date format into xdate date format used for javascript.
+ * @deprecated 2.1.3
+ * @ignore
+ * @since 1.4
+ */
+function eventorganiser_php2xdate( $phpformat="" ){
+	return eo_php2xdate( $phpformat );
+}
+
+
+
+/**
+ * Very basic class to convert php date format into jQuery UI date format used for javascript.
+ * @ignore
+ * @deprecated 2.1.3 Use 
+ * @since 1.7
+ */
+function eventorganiser_php2jquerydate( $phpformat="" ){
+	return eo_php2jquerydate( $phpformat );
+}
+
 
 /**
  * Very basic class to convert php date format into jQuery UI date format used for javascript.
  *
- * Similar to {@see `eventorganiser_php2xdate()`} - but the format is slightly different for jQuery UI  
+ * Similar to `{@see eventorganiser_php2xdate()}` - but the format is slightly different for jQuery UI  
  * Takes a php date format and converts it to {@link http://docs.jquery.com/UI/Datepicker/formatDate} so
  * that it can b used in javascript (notably by the datepicker).
  * 
  * **Please note that this function does not convert time formats**
  *
- * @since 1.7
+ * @since 2.1.3
  *
  *@param string $phpformat Format according to http://php.net/manual/en/function.date.php
  *@return string The format translated to xdate format: http://docs.jquery.com/UI/Datepicker/formatDate
  */
-function eventorganiser_php2jquerydate($phpformat=""){
+function eo_php2jquerydate($phpformat=""){
 	$php2jquerydate = array(
 			'Y'=>'yy','y'=>'y','L'=>''/*Not Supported*/,'o'=>'',/*Not Supported*/
 			'j'=>'d','d'=>'dd','D'=>'D','DD'=>'dddd','N'=>'',/*NS*/ 'S' => ''/*NS*/,
@@ -417,7 +438,8 @@ function _eventorganiser_php52_modify($date='',$modify=''){
 * Is very simliar to wp_trim_excerpt. Doesn't apply excerpt_more filter
  * Applies eventorganiser_trim_excerpt filter
  * Must be used inside the loop
- *
+ * @ignore
+ * @access private
  * @since 1.5
  * @param string $text Optional. The excerpt. If set to empty, an excerpt is generated.
  * @param int $excerpt_length The excerpt length if generated from content.
@@ -457,7 +479,7 @@ function eventorganiser_date_create($datetime_string){
  * @since 1.0.0
 
  * @param datetime_string - a datetime string 
- * @param string $format - Format of the datetime string. One of 'd-m-Y', 'm-d-Y' and 'Y-m-d'.
+ * @param string $format - Format of the datetime string. One of 'd-m-Y H:i', 'm-d-Y H:i' and 'Y-m-d H:i'.
  * @return int DateTime| false - the parsed datetime string as a DateTime object or false on error (incorrectly formatted for example)
  */
 function _eventorganiser_check_datetime( $datetime_string = '', $format = null ){
@@ -830,12 +852,23 @@ function eventorganiser_textarea_field($args){
 	return $html;
 }
 
-
+/**
+ * @ignore
+ * @private
+ * @param unknown_type $text
+ * @return mixed
+ */
 function eventorganiser_esc_printf($text){
 	return str_replace('%','%%',$text);
 }
 
-
+/**
+ * @ignore
+ * @private
+ * @param unknown_type $key
+ * @param unknown_type $group
+ * @return Ambigous <boolean, mixed>
+ */
 function eventorganiser_cache_get( $key, $group ){
 
 	$ns_key = wp_cache_get( 'eventorganiser_'.$group.'_key' );
@@ -847,7 +880,13 @@ function eventorganiser_cache_get( $key, $group ){
 	return wp_cache_get( "eo_".$ns_key."_".$key, $group );
 }
 
-
+/**
+ * @ignore
+ * @private
+ * @param unknown_type $group
+ * @param unknown_type $key
+ * @return Ambigous <false, number>|boolean
+ */
 function eventorganiser_clear_cache( $group, $key = false ){
 
 	if( $key == false ){
@@ -860,7 +899,15 @@ function eventorganiser_clear_cache( $group, $key = false ){
 	}
 }
 	
-
+/**
+ * @ignore
+ * @private
+ * @param unknown_type $key
+ * @param unknown_type $value
+ * @param unknown_type $group
+ * @param unknown_type $expire
+ * @return unknown
+ */
 function eventorganiser_cache_set( $key, $value, $group, $expire = 0 ){
 	$ns_key = wp_cache_get( 'eventorganiser_'.$group.'_key' );
 
@@ -877,6 +924,8 @@ function eventorganiser_cache_set( $key, $value, $group, $expire = 0 ){
  * The function handles the javascript/css loading and generates the link HTML which will trigger the tooltip. 
  * The HTML can be returned or printed using the fourth argument. 
  * 
+ * @private
+ * @ignore
  * @param string $title The title of the tooltip that will appear
  * @param string $content The content of the tooltip
  * @param bool $echo Whether the link HTML should be printed as well as returned.
@@ -909,18 +958,31 @@ function eventorganiser_inline_help( $title, $content, $echo = false, $type = 'h
 	
 	return $link;
 }
+
+/**
+ * @ignore
+ */
 function _eventorganiser_enqueue_inline_help_scripts(){
 	wp_enqueue_script( 'eo-inline-help' );
 	wp_enqueue_style( 'eventorganiser-style' );
 }
 
+/**
+ * Darken or lighten a colour (hex) by a given percent (as a decimal)
+ * 
+ * @param string $hex
+ * @param float $percent Percent as a decimal. E.g. 75% = 0.75
+ * @return string The generated colour as a hexedecimal
+ */
 function eo_color_luminance( $hex, $percent ) {
 
 	// validate hex string
-
 	$hex = preg_replace( '/[^0-9a-f]/i', '', $hex );
 	$new_hex = '#';
 
+	if( !$hex )
+		return false;
+	
 	if ( strlen( $hex ) < 6 ) {
 		$hex = $hex[0] + $hex[0] + $hex[1] + $hex[1] + $hex[2] + $hex[2];
 	}
@@ -935,29 +997,41 @@ function eo_color_luminance( $hex, $percent ) {
 	return $new_hex;
 }
 
+
 /**
  * Whether the blog's time settings indicates it uses 12 or 24 hour time
- * 
- * If uses meridian (am/pm) it is 12 hour.
- * If uses 'H' as the time format it is 24 hour.
- * Otherwise assumed to be 12 hour.
+ * @deprecated 2.1.3 Use {@see `eo_blog_is_24()`} instead.
+ * @see eo_blog_is_24()
  */
 function eventorganiser_blog_is_24(){
-	
+	return eo_blog_is_24();
+}
+
+/**
+ * Whether the blog's time settings indicates it uses 12 or 24 hour time
+ *
+ * If uses meridian (am/pm) it is 12 hour. Otherwise if it uses 'H' as the 
+ * time format it is 24 hour. Otherwise assumed to be 12 hour.
+ * 
+ */
+function eo_blog_is_24(){
+
 	$time = get_option( 'time_format');
-	
+
 	//Check for meridian
 	if( preg_match( '~\b(A.)\b|([^\\\\]A)~i', $time, $matches ) ){
-		return false;
+		$is24 = false;
+		
+	//Check for 24 hour format
+	}elseif( preg_match( '~\b(H.)\b|([^\\\\]H)~i', $time ) ){
+		$is24 = true;
+		
+	}else{
+		//Assume it isn't
+		$is24 = false;
 	}
 
-	//Check for 24 hour format
-	if( preg_match( '~\b(H.)\b|([^\\\\]H)~i', $time ) ){
-		return true;
-	}
-	
-	//Assume it isn't
-	return false;
+	return $is24;
 }
 
 /**
@@ -969,6 +1043,7 @@ function eventorganiser_blog_is_24(){
  * This allows (most) Event Organiser js-variables to live under the namespace 'eventorganiser'
  *
  * @since 2.1
+ * @ignore
  * @uses eventorganiser_array_merge_recursive_distinct()
  * @access private
  * @param string $handle
@@ -992,6 +1067,7 @@ function eo_localize_script( $handle, $obj ){
  * @param array2 array Second array to merge  
  *  
  * @since 2.1
+ * @ignore
  * @see http://www.php.net/manual/en/function.array-merge-recursive.php#91049
  * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
  * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
@@ -1027,6 +1103,7 @@ function &eo_array_merge_recursive_distinct ( array $array1, array $array2 /* ar
  * Add $dep (script handle) to the array of dependencies for $handle
  * 
  * @since 2.1
+ * @ignore
  * @access private
  * @see http://wordpress.stackexchange.com/questions/100709/add-a-script-as-a-dependency-to-a-registered-script
  * @param string $handle Script handle for which you want to add a dependency
@@ -1052,6 +1129,7 @@ function eventorganiser_append_dependency( $handle, $dep ){
  * 
  * Commas, semicolons and backslashes are escaped.
  * New lines are appended with a space (why?)
+ * @ignore
  * @since 2.1
  * @param string $text The string to be escaped
  * @return string The escaped string.
@@ -1063,5 +1141,26 @@ function eventorganiser_escape_ical_text( $text ){
 	$text = str_replace("\n", "\n ", $text);
 	return $text;
 }
+
+/**
+ * Like wp_list_pluck() but plucks out key and value from each object in the list
+ * 
+ * @since 2.2
+ * @param array $list A list of objects or arrays
+ * @param int|string $field A field from the object to used as the key of the entire object
+ * @param int|string $field A field from the object to place instead of the entire object
+ * @return multitype:unknown NULL
+ */
+function eo_list_pluck_key_value( $list, $key_field, $value_field ){
 	
-?>
+	$new_list = array();
+	
+	foreach ( $list as $key => $value ) {
+		if ( is_object( $value ) )
+			$new_list[ $value->$key_field ] = $value->$value_field;
+		else
+			$new_list[ $value[ $key_field ] ] = $value[ $value_field ];
+	} 
+	
+	return $new_list;
+}

@@ -776,7 +776,9 @@ function ga_options_page() {
 
                 </form>
 
-
+                 </form>
+ 
+ 
 <?php  if (!get_option('wpm_o_user_id')): ?>
     <img src="<?php echo plugins_url('ga-plugin-advert.jpg', __FILE__ ); ?>" alt="Google Analytics Getting It Right" />
     <form accept-charset="utf-8" action="https://app.getresponse.com/add_contact_webform.html" method="post" onsubmit="return quickValidate()" target="_blank">
@@ -796,29 +798,26 @@ function ga_options_page() {
     </tr>
     </table>
     </form>
+
+    <script type="text/javascript">
+	function quickValidate()
+	{
+	        if (! jQuery('#sub_name').val() )
+	            {
+	                alert('Your Name is required');
+	                return false;
+	            }
+	        if(! jQuery('#sub_email').val() )
+	            {
+	                alert('Your Email is required');
+	                return false;
+	            }
+
+	            return true;
+	}
+	</script>
 <?php endif;?>
 
-<script type="text/javascript">
-function quickValidate()
-{
-        if (! jQuery('#sub_name').val() )
-            {
-                alert('Your Name is required');
-                return false;
-            }
-        if(! jQuery('#sub_email').val() )
-            {
-                alert('Your Email is required');
-                return false;
-            }
-
-            return true;
-
-}
-</script>
-
-		</div>
-		</form>
 
 <?php
 }
