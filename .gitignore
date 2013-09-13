@@ -1,0 +1,6 @@
+/vendor/
+/wordpress/
+/app/plugins/
+/media/
+
+/wp-config.php
