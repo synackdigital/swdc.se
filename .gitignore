@@ -7,12 +7,10 @@
 
 # Unmanaged plugins
 !/app/plugins/wooslider/
+!/app/plugins/swdc-events
 
 # Configuration
 /wp-config.php
-
-# Plugins
-!/app/plugins/swdc-events
 
 # Uploads
 /media/
