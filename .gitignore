@@ -1,8 +1,19 @@
+
+# Composer
+/composer.phar
 /vendor/
 /wordpress/
-/app/plugins/
-/media/
+/app/plugins/*
 
+# Unmanaged plugins
+!/app/plugins/wooslider/
+
+# Configuration
 /wp-config.php
 
+# Plugins
 !/app/plugins/swdc-events
+
+# Uploads
+/media/
+
