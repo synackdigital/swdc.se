@@ -166,10 +166,10 @@
         },
         {
             "name": "wpackagist/logged-in",
-            "version": "1.0.4",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/logged-in.1.0.4.zip",
+                "url": "http://downloads.wordpress.org/plugin/logged-in.zip",
                 "reference": null,
                 "shasum": null
             },
