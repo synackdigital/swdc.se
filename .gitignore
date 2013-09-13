@@ -4,3 +4,5 @@
 /media/
 
 /wp-config.php
+
+!/app/plugins/swdc-events
