@@ -1,6 +1,14 @@
+
+# Composer
 /vendor/
 /wordpress/
-/app/plugins/
-/media/
+/app/plugins/*
 
+# Unmanaged plugins
+!/app/plugins/wooslider/
+
+# Configuration
 /wp-config.php
+
+# Uploads
+/media/
