@@ -7,8 +7,6 @@
 get_header(); ?>
 
     <div id="main">
-      <a class="home-link" href="<?php echo home_url(); ?>" title="Return to home">Home</a>
-
       <?php
       // Start the Loop
       if(have_posts()): while(have_posts()): the_post(); ?>
