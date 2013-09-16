@@ -13,4 +13,5 @@
 /wp-config.php
 
 # Uploads
+/app/uploads/
 /media/
