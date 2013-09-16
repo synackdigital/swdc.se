@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WordPress
- * @subpackage devnull
+ * @subpackage swdc
  */
 ?><!DOCTYPE html>
 <!--[if IEMobile 7 ]>    <html class="no-js iem7" <?php language_attributes(); ?>> <![endif]-->

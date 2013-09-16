@@ -1,26 +1,26 @@
 <?php
 /**
  * @package WordPress
- * @subpackage devnull
+ * @subpackage swdc
  */
 
 /* Basic theme setup */
-function devnull_setup() {
+function swdc_setup() {
   add_theme_support( 'post-thumbnails' ); // Add post thumbnail support
   set_post_thumbnail_size( 200, 200, true ); // hard crop
 }
-add_action( 'after_setup_theme', 'devnull_setup' );
+add_action( 'after_setup_theme', 'swdc_setup' );
 
 /* Filter out unused admin menu items */
-function devnull_remove_menu_pages() {
+function swdc_remove_menu_pages() {
   remove_menu_page('edit.php'); // posts
   // remove_menu_page('edit.php?post_type=page'); // pages
   // remove_menu_page('tools.php'); // tools
 }
-add_action( 'admin_menu', 'devnull_remove_menu_pages' );
+add_action( 'admin_menu', 'swdc_remove_menu_pages' );
 
 /* Creates a nicely formatted and more specific title element text */
-function devnull_wp_title( $title, $sep ) {
+function swdc_wp_title( $title, $sep ) {
   global $paged, $page;
 
   if ( is_feed() )
@@ -36,11 +36,11 @@ function devnull_wp_title( $title, $sep ) {
 
   // Add a page number if necessary.
   if ( $paged >= 2 || $page >= 2 )
-    $title = "$title $sep " . sprintf( __( 'Page %s', 'devnull' ), max( $paged, $page ) );
+    $title = "$title $sep " . sprintf( __( 'Page %s', 'swdc' ), max( $paged, $page ) );
 
   return $title;
 }
-add_filter( 'wp_title', 'devnull_wp_title', 10, 2 );
+add_filter( 'wp_title', 'swdc_wp_title', 10, 2 );
 
 /**
  * Register sidebars and widgets
