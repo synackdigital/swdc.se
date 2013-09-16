@@ -41,3 +41,19 @@ function devnull_wp_title( $title, $sep ) {
   return $title;
 }
 add_filter( 'wp_title', 'devnull_wp_title', 10, 2 );
+
+/**
+ * Register sidebars and widgets
+ */
+function swdc_widgets_init() {
+  // Sidebars
+  register_sidebar(array(
+    'name'          => __('Sponsors', 'swdc'),
+    'id'            => 'sidebar-sponsors',
+    'before_widget' => '<section class="widget %1$s %2$s"><div class="widget-inner">',
+    'after_widget'  => '</div></section>',
+    'before_title'  => '<h3>',
+    'after_title'   => '</h3>',
+  ));
+}
+add_action('widgets_init', 'swdc_widgets_init');
