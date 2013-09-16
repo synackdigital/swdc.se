@@ -15,7 +15,7 @@ add_action( 'after_setup_theme', 'devnull_setup' );
 function devnull_remove_menu_pages() {
   remove_menu_page('edit.php'); // posts
   // remove_menu_page('edit.php?post_type=page'); // pages
-  remove_menu_page('tools.php'); // tools
+  // remove_menu_page('tools.php'); // tools
 }
 add_action( 'admin_menu', 'devnull_remove_menu_pages' );
 
