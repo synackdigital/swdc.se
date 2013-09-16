@@ -1,3 +1,6 @@
 [submodule "app/plugins/swdc-events"]
 	path = app/plugins/swdc-events
 	url = git@bitbucket.org:dessibelle/swdc-events.git
+[submodule "app/plugins/eo-sponsors-widget"]
+	path = app/plugins/eo-sponsors-widget
+	url = https://github.com/synackdigital/eo-sponsors-widget.git

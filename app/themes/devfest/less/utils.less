@@ -2,25 +2,41 @@
 .font-normal() { font-weight: 400; }
 .font-bold() { font-weight: 700; }
 
-.base03 { background: @base03; color: @base3; }
-.base02 { background: @base02; color: @base2; }
-.base01 { background: @base01; color: @base1; }
-.base00 { background: @base00; color: @base0; }
-.base0 { background: @base0; color: @base00; }
-.base1 { background: @base1; color: @base01; }
-.base2 { background: @base2; color: @base02; }
-.base3 { background: @base3; color: @base03; }
+.base00 { color: @base00; }
+.base01 { color: @base01; }
+.base02 { color: @base02; }
+.base03 { color: @base03; }
+.base04 { color: @base04; }
+.base05 { color: @base05; }
+.base06 { color: @base06; }
+.base07 { color: @base07; }
 
-.black { background: @black; color: @white; }
-.white { background: @white; color: @black; }
-.yellow { background: @yellow; color: @white; }
-.orange { background: @orange; color: @white; }
-.red { background: @red; color: @white; }
-.magenta { background: @magenta; color: @white; }
-.violet { background: @violet; color: @white; }
-.blue { background: @blue; color: @white; }
-.cyan { background: @cyan; color: @white; }
-.green { background: @green; color: @white; }
+.base08 { color: @base08; }
+.base09 { color: @base09; }
+.base0A { color: @base0A; }
+.base0B { color: @base0B; }
+.base0C { color: @base0C; }
+.base0D { color: @base0D; }
+.base0E { color: @base0E; }
+.base0F { color: @base0F; }
+
+.base00bg { background: @base00; color: @base04; }
+.base01bg { background: @base01; color: @base05; }
+.base02bg { background: @base02; color: @base06; }
+.base03bg { background: @base03; color: @base07; }
+.base04bg { background: @base04; color: @base00; }
+.base05bg { background: @base05; color: @base01; }
+.base06bg { background: @base06; color: @base02; }
+.base07bg { background: @base07; color: @base03; }
+
+.base08bg { background: @base08; color: @base07; }
+.base09bg { background: @base09; color: @base07; }
+.base0Abg { background: @base0A; color: @base07; }
+.base0Bbg { background: @base0B; color: @base07; }
+.base0Cbg { background: @base0C; color: @base07; }
+.base0Dbg { background: @base0D; color: @base07; }
+.base0Ebg { background: @base0E; color: @base07; }
+.base0Fbg { background: @base0F; color: @base07; }
 
 // Swatch design samples
 .swatch {
@@ -52,7 +68,7 @@
 }
 
 // Box
-.box(@bg: @base03, @color: @base3) {
+.box(@bg: @base03, @color: @base07) {
   .box-shadow(~"0 1px 2px rgba(0,0,0,.4)");
   .border-radius(@baseBorderRadius);
 
@@ -64,7 +80,7 @@
   margin-bottom: @rhythmUnit;
 }
 // Box colors
-.box-color(@bg: @base03, @color: @base3) {
+.box-color(@bg: @base03, @color: @base07) {
   background-color: @bg;
   color: @color;
 }
