@@ -49,7 +49,7 @@ function swdc_widgets_init() {
   // Sidebars
   register_sidebar(array(
     'name'          => __('Sponsors', 'swdc'),
-    'id'            => 'sidebar-sponsors',
+    'id'            => 'sponsors',
     'before_widget' => '<section class="widget %1$s %2$s"><div class="widget-inner">',
     'after_widget'  => '</div></section>',
     'before_title'  => '<h3>',

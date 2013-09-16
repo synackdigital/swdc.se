@@ -30,4 +30,5 @@ get_header(); ?>
       endwhile; endif; ?>
     </div>
 
+<?php dynamic_sidebar('sponsors'); ?>
 <?php get_footer(); ?>
