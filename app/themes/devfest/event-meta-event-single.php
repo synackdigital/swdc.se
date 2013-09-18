@@ -11,7 +11,7 @@
  */
 ?>
 
-<div class="entry-meta eventorganiser-event-meta">
+<section class="entry-meta eo-event-meta">
   <?php
   // Choose a different date format depending on whether we want to include time
   if( eo_is_all_day() )
@@ -34,17 +34,17 @@
   endif;
   ?>
 
-  <dl class="horizontal">
+  <dl class="dl-horizontal">
     <?php if( !eo_reoccurs() ): // Single event ?>
-    <dt><?php _e('Start', 'eventorganiser') ;?></dt>
+    <dt><?php _e('When', 'eventorganiser') ;?></dt>
     <dd><?php eo_the_start($date_format); ?></dd>
     <?php endif; ?>
 
     <?php if( eo_get_venue() ): ?>
-    <dt><?php _e('Venue','eventorganiser'); ?></dt>
+    <dt><?php _e('Where','eventorganiser'); ?></dt>
     <dd><?php eo_venue_name(); ?></dd>
     <?php endif; ?>
 
   </dl>
 
-</div><!-- .entry-meta -->
+</section><!-- .entry-meta -->

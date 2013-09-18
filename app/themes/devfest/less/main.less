@@ -1,13 +1,6 @@
-/*
- * HTML5 Boilerplate
- *
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
 
 /* ==========================================================================
-   Base styles: opinionated defaults
+   Base styles
    ========================================================================== */
 
 html,
@@ -18,114 +11,55 @@ textarea {
     color: @base02;
 }
 
-html {
-    font-family: 'Nunito', sans-serif;
-    .font-normal();
-}
-
 body {
     .base05bg;
+
+    .font-normal();
+    font-family: 'Nunito', sans-serif;
     font-size: @fontSizeMedium;
     line-height: 1.5;
+
+    padding: 2 * @rhythmUnit;
 }
 
+// Animate link colors on hover
 a {
     .base0D;
+    .transition(~"color 90ms linear");
+
     text-decoration: none;
 
     &:hover,
     &:focus {
         .base0C;
-        text-decoration: underline;
-        .transition(~"color 90ms linear");
     }
-}
-
-/*
- * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
- */
-
-img {
-    vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-    resize: vertical;
-}
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-// Body paddings
-body {
-    padding: @rhythmUnit;
-    @media only screen and (min-width: 720px) {
-        padding: 2 * @rhythmUnit;
-    }
-}
-
-// Background pattern
-body {
-    // background-image: url('img/office.png');
 }
 
 // Headlines
-h1, h2, h3, h4 { .base02; }
-h1 { font-size: @fontSizeXLarge; .font-light(); }
+h1, h2, h3, h4 { .base02; .font-bold(); }
+h1 { font-size: @fontSizeXLarge;  }
 h2 { font-size: @fontSizeLarge; }
-h3, h4 { font-size: @fontSizeMedium; }
-aside h1, aside h2, aside h3, aside h4 { font-size: @fontSizeMedium; }
+h3, h4, h5, h6 { font-size: @fontSizeMedium; }
+aside h1, aside h2, aside h3, aside h4, aside h5, aside h6 { font-size: @fontSizeMedium; }
 
+// description lists
+dl {
+    dt {
+    }
+    dd {
+        margin: 0;
+    }
+}
 // Rounded corners on all images
 img {
     .border-radius(@baseBorderRadius);
 }
 
-// Event organizer - event list
-.eo-events {
-    .unstyled-list();
-
-    .past-events & .eo-event  {
-        .eo-event-title {
-            text-decoration: line-through;
-        }
-    }
-}
-
-// Event organizer - single event
-.eo-event {
-    .box();
-
-    // The title
-    .eo-event-title {
-        display: block;
-        margin-top: @rhythmUnit;
-        margin-bottom: @rhythmUnit;
-
-        font-size: @fontSizeLarge;
-    }
-
-    // Post thumbnail
-    .wp-post-image {
-        float: right;
-        max-width: 120px;
-        height: auto;
-    }
+// Fluid container
+.container {
+    max-width: 960px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 // Clear floated elements inside entry-content
@@ -148,56 +82,66 @@ img {
     }
 }
 
-// Invisible lists
-.invisilist {
-    padding-left: 0;
 
-    li {
-        list-style: none;
+
+/* ==========================================================================
+   Event Organizer
+   ========================================================================== */
+
+// Event lists
+.eo-events {
+    .unstyled-list();
+
+    // Individual events
+    .eo-event {
+        .box();
+    }
+
+    // Past events
+    .past-events & .eo-event  {
+        .eo-event-title {
+            text-decoration: line-through;
+        }
     }
 }
 
-// Horizontal description lists
-dl.horizontal {
-    .clearfix(); // Ensure dl clears floats if empty dd elements present
-
-    dt {
-        color: @base0F;
-
-        clear: left;
+// Single events
+body.single article {
+    @media (min-width: @grid-breakpoint) {
         float: left;
-        overflow: hidden;
-        margin-top: @rhythmUnit;
-        width: 100px;
-
-        font-weight: bold;
-        text-align: right;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        width: 50%;
     }
 
-    dd {
-        margin-top: @rhythmUnit;
-        margin-left: 100px + @rhythmUnit;
+    margin-bottom: @rhythmUnit;
+}
+body.single aside {
+    @media (min-width: @grid-breakpoint) {
+        width: 45%;
+        float: right;
     }
 
-    // Reset on tight layouts
-    @media (max-width: 419px) {
-        dt {
-            float: none;
-            clear: none;
-            width: auto;
-            text-align: left;
-        }
+    .entry-meta {
+        .box();
+        margin-bottom: @rhythmUnit;
+    }
 
-        dd {
-            margin-top: 0;
-            margin-left: 0;
-        }
+    .widget {
+        border-bottom: 1px dotted @base09;
+        padding-bottom: @rhythmUnit;
     }
 }
 
-// Flexislider plugin
+// Session listing
+body.single .sessions {
+    clear: both;
+    margin-top: 50px;
+}
+
+
+/* ==========================================================================
+   FlexSlider
+   ========================================================================== */
+
 .flexslider {
     background-color: rgba(0,0,0,.4);
     .border-radius(@baseBorderRadius);
@@ -205,44 +149,14 @@ dl.horizontal {
     max-width: 600px;
     padding: .5 * @rhythmUnit;
     margin: 0 auto (6 * @rhythmUnit);
-
-    img {
-        .border-radius(@baseBorderRadius);
-    }
 }
-
-// Fluid container
-#main {
-    max-width: 960px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-// Lists inside entry content
-.entry-content ul {
-    li {
-        list-style: none;
-        text-indent: -2em;
-    }
-    li:before {
-        content: '++ ';
-    }
-}
-
-
-
-
-
-
-
-
 
 
 /* ==========================================================================
    Helper classes
    ========================================================================== */
 
-/* Wordpress align classes */
+// Wordpress alignment classes
 .alignright {
     float: right;
     margin-left: 1em;
@@ -250,96 +164,6 @@ dl.horizontal {
 .alignleft {
     float: left;
     margin-right: 1em;
-}
-
-/* Prevent callout */
-
-.nocallout {
-    -webkit-touch-callout: none;
-}
-
-.pressed {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* A hack for HTML5 contenteditable attribute on mobile */
-
-textarea[contenteditable] {
-    -webkit-appearance: none;
-}
-
-/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if
-   they have been set as display: none */
-
-.gifhidden {
-    position: absolute;
-    left: -100%;
-}
-
-/*
- * Image replacement
- */
-
-.ir {
-    background-color: transparent;
-    background-repeat: no-repeat;
-    border: 0;
-    direction: ltr;
-    display: block;
-    overflow: hidden;
-    text-align: left;
-    text-indent: -999em;
-}
-
-.ir br {
-    display: none;
-}
-
-/*
- * Hide from both screenreaders and browsers: h5bp.com/u
- */
-
-.hidden {
-    display: none !important;
-    visibility: hidden;
-}
-
-/*
- * Hide only visually, but have it available for screenreaders: h5bp.com/v
- */
-
-.visuallyhidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-
-/*
- * Extends the .visuallyhidden class to allow the element to be focusable
- * when navigated to via the keyboard: h5bp.com/p
- */
-
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
-    clip: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
-}
-
-/*
- * Hide visually and from screenreaders, but maintain layout
- */
-
-.invisible {
-    visibility: hidden;
 }
 
 /**
@@ -364,19 +188,4 @@ textarea[contenteditable] {
 
 .clearfix {
     *zoom: 1;
-}
-
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   Theses examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 800px) {
-    /* Style adjustments for viewports that meet the condition */
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (min-resolution: 144dpi) {
-    /* Style adjustments for viewports that meet the condition */
 }

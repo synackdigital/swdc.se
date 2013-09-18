@@ -6,51 +6,36 @@
 
 get_header(); ?>
 
-    <div id="main">
-      <?php
-      // Start the Loop
-      if(have_posts()): while(have_posts()): the_post(); ?>
+    <?php // Start the Loop
+    if(have_posts()): while(have_posts()): the_post(); ?>
+
+    <header class="container">
+        <h1><?php echo bloginfo( 'name' ); ?></h1>
+    </header>
+
+    <div id="main" class="container">
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-        <header class="entry-header">
-          <h1 class="entry-title"><?php
-            if(is_front_page()):
-              bloginfo( 'name' );
-            else:
-              the_title();
-            endif;
-            ?></h1>
-        </header>
         <div class="entry-content">
           <?php the_content(); ?>
         </div>
       </article>
-      <?php
-      // End the Loop
-      endwhile; endif;
 
-      // Display upcoming and current events
-      if(is_front_page()):
-      ?>
+      <?php // Display upcoming and current events
+      if(is_front_page()) : ?>
       <aside class="events future-events">
-        <?php
-          echo do_shortcode('[eo_events event_start_after="today" showpastevents=false]');
-        ?>
+        <?php echo do_shortcode('[eo_events event_start_after="today" showpastevents=false]'); ?>
       </aside>
-      <?php
-      endif;
+      <?php endif; ?>
 
-      // Display past events
-      if(is_front_page()):
-      ?>
+      <?php // Display past events
+      if(is_front_page()) : ?>
       <aside class="events past-events">
-        <?php
-          echo do_shortcode('[eo_events event_end_before="today" showpastevents=true orderby="eventstart" order="DESC"]');
-        ?>
+        <?php echo do_shortcode('[eo_events event_end_before="today" showpastevents=true orderby="eventstart" order="DESC"]'); ?>
       </aside>
-      <?php
-      endif;
-
-      ?>
+      <?php endif; ?>
     </div>
+
+    <?php // End the Loop
+    endwhile; endif; ?>
 
 <?php get_footer(); ?>

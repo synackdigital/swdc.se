@@ -45,11 +45,35 @@
   width: 100px;
 }
 
+// Text overflow
+// Requires inline-block or block for proper styling
+.text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // Unstyled lists
 .unstyled-list() {
   padding-left: 0;
   list-style: none;
 }
+
+// Horizontal description lists
+.dl-horizontal {
+  dt {
+    float: left;
+    width: 60px;
+    clear: left;
+    text-align: right;
+    .text-overflow();
+  }
+  dd {
+    margin-left: 75px;
+    .clearfix(); // Clear the floated `dt` if an empty `dd` is present
+  }
+}
+
 
 // Clearing floats like a boss h5bp.com/q
 .clearfix() {

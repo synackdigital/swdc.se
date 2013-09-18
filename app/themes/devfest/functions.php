@@ -6,8 +6,8 @@
 
 /* Basic theme setup */
 function swdc_setup() {
-  add_theme_support( 'post-thumbnails' ); // Add post thumbnail support
-  set_post_thumbnail_size( 200, 200, true ); // hard crop
+  // add_theme_support( 'post-thumbnails' ); // Add post thumbnail support
+  // set_post_thumbnail_size( 200, 200, true ); // hard crop
 }
 add_action( 'after_setup_theme', 'swdc_setup' );
 
