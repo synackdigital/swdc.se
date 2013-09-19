@@ -36,13 +36,19 @@
 
   <dl class="dl-horizontal">
     <?php if( !eo_reoccurs() ): // Single event ?>
-    <dt><?php _e('When', 'eventorganiser') ;?></dt>
+    <dt><?php _e('When:', 'eventorganiser') ;?></dt>
     <dd><?php eo_the_start($date_format); ?></dd>
     <?php endif; ?>
 
     <?php if( eo_get_venue() ): ?>
-    <dt><?php _e('Where','eventorganiser'); ?></dt>
-    <dd><?php eo_venue_name(); ?></dd>
+    <dt><?php _e('Where:','eventorganiser'); ?></dt>
+    <dd>
+      <?php
+        eo_venue_name();
+        $address_details = eo_get_venue_address();
+        echo ', ' . $address_details['address'] . ' ' . $address_details['city'];
+      ?>
+    </dd>
     <?php endif; ?>
 
   </dl>
