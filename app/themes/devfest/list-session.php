@@ -2,9 +2,14 @@
 
     <?php if (count($sessions)) : ?>
     <ul class="sessions-list">
-        <?php foreach ($sessions as $session) : ?>
-            <li><a href="<?php echo get_permalink( $session->ID ); ?>"><?php echo get_the_title( $session->ID ); ?></a></li>
-        <?php endforeach; ?>
+      <h2>Planned sessions:</h2>
+      <?php foreach ($sessions as $session) : ?>
+      <li>
+        <span class="session-title"><?php echo get_the_title( $session->ID ); ?></span>
+        <span class="speaker-name">Speaker Name</span>
+        <span class="speaker-company">Company</span>
+      </li>
+      <?php endforeach; ?>
     </ul>
     <?php endif; ?>
 

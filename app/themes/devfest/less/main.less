@@ -143,9 +143,17 @@ body.single aside {
 }
 
 // Session listing
-body.single .sessions {
+body.single .sessions-list {
+    .list-unstyled;
     clear: both;
     margin-top: 50px;
+
+    .session-title,
+    .speaker-name {
+        &:after {
+            content: ',';
+        }
+    }
 }
 
 
@@ -175,6 +183,12 @@ body.single .sessions {
 .alignleft {
     float: left;
     margin-right: 1em;
+}
+
+// Unstyled list
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
 }
 
 /**
