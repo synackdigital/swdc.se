@@ -24,6 +24,10 @@ get_header(); ?>
         <div class="entry-content">
           <?php the_content(); ?>
         </div>
+
+        <div class="entry-content event-sessions">
+          <?php get_template_part('list', 'session'); ?>
+        </div>
       </article>
       <?php
       // End the Loop
