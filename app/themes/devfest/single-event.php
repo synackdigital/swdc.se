@@ -26,19 +26,19 @@ get_header(); ?>
         <div class="entry-content">
           <?php the_content(); ?>
         </div>
+
+
+        <?php if ( class_exists('SWDCSession') ) : ?>
+          <?php global $sessions_query; $sessions_query = new WP_Query( SWDCSession::session_args_for_event( get_the_ID() ) ); ?>
+
+          <?php if ( $sessions_query->have_posts() ) : ?>
+            <h2>Planned sessions:</h2>
+            <?php get_template_part('loop', 'session'); ?>
+          <?php endif; ?>
+        <?php endif; ?>
+
       </article>
-
     </div>
-
-    <?php if ( class_exists('SWDCSession') ) : ?>
-      <?php global $sessions_query; $sessions_query = new WP_Query( SWDCSession::session_args_for_event( get_the_ID() ) ); ?>
-
-      <?php if ( $sessions_query->have_posts() ) : ?>
-        <h2>Planned sessions:</h2>
-        <?php get_template_part('loop', 'session'); ?>
-      <?php endif; ?>
-    <?php endif; ?>
-
     <?php // End the Loop
     endwhile; endif; ?>
 
