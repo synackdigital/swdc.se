@@ -11,7 +11,7 @@
  */
 ?>
 
-<section class="entry-meta eo-event-meta">
+<div class="entry-meta">
   <?php
   // Choose a different date format depending on whether we want to include time
   if( eo_is_all_day() )
@@ -34,23 +34,18 @@
   endif;
   ?>
 
-  <dl class="dl-horizontal">
-    <?php if( !eo_reoccurs() ): // Single event ?>
-    <dt><?php _e('When:', 'eventorganiser') ;?></dt>
-    <dd><?php eo_the_start($date_format); ?></dd>
-    <?php endif; ?>
+  <?php if( !eo_reoccurs() ): // Single event ?>
+  <span class="event-startdate"><?php eo_the_start('j'); ?></span>&ndash;<span class="event-enddate"><?php eo_the_end('j'); ?></span> <span class="event-monthyear"><?php eo_the_start('F Y'); ?></span>
+  <?php endif; ?>
 
-    <?php if( eo_get_venue() ): ?>
-    <dt><?php _e('Where:','eventorganiser'); ?></dt>
-    <dd>
-      <?php
-        eo_venue_name();
-        $address_details = eo_get_venue_address();
-        echo ', ' . $address_details['address'] . ' ' . $address_details['city'];
-      ?>
-    </dd>
-    <?php endif; ?>
+  <?php if( eo_get_venue() ): ?>
+  <span class="event-venue">
+    <?php
+      eo_venue_name();
+      $address_details = eo_get_venue_address();
+      echo ', ' . $address_details['address'] . ' ' . $address_details['city'];
+    ?>
+  </span>
+  <?php endif; ?>
 
-  </dl>
-
-</section><!-- .entry-meta -->
+</div>

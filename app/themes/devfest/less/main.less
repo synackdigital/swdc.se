@@ -12,7 +12,7 @@ textarea {
 }
 
 body {
-    background: white url('img/graphy.png');
+    background: white url('img/graphy.png') top center;
     @media all and (-webkit-min-device-pixel-ratio: 2) {
         background: white url('img/graphy_@2X.png');
         background-size: 80px 160px;
@@ -114,6 +114,8 @@ header {
     .page-title {
         color: @base07;
 
+        margin: 0;
+
         @media only screen and (max-width: 660px) {
             font-size: @fontSizeLarge;
         }
@@ -170,40 +172,36 @@ header {
     }
 }
 
-// Single events
+.entry-meta {
+    .base02();
+    margin-bottom: @rhythmUnit;
+
+    .event-monthyear:after {
+        content: ' — ';
+    }
+}
+
+.swdc-event-sponsors-widget {
+    .box(white, @base0F);
+}
+
+header {
+    margin-top: (4 * @rhythmUnit);
+    margin-bottom: (4 * @rhythmUnit);
+}
 article {
-    // @media (min-width: @grid-breakpoint) {
-    //     float: left;
-    //     width: 50%;
-    // }
+    @media (min-width: @grid-breakpoint) {
+        float: left;
+        width: 80%;
+    }
 
     margin-bottom: @rhythmUnit;
 }
 aside {
-    // @media (min-width: @grid-breakpoint) {
-    //     width: 45%;
-    //     float: right;
-    // }
-
-    .entry-meta {
-        .box();
-        margin-bottom: @rhythmUnit;
+    @media (min-width: @grid-breakpoint) {
+        width: 15%;
+        float: right;
     }
-
-    .widget {
-        .clearfix();
-
-        border-bottom: 1px dotted @base09;
-        padding-bottom: @rhythmUnit;
-    }
-
-    .swdc-event-sponsors-widget {
-        img {
-            max-width: 40%;
-            float: left;
-        }
-    }
-
 }
 
 // Session listing
@@ -220,6 +218,20 @@ aside {
     }
 }
 
+#main {
+    border-top: 3px solid @base04;
+    .border-radius(@baseBorderRadius);
+
+    padding-top: (2 * @rhythmUnit);
+    padding-bottom: (2 * @rhythmUnit);
+}
+
+.widget h1,
+.widget h2,
+.widget h3,
+.widget h4 {
+    font-size: @fontSizeSmall;
+}
 
 /* ==========================================================================
    FlexSlider
