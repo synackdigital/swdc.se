@@ -67,6 +67,42 @@ img {
     margin-left: auto;
 }
 
+// Page title
+header {
+    text-align: center;
+}
+.page-title {
+    .box(@base02, @base07);
+    border: 6px double @base0D;
+
+    text-transform: uppercase;
+
+    position: relative;
+    display: inline-block;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    &:before,
+    &:after {
+        background-color: @base0D;
+
+        .rotateZ(45deg);
+
+        content: '';
+        position: absolute;
+        top: 50%;
+        margin-top: -5px;
+        width: 10px;
+        height: 10px;
+    }
+    &:before {
+        left: 10px;
+    }
+    &:after {
+        right: 10px;
+    }
+}
+
 // Clear floated elements inside entry-content
 .entry-content {
     .clearfix();
