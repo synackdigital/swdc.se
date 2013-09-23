@@ -12,7 +12,11 @@ textarea {
 }
 
 body {
-    background-color: white;
+    background: white url('img/graphy.png');
+    @media all and (-webkit-min-device-pixel-ratio: 2) {
+        background: white url('img/graphy_@2X.png');
+        background-size: 80px 160px;
+    }
 
     .font-normal();
     font-family: 'Knockout 31 A', 'Knockout 31 B', sans-serif;
