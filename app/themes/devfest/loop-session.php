@@ -1,7 +1,7 @@
 <?php global $sessions_query; if ($sessions_query->have_posts()) : ?>
-  <div class="event-sessions">
+  <ul class="event-sessions">
     <?php while ($sessions_query->have_posts()) : $sessions_query->the_post(); ?>
-      <?php get_template_part('content', 'session'); ?>
+      <li><?php get_template_part('content', 'session'); ?></li>
     <?php endwhile; ?>
-  </div>
+  </ul>
 <?php endif; ?>

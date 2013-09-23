@@ -205,15 +205,20 @@ aside {
 }
 
 // Session listing
-.sessions-list {
+.event-sessions {
     .list-unstyled;
-    clear: both;
-    margin-top: 50px;
 
-    .session-title,
-    .speaker-name {
-        &:after {
-            content: ',';
+    .session {
+        border-top: 2px solid @base0A;
+        padding: @rhythmUnit 0;
+
+        .session-title {
+            font-weight: bold;
+        }
+        .speaker-company {
+            &:before {
+                content: ', ';
+            }
         }
     }
 }
