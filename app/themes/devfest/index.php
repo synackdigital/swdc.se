@@ -10,7 +10,9 @@ get_header(); ?>
     if(have_posts()): while(have_posts()): the_post(); ?>
 
     <header class="container">
+      <div class="page-header">
         <h1 class="page-title"><?php echo bloginfo( 'name' ); ?></h1>
+      </div>
     </header>
 
     <div id="main" class="container">

@@ -158,17 +158,28 @@ header {
 // Event lists
 .eo-events {
     .unstyled-list();
+    text-align: center;
 
     // Individual events
     .eo-event {
         .box();
+        float: left;
+        width: 46%;
+
+        &:nth-child(even) {
+            float: right;
+        }
     }
 
     // Past events
     .past-events & .eo-event  {
-        .eo-event-title {
-            text-decoration: line-through;
-        }
+        .box(@base04, @base03);
+    }
+
+    // Thumbnail
+    .wp-post-image {
+        display: block;
+        margin: @rhythmUnit auto;
     }
 }
 
@@ -191,16 +202,20 @@ header {
 }
 article {
     @media (min-width: @grid-breakpoint) {
-        float: left;
-        width: 80%;
+        body.single-event & {
+            float: left;
+            width: 80%;
+        }
     }
 
     margin-bottom: @rhythmUnit;
 }
 aside {
     @media (min-width: @grid-breakpoint) {
-        width: 15%;
-        float: right;
+        body.single-event & {
+            width: 15%;
+            float: right;
+        }
     }
 }
 
