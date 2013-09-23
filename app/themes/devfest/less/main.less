@@ -54,9 +54,18 @@ dl {
         margin: 0;
     }
 }
+
 // Rounded corners on all images
 img {
     .border-radius(@baseBorderRadius);
+}
+
+// Scale all images to their containers
+img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
 }
 
 // Fluid container
@@ -71,8 +80,8 @@ img {
 header {
     text-align: center;
 }
-.page-title {
-    .box(@base02, @base07);
+.page-header {
+    .box(fade(@base02, 90%), @base07);
     border: 6px double @base0D;
 
     text-transform: uppercase;
@@ -100,6 +109,21 @@ header {
     }
     &:after {
         right: 10px;
+    }
+
+    .page-title {
+        color: @base07;
+
+        @media only screen and (max-width: 660px) {
+            font-size: @fontSizeLarge;
+        }
+        @media only screen and (max-width: 500px) {
+            font-size: @fontSizeMedium;
+        }
+    }
+
+    .post-thumbnail {
+        display: block;
     }
 }
 
@@ -148,18 +172,18 @@ header {
 
 // Single events
 article {
-    @media (min-width: @grid-breakpoint) {
-        float: left;
-        width: 50%;
-    }
+    // @media (min-width: @grid-breakpoint) {
+    //     float: left;
+    //     width: 50%;
+    // }
 
     margin-bottom: @rhythmUnit;
 }
 aside {
-    @media (min-width: @grid-breakpoint) {
-        width: 45%;
-        float: right;
-    }
+    // @media (min-width: @grid-breakpoint) {
+    //     width: 45%;
+    //     float: right;
+    // }
 
     .entry-meta {
         .box();

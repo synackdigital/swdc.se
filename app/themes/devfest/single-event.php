@@ -10,15 +10,19 @@ get_header(); ?>
     if(have_posts()): while(have_posts()): the_post(); ?>
 
     <header class="container">
+      <div class="page-header">
         <h1 class="page-title"><?php the_title(); ?></h1>
-    </header>
-
-    <div id="main" class="container">
-      <aside>
+      </div>
+      <div class="post-thumbnail">
         <?php
           if (has_post_thumbnail())
             the_post_thumbnail(array(435, 435));
         ?>
+      </div>
+    </header>
+
+    <div id="main" class="container">
+      <aside>
         <?php eo_get_template_part('event-meta','event-single'); ?>
         <?php dynamic_sidebar('sponsors'); ?>
       </aside>
