@@ -14,7 +14,7 @@ get_header(); ?>
         <h1 class="page-title"><?php the_title(); ?></h1>
       </div>
       <?php eo_get_template_part('event-meta','event-single'); ?>
-      <?php if (has_post_thumbnail()) the_post_thumbnail(array(435, 435)); ?>
+      <?php if (has_post_thumbnail()) the_post_thumbnail(); ?>
     </header>
 
     <div id="main" class="container">
