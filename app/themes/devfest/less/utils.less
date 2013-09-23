@@ -61,16 +61,18 @@
 
 // Horizontal description lists
 .dl-horizontal {
-  dt {
-    float: left;
-    width: 5em;
-    clear: left;
-    text-align: right;
-    .text-overflow();
-  }
-  dd {
-    margin-left: 6em;
-    .clearfix(); // Clear the floated `dt` if an empty `dd` is present
+  @media only screen and (min-width: 500px) {
+    dt {
+      float: left;
+      width: 5em;
+      clear: left;
+      text-align: right;
+      .text-overflow();
+    }
+    dd {
+      margin-left: 6em;
+      .clearfix(); // Clear the floated `dt` if an empty `dd` is present
+    }
   }
 }
 
