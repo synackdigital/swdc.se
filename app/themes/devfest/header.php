@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/style.css">
         <script src="<?php echo get_template_directory_uri(); ?>/js/vendor/modernizr-2.6.2.min.js"></script>
 
+        <link rel="stylesheet" type="text/css" href="//cloud.typography.com/7770232/781862/css/fonts.css">
+
         <?php wp_head(); ?>
     </head>
 
