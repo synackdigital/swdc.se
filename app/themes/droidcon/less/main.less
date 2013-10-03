@@ -207,12 +207,12 @@ img {
 }
 
 // Metadata
-.entry-meta {
+.eo-meta {
     .box();
 }
 
 // Sessions
-.entry-sessions {
+.eo-sessions {
     .box();
 }
 
@@ -286,6 +286,44 @@ dl {
         .border-radius(@baseBorderRadius);
     }
 }
+
+// Session listing
+.event-sessions {
+    .unstyled-list();
+
+    li {
+        border-top: 1px solid @magenta;
+        padding: @rhythmUnit 0;
+
+        &:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+    }
+
+    .session {
+        .clearfix();
+
+        .speaker {
+            float: left;
+            margin-right: 1.5em;
+            .clearfix;
+        }
+        .speaker .wp-post-image {
+            width: 60px;
+            float: left;
+            margin-right: .5em;
+            .border-radius(50%);
+        }
+        .speaker-details {
+            float: left;
+        }
+        .speaker-company {
+            display: block;
+        }
+    }
+}
+
 
 // Fluid container
 #main {
