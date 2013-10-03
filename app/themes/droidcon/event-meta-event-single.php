@@ -12,6 +12,8 @@
 ?>
 
 <div class="entry-meta eventorganiser-event-meta">
+  <?php if (has_post_thumbnail()) the_post_thumbnail('medium'); ?>
+
   <?php
   // Choose a different date format depending on whether we want to include time
   if( eo_is_all_day() )

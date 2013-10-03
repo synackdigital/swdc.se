@@ -14,10 +14,6 @@ get_header(); ?>
       if(have_posts()): while(have_posts()): the_post(); ?>
       <article id="post-<?php the_ID(); ?>" <?php post_class('eo-event'); ?>>
         <header class="entry-header">
-          <?php
-            if (has_post_thumbnail())
-              the_post_thumbnail();
-          ?>
           <h1 class="entry-title"><?php the_title(); ?></h1>
         </header>
         <div class="entry-content">
