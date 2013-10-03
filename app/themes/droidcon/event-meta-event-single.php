@@ -34,7 +34,7 @@
   endif;
   ?>
 
-  <dl class="horizontal">
+  <dl>
     <?php if( !eo_reoccurs() ): // Single event ?>
     <dt><?php _e('Start', 'eventorganiser') ;?></dt>
     <dd><?php eo_the_start($date_format); ?></dd>
@@ -46,5 +46,7 @@
     <?php endif; ?>
 
   </dl>
+
+  <?php echo eo_get_venue_map(); ?>
 
 </div><!-- .entry-meta -->

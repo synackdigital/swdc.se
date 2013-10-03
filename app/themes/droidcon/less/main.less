@@ -206,6 +206,11 @@ img {
     }
 }
 
+// Metadata
+.entry-meta {
+    .box();
+}
+
 // Invisible lists
 .invisilist {
     padding-left: 0;
@@ -215,42 +220,50 @@ img {
     }
 }
 
-// Horizontal description lists
-dl.horizontal {
-    .clearfix(); // Ensure dl clears floats if empty dd elements present
-
+// Description lists
+dl {
     dt {
         color: @green;
-
-        clear: left;
-        float: left;
-        overflow: hidden;
         margin-top: @rhythmUnit;
-        width: 100px;
-
         font-weight: bold;
-        text-align: right;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
-
     dd {
-        margin-top: @rhythmUnit;
-        margin-left: 100px + @rhythmUnit;
+        margin-left: 0;
     }
 
-    // Reset on tight layouts
-    @media (max-width: 419px) {
+    // Horizontal variation
+    &.horizontal {
+        .clearfix(); // Ensure dl clears floats if empty dd elements present
+
         dt {
-            float: none;
-            clear: none;
-            width: auto;
-            text-align: left;
+            clear: left;
+            float: left;
+            overflow: hidden;
+            width: 100px;
+
+            text-align: right;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         dd {
-            margin-top: 0;
-            margin-left: 0;
+            margin-top: @rhythmUnit;
+            margin-left: 100px + @rhythmUnit;
+        }
+
+        // Reset on tight layouts
+        @media (max-width: 419px) {
+            dt {
+                float: none;
+                clear: none;
+                width: auto;
+                text-align: left;
+            }
+
+            dd {
+                margin-top: 0;
+                margin-left: 0;
+            }
         }
     }
 }
@@ -271,10 +284,24 @@ dl.horizontal {
 
 // Fluid container
 #main {
+    .clearfix();
     max-width: 960px;
     margin-right: auto;
     margin-left: auto;
 }
+
+// Two-col layout on larger screens
+@media (min-width: 768px) {
+    .eo-event {
+        width: 65%;
+        float: left;
+    }
+    .eo-meta {
+        width: 30%;
+        float: right;
+    }
+}
+
 
 // Lists inside entry content
 .entry-content ul {
