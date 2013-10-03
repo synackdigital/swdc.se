@@ -32,6 +32,9 @@
       printf('<p>'.__('This event finished on %s','eventorganiser').'.</p>', eo_get_schedule_last('d F Y',''));
     endif;
   endif;
+
+  // Get venue address
+  $venue_address = eo_get_venue_address();
   ?>
 
   <dl>
@@ -43,6 +46,7 @@
     <?php if( eo_get_venue() ): ?>
     <dt><?php _e('Venue','eventorganiser'); ?></dt>
     <dd><?php eo_venue_name(); ?></dd>
+    <dd><?php echo $venue_address['address'] . ', ' . $venue_address['city']; ?></dd>
     <?php endif; ?>
 
   </dl>
