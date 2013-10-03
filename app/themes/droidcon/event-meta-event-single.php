@@ -15,9 +15,9 @@
   <?php
   // Choose a different date format depending on whether we want to include time
   if( eo_is_all_day() )
-    $date_format = 'j F Y';
+    $date_format = 'j F';
   else
-    $date_format = 'j F Y g:ia';
+    $date_format = 'j F g:ia';
 
   // Is event recurring or a single event?
   if( eo_reoccurs() ):
@@ -39,8 +39,8 @@
 
   <dl>
     <?php if( !eo_reoccurs() ): // Single event ?>
-    <dt><?php _e('Start', 'eventorganiser') ;?></dt>
-    <dd><?php eo_the_start($date_format); ?></dd>
+    <dt><?php _e('When', 'eventorganiser');?></dt>
+    <dd><?php eo_the_start($date_format); ?> <?php _e('until', 'swdc'); ?> <?php eo_the_end($date_format); ?></dd>
     <?php endif; ?>
 
     <?php if( eo_get_venue() ): ?>
