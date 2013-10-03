@@ -31,6 +31,18 @@ get_header(); ?>
       <div class="eo-meta">
         <?php eo_get_template_part('event-meta','event-single'); ?>
       </div>
+
+      <?php if ( class_exists('SWDCSession') ) : ?>
+        <?php global $sessions_query; $sessions_query = new WP_Query( SWDCSession::session_args_for_event( get_the_ID() ) ); ?>
+
+        <?php if ( $sessions_query->have_posts() ) : ?>
+          <div class="eo-sessions">
+            <h2>Planned sessions:</h2>
+            <?php get_template_part('loop', 'session'); ?>
+          </div>
+        <?php endif; ?>
+      <?php endif; ?>
+
     </div>
 
 <?php get_footer(); ?>
