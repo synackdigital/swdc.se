@@ -1,0 +1,36 @@
+
+// Pulsating button links
+.animate-button-pulse() {
+  -webkit-animation: button-pulse 3s ease-in-out 0s infinite;
+  -moz-animation: button-pulse 3s ease-in-out 0s infinite;
+  -ms-animation: button-pulse 3s ease-in-out 0s infinite;
+  -o-animation: button-pulse 3s ease-in-out 0s infinite;
+
+  &:hover,
+  &:focus {
+    -webkit-animation: none;
+    -moz-animation: none;
+    -ms-animation: none;
+    -o-animation: none;
+  }
+}
+@-webkit-keyframes button-pulse {
+  0%   { .opacity(1) }
+  50% { .opacity(.4) }
+  100% { .opacity(1) }
+}
+@-moz-keyframes button-pulse {
+  0%   { .opacity(1) }
+  50% { .opacity(.4) }
+  100% { .opacity(1) }
+}
+@-ms-keyframes button-pulse {
+  0%   { .opacity(1) }
+  50% { .opacity(.4) }
+  100% { .opacity(1) }
+}
+@-o-keyframes button-pulse {
+  0%   { .opacity(1) }
+  50% { .opacity(.4) }
+  100% { .opacity(1) }
+}
