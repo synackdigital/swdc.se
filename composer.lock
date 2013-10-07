@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "fc1932bd21b6e3c7c4c34d23e2a8a56c",
+    "hash": "bfcb627a8c79a5bd775cbbed10018c7b",
     "packages": [
         {
             "name": "composer/installers",
@@ -163,6 +163,21 @@
             },
             "type": "wordpress-plugin",
             "homepage": "http://wordpress.org/extend/plugins/google-analyticator"
+        },
+        {
+            "name": "wpackagist/imagefx",
+            "version": "0.4",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/imagefx.0.4.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/imagefx"
         },
         {
             "name": "wpackagist/logged-in",

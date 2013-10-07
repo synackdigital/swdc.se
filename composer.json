@@ -27,7 +27,8 @@
     "wpackagist/logged-in": "*",
     "wpackagist/event-organiser": "2.2.2",
     "wpackagist/google-analyticator": "6.4.4.3",
-    "wpackagist/wordpress-mu-domain-mapping": "0.5.4.3"
+    "wpackagist/wordpress-mu-domain-mapping": "0.5.4.3",
+    "wpackagist/imagefx": "0.4"
   },
   "extra": {
     "webroot-dir": "wordpress",
