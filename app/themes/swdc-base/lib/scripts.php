@@ -11,7 +11,15 @@
  * 3. /theme/assets/js/main.min.js (in footer)
  */
 function roots_scripts() {
-  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '9a2dd99b82ca338b034e8730b94139d2');
+
+  // Select child theme stylesheet if available
+  if (file_exists(get_stylesheet_directory() . '/assets/css/main.min.css') ):
+    $roots_main_file = get_stylesheet_directory_uri() . '/assets/css/main.min.css';
+  else:
+    $roots_main_file = get_template_directory_uri() . '/assets/css/main.min.css';
+  endif;
+
+  wp_enqueue_style('roots_main', $roots_main_file, false, '9a2dd99b82ca338b034e8730b94139d2');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
   // Grab Google CDN's latest jQuery with a protocol relative URL; fallback to local if offline
