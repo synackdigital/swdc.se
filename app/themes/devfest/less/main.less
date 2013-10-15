@@ -225,11 +225,19 @@ aside {
 
     .session {
         border-top: 2px solid @base0A;
-        padding: @rhythmUnit 0;
+        margin-bottom: 0;
+
         .clearfix();
 
+        a {
+            display: block;
+            padding: @rhythmUnit;
+            &:hover {
+                background-color: fade(@base0E, 20%);
+            }
+        }
+
         .session-details {
-            float: right;
             text-align: right;
         }
         .session-title {
@@ -239,9 +247,13 @@ aside {
             font-weight: bold;
             display: block;
         }
+        .session-body {
+            clear: both;
+            padding: @rhythmUnit;
+        }
         .speaker {
             float: left;
-            margin-right: 1.5em;
+            margin: @rhythmUnit;
             .clearfix;
         }
         .speaker .wp-post-image {
