@@ -1,0 +1,22 @@
+{
+  "name": "swdc-base",
+  "version": "0.0.1",
+  "homepage": "https://github.com/synackdigital/swdc.se",
+  "authors": [
+    "frebro <frebro@gmail.com>"
+  ],
+  "description": "Wordpress parent theme for SWDC",
+  "main": "base.php",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "base16-less": "git@github.com:frebro/base16-less.git"
+  }
+}
