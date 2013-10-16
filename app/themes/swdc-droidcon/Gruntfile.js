@@ -17,7 +17,11 @@ module.exports = function(grunt) {
       dist: {
         options: {
           compile: true,
-          compress: true
+          compress: true,
+          includePath: [
+            '../swdc-base/assets/less',
+            '../swdc-base/bower_components/base16-less/less'
+          ]
         },
         files: {
           'assets/css/main.min.css': [
