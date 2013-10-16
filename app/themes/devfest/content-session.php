@@ -23,6 +23,6 @@
     </span>
   </a>
   <div class="session-body">
-    <?php echo $content; ?>
+    <?php echo wpautop($content); ?>
   </div>
 </a>
