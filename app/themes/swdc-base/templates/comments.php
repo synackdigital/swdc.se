@@ -24,7 +24,7 @@
     </nav>
     <?php endif; ?>
 
-    <?php if (!comments_open() && !is_page() && post_type_supports(get_post_type(), 'comments')) : ?>
+    <?php if (!comments_open() && !is_page() && post_type_supports(get_post_type(), 'comments') && current_theme_supports('comments-disabled-notification')) : ?>
     <div class="alert alert-warning">
       <?php _e('Comments are closed.', 'roots'); ?>
     </div>
@@ -32,7 +32,7 @@
   </section><!-- /#comments -->
 <?php endif; ?>
 
-<?php if (!have_comments() && !comments_open() && !is_page() && post_type_supports(get_post_type(), 'comments')) : ?>
+<?php if (!have_comments() && !comments_open() && !is_page() && post_type_supports(get_post_type(), 'comments') && current_theme_supports('comments-disabled-notification')) : ?>
   <section id="comments">
     <div class="alert alert-warning">
       <?php _e('Comments are closed.', 'roots'); ?>
