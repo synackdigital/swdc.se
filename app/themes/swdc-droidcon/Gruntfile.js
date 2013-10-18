@@ -20,7 +20,7 @@ module.exports = function(grunt) {
           compress: true,
           includePath: [
             '../swdc-base/assets/less',
-            '../swdc-base/bower_components/base16-less/less'
+            '../swdc-base/bower_components/base16-less'
           ]
         },
         files: {
