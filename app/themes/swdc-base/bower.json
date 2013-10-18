@@ -1,6 +1,6 @@
 {
   "name": "swdc-base",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/synackdigital/swdc.se",
   "authors": [
     "frebro <frebro@gmail.com>"
@@ -17,6 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "base16-less": "git@github.com:frebro/base16-less.git"
+    "bootstrap": "latest",
+    "base16-less": "latest"
   }
 }
