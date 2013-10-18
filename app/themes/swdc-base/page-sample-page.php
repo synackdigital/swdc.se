@@ -18,65 +18,16 @@
   font-weight: normal;
 }
 
-
-/*
- * Page headers
- *
- * Jumbotron-esque headers at the top of every page that's not the homepage.
- */
-
-
- /* Page headers */
- .bs-header {
-  padding: 30px 15px 40px; /* side padding builds on .container 15px, so 30px */
-  font-size: 16px;
-  text-align: center;
-  text-shadow: 0 1px 0 rgba(0,0,0,.15);
-}
-.bs-header p {
-  font-weight: 300;
-  line-height: 1.5;
-}
-.bs-header .container {
-  position: relative;
-}
-
-@media (min-width: 768px) {
-  .bs-header {
-    font-size: 21px;
-    text-align: left;
-  }
-  .bs-header h1 {
-    font-size: 60px;
-    line-height: 1;
-  }
-}
-
-@media (min-width: 992px) {
-  .bs-header h1,
-  .bs-header p {
-    margin-right: 380px;
-  }
-}
-
-
 /*
  * Docs sections
  *
  * Content blocks for each component or feature.
  */
 
- /* Space things out */
- .bs-docs-section + .bs-docs-section {
+/* Space things out */
+.bs-docs-section + .bs-docs-section {
   padding-top: 40px;
 }
-
-/* Janky fix for preventing navbar from overlapping */
-h1[id] {
-  padding-top: 80px;
-  margin-top: -45px;
-}
-
 
 /*
  * Callouts
@@ -89,7 +40,7 @@ h1[id] {
  .bs-callout {
   margin: 20px 0;
   padding: 20px;
-  border-left: 3px solid rgba(255,255,255,.3);
+  border-left: 3px solid gray;
 }
 .bs-callout h4 {
   margin-top: 0;
@@ -107,12 +58,12 @@ h1[id] {
  * followed by a code snippet.
  */
 
- .bs-example {
+.bs-example {
   position: relative;
   padding: 45px 15px 15px;
   margin: 0 -15px 15px;
   box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
-  border-color: rgba(0,0,0,.3);
+  border-color: gray;
   border-style: solid;
   border-width: 1px 0;
 }
@@ -124,7 +75,7 @@ h1[id] {
   left: 15px;
   font-size: 12px;
   font-weight: bold;
-  color: rgba(255,255,255,.6);
+  color: gray;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -361,7 +312,7 @@ h1[id] {
   display: none; /* hidden by default, until >480px */
   padding: 9px 14px;
   margin-bottom: 14px;
-  border: 1px solid rgba(0,0,0,.3);
+  border: 1px solid gray;
   border-radius: 4px;
 }
 
@@ -374,24 +325,12 @@ h1[id] {
 
 
 /*
- * Responsive tests
- *
- * Generate a set of tests to show the responsive utilities in action.
- */
-
- /* Responsive (scrollable) doc tables */
- .table-responsive .highlight pre {
-  white-space: normal;
-}
-
-
-/*
  * Glyphicons
  *
  * Special styles for displaying the icons and their classes in the docs.
  */
 
- .bs-glyphicons {
+.bs-glyphicons {
   padding-left: 0;
   padding-bottom: 1px;
   margin-bottom: 20px;
@@ -407,15 +346,12 @@ h1[id] {
   font-size: 12px;
   line-height: 1.4;
   text-align: center;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid gray;
 }
 .bs-glyphicons .glyphicon {
   display: block;
   margin: 5px auto 10px;
   font-size: 24px;
-}
-.bs-glyphicons li:hover {
-  background-color: rgba(255,255,255,.3);
 }
 
 @media (min-width: 768px) {
@@ -425,6 +361,12 @@ h1[id] {
 }
 
 </style>
+
+<div class="page-header">
+  <h1>Component sample page <small>for Bootstrap version 3.0.0</small></h1>
+  <p></p>
+</div>
+
 
 <!-- Typography
   ================================================== -->
