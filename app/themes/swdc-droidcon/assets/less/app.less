@@ -86,19 +86,45 @@ body {
 
   // Speaker listing inside session
   .session-speakers {
-    .pull-right;
-    width: (2 * @thumbnail-size) + @padding-large-horizontal;
-    margin: @line-height-computed 0 @line-height-computed @padding-large-horizontal;
+    .clearfix;
+
+    margin-top: @line-height-computed;
+    margin-bottom: @line-height-computed;
 
     .session-speaker {
       float: right;
+      margin: @line-height-computed auto;
       width: @thumbnail-size;
-      margin-bottom: @line-height-computed;
 
       &:nth-child(even) {
+        clear: left;
         float: left;
       }
     }
+
+    @media (max-width: @screen-sm) {
+      .session-speaker {
+        &:nth-child(odd) {
+          margin-left: @padding-large-horizontal;
+        }
+        &:nth-child(even) {
+          margin-right: @padding-large-horizontal;
+        }
+        &:last-child:nth-child(odd) {
+          float: none;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+
+    // Float to right on larger screens
+    @media (min-width: @screen-sm-max) {
+      .pull-right;
+      margin-left: @padding-large-horizontal;
+      width: (2 * @thumbnail-size) + @padding-large-horizontal;
+    }
+
   }
 
 }
