@@ -22,11 +22,11 @@
 @import "utils";
 
 
-//
-//  Event styles
-//
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
-// Logotype
+// Event logotypes
 body.single-event.stockholm-2013 .entry-title {
   .hide-text();
 
@@ -36,4 +36,74 @@ body.single-event.stockholm-2013 .entry-title {
 
   width: 360px;
   height: 136px;
+}
+
+
+/* ==========================================================================
+   Sessions
+   ========================================================================== */
+
+.main .session {
+  margin: (2 * @line-height-computed) 0;
+  .clearfix();
+
+  // Session header container
+  .session-details {
+    border-bottom: 1px dotted @base0D;
+
+    // Make space for time label
+    padding-bottom: @line-height-computed;
+    position: relative;
+  }
+
+  // Session title
+  .session-title {
+    color: @base0C;
+
+    margin-right: 130px; // approx. width of time label
+  }
+
+  // Session time info
+  .session-time {
+    .label;
+    .label-info;
+
+    position: absolute;
+    bottom: -8px; // half badge height
+    right: 0;
+  }
+
+  // Session text content
+  .session-content {
+    margin: @line-height-computed 0;
+  }
+
+  // Speaker listing inside session
+  .session-speakers {
+    .pull-right;
+    width: (2 * @thumbnail-size) + @padding-large-horizontal;
+    margin: @line-height-computed 0 @line-height-computed @padding-large-horizontal;
+
+    .session-speaker {
+      float: right;
+      width: @thumbnail-size;
+      margin-bottom: @line-height-computed;
+
+      &:nth-child(even) {
+        float: left;
+      }
+    }
+  }
+
+}
+
+
+/* ==========================================================================
+   Speakers
+   ========================================================================== */
+
+.main .speaker {
+   img {
+      border: 2px solid @base02;
+   }
 }
