@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bfcb627a8c79a5bd775cbbed10018c7b",
+    "hash": "278b5a66e6cc006e822387e4abcbab2e",
     "packages": [
         {
             "name": "composer/installers",
@@ -165,6 +165,21 @@
             "homepage": "http://wordpress.org/extend/plugins/google-analyticator"
         },
         {
+            "name": "wpackagist/image-widget",
+            "version": "4.0.8",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/image-widget.4.0.8.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/image-widget"
+        },
+        {
             "name": "wpackagist/imagefx",
             "version": "0.4",
             "dist": {
@@ -181,10 +196,10 @@
         },
         {
             "name": "wpackagist/logged-in",
-            "version": "1.0.4",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/logged-in.1.0.4.zip",
+                "url": "http://downloads.wordpress.org/plugin/logged-in.zip",
                 "reference": null,
                 "shasum": null
             },

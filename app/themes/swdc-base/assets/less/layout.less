@@ -1,0 +1,173 @@
+
+@wp-admin-bar-height: 28px;
+
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+// Body paddings for fixed navbar and admin-bar
+body.fixed-navbar.admin-bar {
+   padding-top: @navbar-height + @wp-admin-bar-height;
+}
+
+// Fixed navbar gets pushed down by wp-admin-bar
+body.admin-bar .navbar-fixed-top {
+   top: @wp-admin-bar-height;
+}
+
+// Make sure images never extend their containers
+img {
+   max-width: 100%;
+   max-height: 100%;
+   width: auto;
+   height: auto;
+}
+
+
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.banner { }
+
+
+
+/* ==========================================================================
+   Content
+   ========================================================================== */
+
+.content { }
+
+
+
+/* ==========================================================================
+   Primary Content
+   ========================================================================== */
+
+.main { }
+
+/* Gallery Shortcode */
+.gallery-row { padding: 15px 0; }
+
+
+/* ==========================================================================
+   Sessions
+   ========================================================================== */
+
+.event-sessions {
+   .list-unstyled();
+}
+
+.main .session {
+   .session-title {
+      .lead;
+   }
+}
+
+
+/* ==========================================================================
+   Speakers
+   ========================================================================== */
+
+.session-speakers {
+   .list-unstyled();
+}
+
+.main .speaker {
+   display: block;
+
+   text-align: center;
+
+   img {
+      .img-circle;
+      margin-bottom: @padding-small-vertical;
+   }
+   .speaker-name,
+   .speaker-company {
+      display: block;
+   }
+   .speaker-name {
+      .lead;
+      margin-bottom: 0;
+   }
+}
+
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+// Affixed sidebar on larger screens
+@media (min-width: @grid-float-breakpoint) {
+  .sidebar-content {
+    width: 283px;
+  }
+}
+@media (min-width: @screen-desktop) {
+  .sidebar-content {
+    width: 293px;
+  }
+}
+@media (min-width: @screen-lg-desktop) {
+  .sidebar-content {
+    width: 360px;
+  }
+}
+
+/* ==========================================================================
+   Widgets
+   ========================================================================== */
+
+// Event meta widget
+.widget-event-meta {
+  .time {
+    display: block;
+    margin-bottom: @line-height-computed;
+    font-size: @font-size-large;
+    font-weight: bold;
+    .text-warning;
+  }
+  .thumbnail {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: @line-height-computed;
+  }
+  .venue .name {
+    font-weight: bold;
+  }
+}
+
+// Image widget
+.widget_sp_image {
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+/* ==========================================================================
+   Posts
+   ========================================================================== */
+
+.hentry header { }
+.hentry time { }
+.hentry .byline { }
+.hentry .entry-content {
+   margin: @line-height-computed auto;
+
+   font-size: @font-size-large;
+}
+.hentry footer { }
+
+
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.contentinfo { }
