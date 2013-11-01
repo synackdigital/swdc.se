@@ -44,6 +44,9 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: [
+          '../swdc-base/assets/less/*.less',
+          '../swdc-base/bower_components/bootstrap/less',
+          '../swdc-base/bower_components/base16-less',
           'assets/less/*.less',
           'assets/less/**/*.less'
         ],
