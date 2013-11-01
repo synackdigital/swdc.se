@@ -11,6 +11,8 @@
 // Set all date formats to display date only
 $date_format = 'j F Y';
 
+// Get the ticket URL
+$ticket_url = get_post_meta(get_the_ID(), 'ticket_url', true);
 ?>
 
 <div class="event-meta">
@@ -37,8 +39,11 @@ else :
   printf('<p class="time"><time datetime="'.eo_get_the_start().'">'.eo_get_the_start($date_format).'</time></p>');
 endif;
 
+// Display a ticket button
+if( !empty($ticket_url) ) printf('<a href="'.$ticket_url.'" class="ticket-link btn btn-lg btn-block btn-primary">'.__('Get tickets now', 'swdc').'</a>');
+
 // Get the event thumbnail
-if (has_post_thumbnail()) the_post_thumbnail('medium', array('class' => 'thumbnail'));
+if (has_post_thumbnail()) the_post_thumbnail('large', array('class' => 'thumbnail'));
 
 // Get the venue
 $venue_address = eo_get_venue_address();
