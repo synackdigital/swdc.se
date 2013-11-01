@@ -37,11 +37,14 @@ else :
   printf('<p class="time"><time datetime="'.eo_get_the_start().'">'.eo_get_the_start($date_format).'</time></p>');
 endif;
 
+// Get the event thumbnail
+if (has_post_thumbnail()) the_post_thumbnail('medium', array('class' => 'thumbnail'));
+
 // Get the venue
 $venue_address = eo_get_venue_address();
 if ( eo_get_venue() ) :
   printf('<p class="venue"><span class="name">'.eo_get_venue_name().'</span><br><span class="address">'.$venue_address['address'].'</span><br><span class="city">'.$venue_address['city'].'</span></p>');
-  echo eo_get_venue_map(eo_get_venue(),array('width'=>'100%'));
+  // echo eo_get_venue_map(eo_get_venue(),array('width'=>'100%'));
 endif;
 ?>
 
