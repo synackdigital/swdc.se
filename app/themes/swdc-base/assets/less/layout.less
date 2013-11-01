@@ -87,8 +87,52 @@ img {
    Sidebar
    ========================================================================== */
 
-.sidebar { }
+// Affixed sidebar on larger screens
+@media (min-width: @grid-float-breakpoint) {
+  .sidebar-content {
+    width: 283px;
+  }
+}
+@media (min-width: @screen-desktop) {
+  .sidebar-content {
+    width: 293px;
+  }
+}
+@media (min-width: @screen-lg-desktop) {
+  .sidebar-content {
+    width: 360px;
+  }
+}
 
+/* ==========================================================================
+   Widgets
+   ========================================================================== */
+
+// Event meta widget
+.widget-event-meta {
+  .time {
+    display: block;
+    margin-bottom: @line-height-computed;
+    font-size: @font-size-large;
+    font-weight: bold;
+    .text-warning;
+  }
+  .thumbnail {
+    margin-bottom: @line-height-computed;
+  }
+  .venue .name {
+    font-weight: bold;
+  }
+}
+
+// Image widget
+.widget_sp_image {
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 
 /* ==========================================================================
