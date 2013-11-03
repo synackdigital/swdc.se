@@ -4,6 +4,7 @@
 /vendor/
 /wordpress/
 /app/plugins/*
+/app/mu-plugins/*
 
 # Unmanaged plugins
 !/app/plugins/wooslider
@@ -16,3 +17,6 @@
 # Uploads
 /app/uploads/
 /media/
+
+# Database backups
+*.sql
