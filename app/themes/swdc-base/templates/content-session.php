@@ -4,7 +4,7 @@
 
   // We are inside a custom WP_Query which is broken by the SWDCSpeaker loop before we echo the_content.
   // Therefore we store the_content before the loop ends
-  $the_content = get_the_content();
+  $the_content = wpautop(get_the_content());
 ?>
 
 <div class="session">
