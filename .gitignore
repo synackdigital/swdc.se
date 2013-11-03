@@ -7,7 +7,6 @@
 /app/mu-plugins/*
 
 # Unmanaged plugins
-!/app/plugins/wooslider
 !/app/plugins/swdc-events
 !/app/plugins/eo-sponsors-widget
 
