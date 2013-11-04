@@ -9,10 +9,10 @@ var SWDC = {
   // All pages
   common: {
     init: function() {
-      SWDC.common.toggleAffix();
-      $( window ).resize(function() {
-        SWDC.common.windowResize();
-      });
+      // SWDC.common.toggleAffix();
+      // $( window ).resize(function() {
+      //   SWDC.common.windowResize();
+      // });
     },
     finalize: function() { },
     windowResize: function() {
