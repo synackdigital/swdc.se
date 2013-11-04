@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "278b5a66e6cc006e822387e4abcbab2e",
+    "hash": "c80e5e41fdd6f5706398bbf96c25db78",
     "packages": [
         {
             "name": "composer/installers",
@@ -196,10 +196,10 @@
         },
         {
             "name": "wpackagist/logged-in",
-            "version": "trunk",
+            "version": "1.0.4",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/logged-in.zip",
+                "url": "http://downloads.wordpress.org/plugin/logged-in.1.0.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -223,6 +223,21 @@
             },
             "type": "wordpress-plugin",
             "homepage": "http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping"
+        },
+        {
+            "name": "wpackagist/wordpress-php-info",
+            "version": "trunk",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/wordpress-php-info.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/wordpress-php-info"
         }
     ],
     "packages-dev": [

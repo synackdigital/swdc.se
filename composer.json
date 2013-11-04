@@ -29,7 +29,8 @@
     "wpackagist/google-analyticator": "6.4.4.3",
     "wpackagist/wordpress-mu-domain-mapping": "0.5.4.3",
     "wpackagist/imagefx": "0.4",
-    "wpackagist/image-widget": "4.0.8"
+    "wpackagist/image-widget": "4.0.8",
+    "wpackagist/wordpress-php-info": "*"
   },
   "extra": {
     "webroot-dir": "wordpress",
