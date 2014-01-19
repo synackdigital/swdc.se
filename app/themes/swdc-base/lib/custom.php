@@ -3,6 +3,14 @@
  * Custom functions
  */
 
+// Modify the main query
+function modify_main_query( $query ) {
+  if( ! is_admin() && $query->is_main_query() ) {
+    $query->set('post_type', array('event', 'post'));
+  }
+}
+add_action( 'pre_get_posts', 'modify_main_query' );
+
 // Return the correct Bootstrap class for fixed/static navbars
 function navbar_position_class() {
   return current_theme_supports('bootstrap-fixed-navbar') ? 'navbar-fixed-top' : 'navbar-static-top';
