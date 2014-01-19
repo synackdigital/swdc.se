@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "896f2bcfa41833c978a8a45aabb281e4",
+    "hash": "17e8df08d7e3a9fe84a059ffadff7395",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.6",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "b3bd071ea114a57212c75aa6a2eef5cfe0cc798f"
+                "reference": "c87cfc35882eb50df3eef1734bfa52fbcd6c782c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/b3bd071ea114a57212c75aa6a2eef5cfe0cc798f",
-                "reference": "b3bd071ea114a57212c75aa6a2eef5cfe0cc798f",
+                "url": "https://api.github.com/repos/composer/installers/zipball/c87cfc35882eb50df3eef1734bfa52fbcd6c782c",
+                "reference": "c87cfc35882eb50df3eef1734bfa52fbcd6c782c",
                 "shasum": ""
             },
             "replace": {
@@ -59,7 +59,9 @@
                 "agl",
                 "cakephp",
                 "codeigniter",
+                "concrete5",
                 "drupal",
+                "elgg",
                 "fuelphp",
                 "installer",
                 "joomla",
@@ -76,7 +78,7 @@
                 "wordpress",
                 "zend"
             ],
-            "time": "2013-08-20 04:37:09"
+            "time": "2013-12-24 18:04:46"
         },
         {
             "name": "fancyguy/webroot-installer",
@@ -122,10 +124,10 @@
         },
         {
             "name": "wordpress",
-            "version": "3.7.1",
+            "version": "3.8.0",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/WordPress/WordPress/archive/3.7.1.zip",
+                "url": "https://github.com/WordPress/WordPress/archive/3.8.0.zip",
                 "reference": null,
                 "shasum": null
             },
