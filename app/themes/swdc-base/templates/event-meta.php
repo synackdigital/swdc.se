@@ -51,7 +51,7 @@ if (has_post_thumbnail()) the_post_thumbnail('large', array('class' => 'thumbnai
   endif;
 
   // Display a ticket button
-  if( !empty($ticket_url) ) printf('<a href="'.$ticket_url.'" class="ticket-link btn btn-lg btn-block btn-primary">'.__('Get tickets now', 'swdc').'</a>');
+  if( !empty($ticket_url) ) printf('<a href="'.$ticket_url.'" class="ticket-link btn btn-lg btn-block btn-primary">'.__('Sign up now', 'swdc').'</a>');
 ?>
     </div>
   </div>
