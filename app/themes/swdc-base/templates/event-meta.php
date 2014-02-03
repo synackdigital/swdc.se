@@ -1,19 +1,17 @@
 <?php
 /**
  * The template is used for displaying a single event details.
- *
- * For a list of available functions (outputting dates, venue details etc) see http://wp-event-organiser.com/documentation/function-reference/
  */
-
-// Set date format for all-day or timed events
-// $date_format = ( eo_is_all_day() ) ? 'j F Y' : 'j F Y ' . get_option('time_format');
-$date_format = ( eo_is_all_day() ) ? 'j F' : 'j F ' . get_option('time_format');
-
-// Set all date formats to display date only
-// $date_format = 'j F';
 
 // Get the ticket URL
 $ticket_url = get_post_meta(get_the_ID(), 'ticket_url', true);
+
+// Get time format
+if( eo_is_all_day() ) :
+  $date_format = 'j F Y';
+else :
+  $date_format = 'j F Y, ' . get_option('time_format');
+endif;
 ?>
 
 <div class="event-meta">
@@ -47,7 +45,8 @@ if (has_post_thumbnail()) the_post_thumbnail('large', array('class' => 'thumbnai
 
   // Event is not recurring
   else :
-    printf('<p class="time"><time datetime="'.eo_get_the_start().'">'.eo_get_the_start($date_format).'</time> to<br><time datetime="'.eo_get_the_end().'">'.eo_get_the_end($date_format).'</time></p>');
+    echo '<p class="time">Starts ' . eo_get_next_occurrence($date_format) . '</p>';
+    // printf('<p class="time"><time datetime="'.eo_get_the_start().'">'.eo_get_the_start($date_format).'</time> to<br><time datetime="'.eo_get_the_end().'">'.eo_get_the_end($date_format).'</time></p>');
   endif;
 
   // Display a ticket button
