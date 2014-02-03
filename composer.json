@@ -25,7 +25,7 @@
     "wordpress": "3.8",
     "fancyguy/webroot-installer": "1.0.0",
     "wpackagist/logged-in": "*",
-    "wpackagist/event-organiser": "2.2.2",
+    "wpackagist/event-organiser": "2.6",
     "wpackagist/google-analyticator": "6.4.4.3",
     "wpackagist/wordpress-mu-domain-mapping": "0.5.4.3",
     "wpackagist/imagefx": "0.4",
