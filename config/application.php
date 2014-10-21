@@ -24,6 +24,11 @@ if (file_exists($env_config)) {
 }
 
 /**
+ * Enable Network (a.k.a. Multisite)
+ */
+define('WP_ALLOW_MULTISITE', true);
+
+/**
  * Custom Content Directory
  */
 define('CONTENT_DIR', '/app');
