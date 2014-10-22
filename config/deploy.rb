@@ -1,6 +1,6 @@
 set :application, 'swdc.se'
 set :repo_url, 'git@github.com:synackdigital/swdc.se.git'
-set :branch, :deploy
+set :branch, :bedrock
 
 set :deploy_to, -> { "/var/www/#{fetch(:application)}" }
 
