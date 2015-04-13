@@ -5,7 +5,7 @@
 
 // Modify the main query
 function modify_main_query( $query ) {
-  if( ! is_admin() && $query->is_main_query() ) {
+  if( !is_admin() && !is_page() && $query->is_main_query() ) {
     $query->set('post_type', array('event', 'post'));
   }
 }
