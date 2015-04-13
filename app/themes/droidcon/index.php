@@ -20,7 +20,7 @@ get_header(); ?>
             if(is_front_page()):
               bloginfo( 'name' );
             else:
-              the_title();
+              // the_title();
             endif;
             ?></h1>
         </header>
