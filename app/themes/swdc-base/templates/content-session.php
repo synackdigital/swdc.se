@@ -16,8 +16,8 @@
       <?php echo date("H:i", $end_timestamp); ?>
     </span>
   </div>
-  <?php if ( class_exists('SWDCSpeaker') ) get_template_part('templates/loop', 'speakers'); ?>
   <div class="session-content">
     <?php echo $the_content; ?>
   </div>
+  <?php if ( class_exists('SWDCSpeaker') ) get_template_part('templates/loop', 'speakers'); ?>
 </div>
