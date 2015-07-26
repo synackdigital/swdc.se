@@ -1,30 +1,32 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "93cb88fe8b06c4ad5439b9fd5214adfa",
+    "hash": "8c8cc6705ed81f84281939d262c3735d",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.9",
+            "version": "v1.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "8e3e734c50b8f60228baf439d5ab16c57d67f6ce"
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/8e3e734c50b8f60228baf439d5ab16c57d67f6ce",
-                "reference": "8e3e734c50b8f60228baf439d5ab16c57d67f6ce",
+                "url": "https://api.github.com/repos/composer/installers/zipball/d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
                 "shasum": ""
             },
             "replace": {
+                "roundcube/plugin-installer": "*",
                 "shama/baton": "*"
             },
             "require-dev": {
                 "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.1.*"
             },
             "type": "composer-installer",
             "extra": {
@@ -46,25 +48,34 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama",
-                    "role": "Developer"
+                    "homepage": "https://github.com/shama"
                 }
             ],
             "description": "A multi-framework Composer library installer",
             "homepage": "http://composer.github.com/installers/",
             "keywords": [
+                "Craft",
+                "Dolibarr",
                 "Hurad",
                 "MODX Evo",
                 "OXID",
+                "SMF",
+                "Thelia",
+                "WolfCMS",
                 "agl",
+                "aimeos",
                 "annotatecms",
+                "bitrix",
                 "cakephp",
+                "chef",
                 "codeigniter",
                 "concrete5",
                 "croogo",
+                "dokuwiki",
                 "drupal",
                 "elgg",
                 "fuelphp",
+                "grav",
                 "installer",
                 "joomla",
                 "kohana",
@@ -74,9 +85,12 @@
                 "mako",
                 "mediawiki",
                 "modulework",
+                "moodle",
                 "phpbb",
                 "piwik",
                 "ppi",
+                "puppet",
+                "roundcube",
                 "shopware",
                 "silverstripe",
                 "symfony",
@@ -85,66 +99,95 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-01-27 03:45:57"
+            "time": "2015-02-18 17:17:01"
         },
         {
-            "name": "fancyguy/webroot-installer",
-            "version": "1.0.0",
+            "name": "johnpbloch/wordpress",
+            "version": "4.2.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fancyguy/webroot-installer.git",
-                "reference": "4888a3dad9ab3b3da505a149230be0ec2ab837f4"
+                "url": "https://github.com/johnpbloch/wordpress.git",
+                "reference": "56525f7941a9835ae64deafcaff15cd52336e467"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fancyguy/webroot-installer/zipball/4888a3dad9ab3b3da505a149230be0ec2ab837f4",
-                "reference": "4888a3dad9ab3b3da505a149230be0ec2ab837f4",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/56525f7941a9835ae64deafcaff15cd52336e467",
+                "reference": "56525f7941a9835ae64deafcaff15cd52336e467",
                 "shasum": ""
             },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "3.7.*"
+            "require": {
+                "johnpbloch/wordpress-core-installer": "~0.2",
+                "php": ">=5.3.2"
             },
-            "type": "composer-installer",
+            "type": "wordpress-core",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "WordPress Community",
+                    "homepage": "http://wordpress.org/about/"
+                }
+            ],
+            "description": "WordPress is web software you can use to create a beautiful website or blog.",
+            "homepage": "http://wordpress.org/",
+            "keywords": [
+                "blog",
+                "cms"
+            ],
+            "time": "2015-07-23 11:16:08"
+        },
+        {
+            "name": "johnpbloch/wordpress-core-installer",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnpbloch/wordpress-core-installer.git",
+                "reference": "a04c2c383ef13aae077f36799ed2eafdebd618d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core-installer/zipball/a04c2c383ef13aae077f36799ed2eafdebd618d2",
+                "reference": "a04c2c383ef13aae077f36799ed2eafdebd618d2",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0"
+            },
+            "conflict": {
+                "composer/installers": "<1.0.6"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev"
+            },
+            "type": "composer-plugin",
             "extra": {
-                "class": "FancyGuy\\Composer\\WebrootInstaller"
+                "class": "johnpbloch\\Composer\\WordPressCorePlugin"
             },
             "autoload": {
                 "psr-0": {
-                    "FancyGuy\\Composer\\": "src/"
+                    "johnpbloch\\Composer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "GPL-2.0+"
             ],
             "authors": [
                 {
-                    "name": "Steve Buzonas",
-                    "email": "steve@fancyguy.com",
-                    "homepage": "http://www.stevebuzonas.com"
+                    "name": "John P. Bloch",
+                    "email": "me@johnpbloch.com"
                 }
             ],
-            "description": "A composer installer for libraries that live in an application webroot.",
-            "homepage": "http://fancyguy.github.com/webroot-installer/",
-            "time": "2013-01-29 22:51:45"
+            "description": "A custom installer to handle deploying WordPress with composer",
+            "keywords": [
+                "wordpress"
+            ],
+            "time": "2015-06-11 15:15:30"
         },
         {
-            "name": "wordpress",
-            "version": "3.8.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/WordPress/WordPress/archive/3.8.0.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "fancyguy/webroot-installer": "1.0.0"
-            },
-            "type": "webroot"
-        },
-        {
-            "name": "wpackagist/event-organiser",
+            "name": "wpackagist-plugin/event-organiser",
             "version": "2.6.0",
             "source": {
                 "type": "svn",
@@ -153,7 +196,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/event-organiser.2.6.0.zip",
+                "url": "https://downloads.wordpress.org/plugin/event-organiser.2.6.0.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -161,14 +204,19 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/event-organiser"
+            "homepage": "https://wordpress.org/plugins/event-organiser/"
         },
         {
-            "name": "wpackagist/google-analyticator",
+            "name": "wpackagist-plugin/google-analyticator",
             "version": "6.4.4.3",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/google-analyticator/",
+                "reference": "tags/6.4.4.3"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/google-analyticator.6.4.4.3.zip",
+                "url": "https://downloads.wordpress.org/plugin/google-analyticator.6.4.4.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -176,14 +224,19 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/google-analyticator"
+            "homepage": "https://wordpress.org/plugins/google-analyticator/"
         },
         {
-            "name": "wpackagist/image-widget",
+            "name": "wpackagist-plugin/image-widget",
             "version": "4.0.8",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/image-widget/",
+                "reference": "tags/4.0.8"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/image-widget.4.0.8.zip",
+                "url": "https://downloads.wordpress.org/plugin/image-widget.4.0.8.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -191,14 +244,19 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/image-widget"
+            "homepage": "https://wordpress.org/plugins/image-widget/"
         },
         {
-            "name": "wpackagist/imagefx",
+            "name": "wpackagist-plugin/imagefx",
             "version": "0.4",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/imagefx/",
+                "reference": "tags/0.4"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/imagefx.0.4.zip",
+                "url": "https://downloads.wordpress.org/plugin/imagefx.0.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -206,10 +264,10 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/imagefx"
+            "homepage": "https://wordpress.org/plugins/imagefx/"
         },
         {
-            "name": "wpackagist/logged-in",
+            "name": "wpackagist-plugin/logged-in",
             "version": "1.0.4",
             "source": {
                 "type": "svn",
@@ -218,7 +276,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/logged-in.1.0.4.zip",
+                "url": "https://downloads.wordpress.org/plugin/logged-in.1.0.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -226,14 +284,19 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/logged-in"
+            "homepage": "https://wordpress.org/plugins/logged-in/"
         },
         {
-            "name": "wpackagist/wordpress-mu-domain-mapping",
+            "name": "wpackagist-plugin/wordpress-mu-domain-mapping",
             "version": "0.5.4.3",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/wordpress-mu-domain-mapping/",
+                "reference": "tags/0.5.4.3"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-mu-domain-mapping.0.5.4.3.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-mu-domain-mapping.0.5.4.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -241,14 +304,19 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping"
+            "homepage": "https://wordpress.org/plugins/wordpress-mu-domain-mapping/"
         },
         {
-            "name": "wpackagist/wordpress-php-info",
-            "version": "3.5",
+            "name": "wpackagist-plugin/wordpress-php-info",
+            "version": "14.12",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/wordpress-php-info/",
+                "reference": "trunk"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-php-info.3.5.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-php-info.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -256,23 +324,17 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "http://wordpress.org/extend/plugins/wordpress-php-info"
+            "homepage": "https://wordpress.org/plugins/wordpress-php-info/"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.0"
+        "php": ">=5.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

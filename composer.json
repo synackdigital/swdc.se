@@ -1,40 +1,24 @@
 {
   "repositories": [
     {
-      "type": "package",
-      "package": {
-        "name": "wordpress",
-        "type": "webroot",
-        "version": "3.8",
-        "dist": {
-          "type": "zip",
-          "url": "https://github.com/WordPress/WordPress/archive/3.8.zip"
-        },
-        "require" : {
-          "fancyguy/webroot-installer": "1.0.0"
-        }
-      }
-    },
-    {
       "type": "composer",
       "url": "http://wpackagist.org"
     }
   ],
   "require": {
-    "php": ">=5.3.0",
-    "wordpress": "3.8",
-    "fancyguy/webroot-installer": "1.0.0",
-    "wpackagist/logged-in": "*",
-    "wpackagist/event-organiser": "2.6",
-    "wpackagist/google-analyticator": "6.4.4.3",
-    "wpackagist/wordpress-mu-domain-mapping": "0.5.4.3",
-    "wpackagist/imagefx": "0.4",
-    "wpackagist/image-widget": "4.0.8",
-    "wpackagist/wordpress-php-info": "*"
+    "php": ">=5.4",
+    "composer/installers": "~1.0.12",
+    "johnpbloch/wordpress": "4.2.3",
+    "wpackagist-plugin/logged-in": "*",
+    "wpackagist-plugin/event-organiser": "2.6",
+    "wpackagist-plugin/google-analyticator": "6.4.4.3",
+    "wpackagist-plugin/wordpress-mu-domain-mapping": "0.5.4.3",
+    "wpackagist-plugin/imagefx": "0.4",
+    "wpackagist-plugin/image-widget": "4.0.8",
+    "wpackagist-plugin/wordpress-php-info": "*"
   },
   "extra": {
-    "webroot-dir": "wordpress",
-    "webroot-package": "wordpress",
+    "wordpress-install-dir": "wordpress",
     "installer-paths": {
       "app/plugins/{$name}/": ["type:wordpress-plugin"]
     }
